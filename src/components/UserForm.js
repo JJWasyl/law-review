@@ -1,32 +1,58 @@
 import React, { Component } from 'react';
+import dialogueTree from './helpStructs.js';
 import Step1 from './Step1';
+import Step2 from './Step2'
+import Ending from './Ending'
+import AppBar from 'material-ui/AppBar';
+import { MuiThemeProvider } from 'material-ui/styles';
 
 export class UserForm extends Component {
     state = {
-        step: 1,
+        step: 'Step1',
+        prevStep: '',
         email: '',
         physician: false,
     }
 
-    // Goto next step
-    nextStep = () => {
+    // Goto next step can work for 'next' and 'previous'
+    nextStep = (action) => {
         const { step } = this.state;
         this.setState({
-            step: step + 1
+            prevStep: step,
+            step: dialogueTree[step][action]
         });
     }
 
-    // Goto previous step
-    prevStep = () => {
-        const { step } = this.state;
+    // Return to previously viewed step
+    goBack = () => {
+        const { step, prevStep } = this.state;
         this.setState({
-            step: step - 1
+            step: prevStep,
+            prevStep: ''
         });
     }
 
-    // Handle fields change
+    // Goto 'no-risk' ending
+    jumpToEnd = () => {
+        const { step } = this.state;
+        this.setState({
+            prevStep: step,
+            step: 'End'
+        })
+    }
+
+    // Auto save for textfield input
     handleChange = input => e => {
         this.setState({[input]: e.target.value});
+    }
+
+    wrapComponent = (Component) => {
+        return(
+            <MuiThemeProvider>
+                <AppBar title="Stark Law review"/>
+                <Component/>
+            </MuiThemeProvider>
+        )
     }
 
     render() {
@@ -35,23 +61,37 @@ export class UserForm extends Component {
         const values = { email, physician }
         
         switch(step) {
-            case 1:
+            case 'Step1':
                 return (
-                    <Step1 
-                        nextStep={this.nextStep}
-                        handleChange={this.handleChange}
-                        values={values}
-                    />
+                    <this.wrapComponent Component={
+                        <Step1 
+                            nextStep={this.nextStep}
+                            jumpToEnd={this.jumpToEnd}
+                            values={values}
+                        />
+                    }/>
                 )
-            
-            case 2:
-                return <h1>question WIP</h1>
 
-            case 3:
-                return <h1>Confirm</h1>
+            case 'Step2':
+                return (
+                    <this.wrapComponent Component={
+                        <Step2 
+                            nextStep={this.nextStep}
+                            jumpToEnd={this.jumpToEnd}
+                            values={values}
+                        />
+                    }/>
+                )
 
-            case 4:
-                return <h1>Success</h1>
+            case 'End':
+                return (
+                    <this.wrapComponent Component={
+                        <Ending 
+                            goBack={this.goBack}
+                            values={values}
+                        />
+                    }/>
+                )
         }
     }
 }
