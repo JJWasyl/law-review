@@ -23,19 +23,18 @@ export class Step2 extends Component {
                         <h1>Are you trying to refer one of your patients to a different entity?</h1>
                         <Box component='span'>
                             <Container maxWidth='sm'>
-                                <Button 
-                                    variant='contained' 
-                                    color='primary'
-                                    primary={true}
-                                    style={styles.button}
-                                    onClick={(e) => {this.continue(e, 'YES')}}>Yes
-                                </Button>
-
-                                <Button 
-                                    variant='contained' 
+                                <Button
+                                    variant='contained'
                                     color='secondary'
                                     style={styles.button}
                                     onClick={this.end}>No
+                                </Button>
+                                <Button
+                                    variant='contained'
+                                    color='primary'
+                                    primary={true}
+                                    style={styles.button}
+                                    onClick={(e) => { this.continue(e, 'YES') }}>Yes
                                 </Button>
                             </Container>
                         </Box>

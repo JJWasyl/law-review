@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import dialogueTree from './helpStructs.js';
 import Step1 from './Step1';
-import Step2 from './Step2'
-import Ending from './Ending'
+import Step2 from './Step2';
+import Step3 from './Step3';
+import Ending from './Ending';
 import AppBar from 'material-ui/AppBar';
 import { MuiThemeProvider } from 'material-ui/styles';
 
@@ -11,7 +12,7 @@ export class UserForm extends Component {
         step: 'Step1',
         prevStep: '',
         email: '',
-        physician: false,
+        referralEntity: [],
     }
 
     // Goto next step can work for 'next' and 'previous'
@@ -48,14 +49,13 @@ export class UserForm extends Component {
 
     render() {
         const { step } = this.state;
-        const { email, physician } = this.state;
-        const values = { email, physician }
+        const { email, referralEntity } = this.state;
+        const values = { email, referralEntity }
         const components = [
             <Ending
-            goBack={this.goBack}
-            values={values}
+                goBack={this.goBack}
+                values={values}
             />,
-
             <Step1
                 nextStep={this.nextStep}
                 jumpToEnd={this.jumpToEnd}
@@ -65,15 +65,21 @@ export class UserForm extends Component {
                 nextStep={this.nextStep}
                 jumpToEnd={this.jumpToEnd}
                 values={values}
-            />
+            />,
+            <Step3
+                nextStep={this.nextStep}
+                jumpToEnd={this.jumpToEnd}
+                values={values}
+            />,
         ]
 
         const ourSteps = components.map((comp) => {
-            return(<MuiThemeProvider>
-            <AppBar title="Stark Law review" />
-            {comp}
-            </MuiThemeProvider>)
-        }); 
+            return (
+                <MuiThemeProvider>
+                    <AppBar title="Stark Law review" />
+                    {comp}
+                </MuiThemeProvider>)
+        });
 
         switch (step) {
             case 'Step1':
@@ -81,6 +87,9 @@ export class UserForm extends Component {
 
             case 'Step2':
                 return (ourSteps[2])
+
+            case 'Step3':
+                return (ourSteps[3])
 
             case 'End':
                 return (ourSteps[0])
