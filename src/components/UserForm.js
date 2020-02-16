@@ -43,55 +43,47 @@ export class UserForm extends Component {
 
     // Auto save for textfield input
     handleChange = input => e => {
-        this.setState({[input]: e.target.value});
-    }
-
-    wrapComponent = (Component) => {
-        return(
-            <MuiThemeProvider>
-                <AppBar title="Stark Law review"/>
-                <Component/>
-            </MuiThemeProvider>
-        )
+        this.setState({ [input]: e.target.value });
     }
 
     render() {
         const { step } = this.state;
         const { email, physician } = this.state;
         const values = { email, physician }
-        
-        switch(step) {
+        const components = [
+            <Ending
+            goBack={this.goBack}
+            values={values}
+            />,
+
+            <Step1
+                nextStep={this.nextStep}
+                jumpToEnd={this.jumpToEnd}
+                values={values}
+            />,
+            <Step2
+                nextStep={this.nextStep}
+                jumpToEnd={this.jumpToEnd}
+                values={values}
+            />
+        ]
+
+        const ourSteps = components.map((comp) => {
+            return(<MuiThemeProvider>
+            <AppBar title="Stark Law review" />
+            {comp}
+            </MuiThemeProvider>)
+        }); 
+
+        switch (step) {
             case 'Step1':
-                return (
-                    <this.wrapComponent Component={
-                        <Step1 
-                            nextStep={this.nextStep}
-                            jumpToEnd={this.jumpToEnd}
-                            values={values}
-                        />
-                    }/>
-                )
+                return (ourSteps[1])
 
             case 'Step2':
-                return (
-                    <this.wrapComponent Component={
-                        <Step2 
-                            nextStep={this.nextStep}
-                            jumpToEnd={this.jumpToEnd}
-                            values={values}
-                        />
-                    }/>
-                )
+                return (ourSteps[2])
 
             case 'End':
-                return (
-                    <this.wrapComponent Component={
-                        <Ending 
-                            goBack={this.goBack}
-                            values={values}
-                        />
-                    }/>
-                )
+                return (ourSteps[0])
         }
     }
 }
