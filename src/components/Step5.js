@@ -2,17 +2,21 @@ import React, { Component } from "react";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import { Container, Button, Box, Tooltip } from "@material-ui/core";
 
-export class Step2 extends Component {
+export class Step5 extends Component {
   render() {
     const { values, handleChange } = this.props;
+    const immediateFamily =
+      " Immediate family means husband or wife, birth or adoptive parent, child or sibling; stepparent, stepchild, stepbrother, or stepsister; father-in-law, mother-inlaw, son-in-law, daughter-inlaw, brother-inlaw, or sister-inlaw; grandparent or grandchild; and spouse of a grandparent or grandchild.";
     return (
       <MuiThemeProvider>
         <React.Fragment>
           <Container maxwidth="sm">
-            <h1>
-              Are you trying to refer one of your patients to a different
-              entity?
-            </h1>
+            <Tooltip title={immediateFamily} arrow>
+              <h1>
+                Do you or one of your immediate family members have a financial
+                relationship with the health care provider you are referring to?
+              </h1>
+            </Tooltip>
             <Box component="span">
               <Container maxWidth="sm">
                 <Button
@@ -36,6 +40,17 @@ export class Step2 extends Component {
                 >
                   Yes
                 </Button>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  primary={true}
+                  style={styles.button}
+                  onClick={() => {
+                    this.props.nextStep("YES");
+                  }}
+                >
+                  I'm not sure
+                </Button>
               </Container>
             </Box>
           </Container>
@@ -51,4 +66,4 @@ const styles = {
   }
 };
 
-export default Step2;
+export default Step5;

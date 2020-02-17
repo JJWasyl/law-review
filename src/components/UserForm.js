@@ -4,15 +4,16 @@ import Step1 from "./Step1";
 import Step2 from "./Step2";
 import Step3 from "./Step3";
 import Step4 from "./Step4";
+import Step5 from "./Step5";
 import Ending from "./Ending";
 import AppBar from "material-ui/AppBar";
 import { MuiThemeProvider } from "material-ui/styles";
 
 export class UserForm extends Component {
   state = {
-    step: "Step1",
-    prevStep: "",
-    email: "",
+    step: "1",
+    prevStep: null,
+    email: null,
     referralEntity: []
   };
 
@@ -31,15 +32,6 @@ export class UserForm extends Component {
     this.setState({
       step: prevStep,
       prevStep: ""
-    });
-  };
-
-  // Goto 'no-risk' ending
-  jumpToEnd = () => {
-    const { step } = this.state;
-    this.setState({
-      prevStep: step,
-      step: "End"
     });
   };
 
@@ -73,6 +65,11 @@ export class UserForm extends Component {
         nextStep={this.nextStep}
         jumpToEnd={this.jumpToEnd}
         values={values}
+      />,
+      <Step5
+        nextStep={this.nextStep}
+        jumpToEnd={this.jumpToEnd}
+        values={values}
       />
     ];
 
@@ -84,26 +81,8 @@ export class UserForm extends Component {
         </MuiThemeProvider>
       );
     });
-
-    switch (step) {
-      case "Step1":
-        return ourSteps[1];
-
-      case "Step2":
-        return ourSteps[2];
-
-      case "Step3":
-        return ourSteps[3];
-
-      case "Step4":
-        return ourSteps[4];
-
-      case "End":
-        return ourSteps[0];
-
-      default:
-        return;
-    }
+    console.log(step);
+    return ourSteps[parseInt(step)];
   }
 }
 

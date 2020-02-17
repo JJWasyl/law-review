@@ -1,21 +1,24 @@
 export const dialogueTree = {
-  Step1: {
-    YES: "Step2",
-    NO: "Ending"
+  "1": {
+    YES: "2",
+    NO: "0"
   },
 
-  Step2: {
-    YES: "Step4",
-    NO: "Ending"
+  "2": {
+    YES: "4",
+    NO: "0"
   },
-  Step3: {
-    YES: "Step4",
-    NONE: "End"
+  "3": {
+    YES: "4",
+    NO: "0"
   },
-
-  Step4: {
-    YES: "Step5",
-    NONE: "END"
+  "4": {
+    YES: "5",
+    NO: "0"
+  },
+  "5": {
+    YES: "6",
+    NO: "0"
   }
 };
 

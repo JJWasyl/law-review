@@ -8,30 +8,14 @@ import {
   Checkbox,
   FormControlLabel,
   FormLabel,
-  TextField
+  TextField,
+  Button
 } from "@material-ui/core";
-
-// const healthServices = [
-//     {key:'clinic',label:'Clinical Laboratory Services',value:'false'},
-//     {key: 'physicalTherapy',label:'Physical Therapy Services',value:'false'},
-//     {key:'radiology',label:'Radiology and Imaging Services',value:'false'}
-// ]
 
 export class Step4 extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // clinic: false,
-      // physicalTherapy: false,
-      // radiology: false,
-      // radiation: false,
-      // equipment: false,
-      // nutrients: false,
-      // prosthetics: false,
-      // homeHealth: false,
-      // outpatientDrugs: false,
-      // hospitalServices: false,
-      // other: '',
       healthServices: [
         {
           key: "clinic",
@@ -146,6 +130,19 @@ export class Step4 extends Component {
                           }
                         />
                       ))}
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        primary={true}
+                        onClick={() => {
+                          var checked =
+                            this.state.healthServices.filter(el => el.value)
+                              .length > 0;
+                          this.props.nextStep(checked ? "YES" : "NO");
+                        }}
+                      >
+                        Next
+                      </Button>
                     </FormGroup>
                   </FormLabel>
                 </FormControl>
