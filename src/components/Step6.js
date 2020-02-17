@@ -12,8 +12,8 @@ export class Step5 extends Component {
           <Container maxwidth="sm">
             <Tooltip title={immediateFamily} arrow>
               <h1>
-                Do you or one of your immediate family members have a financial
-                relationship with the health care provider you are referring to?
+                What type of financial relationship do you or your immediate
+                family membership have with the health care provider?
               </h1>
             </Tooltip>
             <Box component="span">
@@ -23,32 +23,21 @@ export class Step5 extends Component {
                   color="secondary"
                   style={styles.button}
                   onClick={() => {
+                    this.props.nextStep("YES");
+                  }}
+                >
+                  An Ownership Relationship
+                </Button>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  primary={true}
+                  style={styles.button}
+                  onClick={() => {
                     this.props.nextStep("NO");
                   }}
                 >
-                  No
-                </Button>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  primary={true}
-                  style={styles.button}
-                  onClick={() => {
-                    this.props.nextStep("YES");
-                  }}
-                >
-                  Yes
-                </Button>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  primary={true}
-                  style={styles.button}
-                  onClick={() => {
-                    this.props.nextStep("YES");
-                  }}
-                >
-                  I'm not sure
+                  A Compensation Relationship
                 </Button>
               </Container>
             </Box>
