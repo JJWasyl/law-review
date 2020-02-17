@@ -4,7 +4,7 @@ export const dialogueTree = {
     NO: "0"
   },
   "2": {
-    YES: "4",
+    YES: "3",
     NO: "0"
   },
   "3": {
