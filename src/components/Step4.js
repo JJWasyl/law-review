@@ -133,7 +133,7 @@ export class Step4 extends Component {
                       <Button
                         variant="contained"
                         color="primary"
-                        primary={true}
+                        primary={"true"}
                         onClick={() => {
                           var checked =
                             this.state.healthServices.filter(el => el.value)

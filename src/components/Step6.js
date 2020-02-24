@@ -31,7 +31,7 @@ export class Step5 extends Component {
                 <Button
                   variant="contained"
                   color="primary"
-                  primary={true}
+                  primary={"true"}
                   style={styles.button}
                   onClick={() => {
                     this.props.nextStep("NO");

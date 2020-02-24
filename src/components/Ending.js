@@ -19,7 +19,7 @@ export class Ending extends Component {
                 <Button
                   variant="contained"
                   color="primary"
-                  primary={true}
+                  primary={"true"}
                   style={styles.button}
                   onClick={this.back}
                 >
