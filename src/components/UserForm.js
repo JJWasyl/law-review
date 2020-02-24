@@ -43,16 +43,45 @@ export class UserForm extends Component {
   // Jump to help screen
   needHelp = () => {
     const { step } = this.state;
-    this.setState({
-      prevStep: step,
-      step: "102"
-    });
+    if (step != "102") {
+      this.setState({
+        prevStep: step,
+        step: "102"
+      });
+    }
   };
 
   // Auto save for textfield input
   handleChange = input => e => {
     this.setState({ [input]: e.target.value });
   };
+
+  objectMap = (object, mapFn) => {
+    return Object.keys(object).reduce(function(result, key) {
+      result[key] = mapFn(object[key])
+      return result
+    }, {})
+  };
+
+  wrapComps = (components) => {
+    var context = this;
+    return (this.objectMap(components, function(comp) {
+      return (
+        <MuiThemeProvider>
+          <Box component="span">
+            <AppBar title="Stark Law review" />
+            {comp}
+            <Fab color="primary" 
+              aria-label="add" 
+              style={styles.fab}
+              onClick={() => {context.needHelp()}}>
+              Help
+            </Fab>
+          </Box>
+        </MuiThemeProvider>  
+      );
+    }));
+  }
 
   render() {
     const { step } = this.state;
@@ -98,33 +127,10 @@ export class UserForm extends Component {
       "102": <Help goBack={this.goBack} values={values} />,
     };
     
-    const wrappedComps = objectMap(components, function(comp) {
-      var self = this;
-      return (
-        <MuiThemeProvider>
-          <Box component="span">
-            <AppBar title="Stark Law review" />
-            {comp}
-            <Fab color="primary" 
-              aria-label="add" 
-              style={styles.fab}
-              onClick={() => {self.needHelp()}}>
-              Help
-            </Fab>
-          </Box>
-        </MuiThemeProvider>  
-      );
-    });
+    const wrappedComps = this.wrapComps(components);
     console.log(step);
     return wrappedComps[step];
   }
-}
-
-function objectMap(object, mapFn) {
-  return Object.keys(object).reduce(function(result, key) {
-    result[key] = mapFn(object[key])
-    return result
-  }, {})
 }
 
 const styles = {
