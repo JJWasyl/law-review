@@ -3,11 +3,6 @@ import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import { Container, Button, Box } from "@material-ui/core";
 
 export class Start extends Component {
-  next = e => {
-    e.preventDefault();
-    this.props.nextStep("BEGIN");
-  };
-
   render() {
     return (
       <MuiThemeProvider>
@@ -21,7 +16,7 @@ export class Start extends Component {
                   color="primary"
                   primary={"true"}
                   style={styles.button}
-                  onClick={this.next}
+                  onClick={this.props.nextStep}
                 >
                   Begin
                 </Button>

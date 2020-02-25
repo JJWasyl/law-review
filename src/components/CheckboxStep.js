@@ -12,68 +12,12 @@ import {
   Button
 } from "@material-ui/core";
 
-export class Step4 extends Component {
+export class CheckboxStep extends Component {
   constructor(props) {
     super(props);
+    console.log(props);
     this.state = {
-      healthServices: [
-        {
-          key: "clinic",
-          label: "Clinical Laboratory Services",
-          value: false
-        },
-        {
-          key: "physicalTherapy",
-          label: "Physical Therapy Services",
-          value: false
-        },
-        {
-          key: "radiology",
-          label: "Radiology and Imaging Services",
-          value: false
-        },
-        {
-          key: "radiation",
-          label: "Radiation Therapy Services and Supplies",
-          value: false
-        },
-        {
-          key: "equipment",
-          label: "Durable medical equipment and supplies",
-          value: false
-        },
-        {
-          key: "nutrients",
-          label: "Parenteral and enteral nutrients, equipment and supplies",
-          value: false
-        },
-        {
-          key: "prosthetics",
-          label: "Prosthetics, orthotics, and prosthetic devices and supplies",
-          value: false
-        },
-        {
-          key: "homeHealth",
-          label: "Home health services",
-          value: false
-        },
-        {
-          key: "outpatientDrugs",
-          label: "Outpatient prescription drugs",
-          value: false
-        },
-        {
-          key: "hospitalServices",
-          label: "Inpatient and outpatient hospital services",
-          value: false
-        },
-        {
-          key: "other",
-          label: "Other",
-          value: false,
-          text: ""
-        }
-      ]
+      healthServices: props.step.answer
     };
   }
 
@@ -138,7 +82,7 @@ export class Step4 extends Component {
                           var checked =
                             this.state.healthServices.filter(el => el.value)
                               .length > 0;
-                          this.props.nextStep(checked ? "YES" : "NO");
+                          this.props.nextStep(this.state.healthServices);
                         }}
                       >
                         Next
@@ -155,4 +99,4 @@ export class Step4 extends Component {
   }
 }
 
-export default Step4;
+export default CheckboxStep;

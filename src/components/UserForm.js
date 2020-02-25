@@ -3,6 +3,7 @@ import Ending from "./Ending";
 import Start from "./Start";
 import Help from "./Help";
 import YesNoMaybe from "./YesNoMaybe.js";
+import CheckboxStep from "./CheckboxStep.js";
 import AppBar from "material-ui/AppBar";
 import { MuiThemeProvider } from "material-ui/styles";
 import Fab from "@material-ui/core/Fab";
@@ -10,11 +11,17 @@ import { Box } from "@material-ui/core";
 
 export class UserForm extends Component {
   state = {
-    step: "Step1",
+    step: "Start",
     prevSteps: [],
     email: null,
     referralEntity: [],
     steps: {
+      Start: {
+        questionType: "Start",
+        get nextStep() {
+          return "Step1";
+        }
+      },
       Step1: {
         questionText: "Are you a physician?",
         questionType: "YesNoMaybe",
@@ -59,7 +66,7 @@ export class UserForm extends Component {
       Step4: {
         questionText:
           "Does that healthcare provider furnish designated health services or DHS?",
-        questionType: "Checkbox",
+        questionType: "CheckboxStep",
         answer: [
           {
             key: "clinic",
@@ -165,18 +172,6 @@ export class UserForm extends Component {
     }
   };
 
-  // Auto save for textfield input
-  handleChange = input => e => {
-    this.setState({ [input]: e.target.value });
-  };
-
-  objectMap = (object, mapFn) => {
-    return Object.keys(object).reduce(function(result, key) {
-      result[key] = mapFn(object[key]);
-      return result;
-    }, {});
-  };
-
   goBack = () => {
     this.setState(prevState => ({
       step: prevState.prevSteps.pop(),
@@ -185,7 +180,20 @@ export class UserForm extends Component {
   };
 
   render() {
-    if (this.state.steps[this.state.step].questionType === "YesNoMaybe") {
+    console.log(this.state.step);
+    if (this.state.steps[this.state.step].questionType === "Start") {
+      return (
+        <Start
+          nextStep={() => {
+            this.setState(prevState => ({
+              step: prevState.steps[this.state.step].nextStep
+            }));
+          }}
+        />
+      );
+    } else if (
+      this.state.steps[this.state.step].questionType === "YesNoMaybe"
+    ) {
       return (
         <MuiThemeProvider>
           <Box component="span">
@@ -199,6 +207,51 @@ export class UserForm extends Component {
               Back
             </Fab>
             <YesNoMaybe
+              step={this.state.steps[this.state.step]}
+              nextStep={answer => {
+                this.setState(prevState => {
+                  let steps = Object.assign({}, prevState.steps);
+                  steps[prevState.step].answer = answer;
+                  let step = prevState.steps[this.state.step].nextStep;
+                  let prevSteps = prevState.prevSteps.concat(prevState.step);
+                  return {
+                    ...prevState,
+                    steps: steps,
+                    step: step,
+                    prevSteps: prevSteps
+                  };
+                });
+              }}
+            />
+            <Fab
+              color="primary"
+              aria-label="add"
+              style={styles.helpFab}
+              onClick={() => {
+                this.setState({ step: "Help" });
+              }}
+            >
+              Help
+            </Fab>
+          </Box>
+        </MuiThemeProvider>
+      );
+    } else if (
+      this.state.steps[this.state.step].questionType === "CheckboxStep"
+    ) {
+      return (
+        <MuiThemeProvider>
+          <Box component="span">
+            <AppBar title="Stark Law review" />
+            <Fab
+              color="primary"
+              aria-label="add"
+              style={styles.backFab}
+              onClick={this.goBack}
+            >
+              Back
+            </Fab>
+            <CheckboxStep
               step={this.state.steps[this.state.step]}
               nextStep={answer => {
                 this.setState(prevState => {
