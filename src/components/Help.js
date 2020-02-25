@@ -3,16 +3,6 @@ import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import { Container, Button, Box } from "@material-ui/core";
 
 export class Help extends Component {
-  back = e => {
-    e.preventDefault();
-    this.props.goBack();
-  };
-
-  dummy = e => {
-    e.preventDefault();
-    console.log("I called your mom to pick you up");
-  };
-
   render() {
     return (
       <MuiThemeProvider>
@@ -27,7 +17,7 @@ export class Help extends Component {
                   color="primary"
                   primary={"true"}
                   style={styles.button}
-                  onClick={this.back}
+                  onClick={this.props.goBack}
                 >
                   Go Back
                 </Button>
