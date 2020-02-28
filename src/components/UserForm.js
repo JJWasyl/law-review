@@ -4,7 +4,6 @@ import Start from "./Start";
 import Help from "./Help";
 import YesNoMaybe from "./YesNoMaybe.js";
 import CheckboxStep from "./CheckboxStep.js";
-import AppBar from "material-ui/AppBar";
 import { MuiThemeProvider } from "material-ui/styles";
 import Fab from "@material-ui/core/Fab";
 import { Box } from "@material-ui/core";
@@ -12,7 +11,7 @@ import { Box } from "@material-ui/core";
 export class UserForm extends Component {
   state = {
     step: "Start",
-    prevSteps: [],
+    prevSteps: ["Start"],
     email: null,
     referralEntity: [],
     steps: {
@@ -197,15 +196,6 @@ export class UserForm extends Component {
       return (
         <MuiThemeProvider>
           <Box component="span">
-            <AppBar title="Stark Law review" />
-            <Fab
-              color="primary"
-              aria-label="add"
-              style={styles.backFab}
-              onClick={this.goBack}
-            >
-              Back
-            </Fab>
             <YesNoMaybe
               step={this.state.steps[this.state.step]}
               nextStep={answer => {
@@ -226,6 +216,14 @@ export class UserForm extends Component {
             <Fab
               color="primary"
               aria-label="add"
+              style={styles.backFab}
+              onClick={this.goBack}
+            >
+              Back
+            </Fab>
+            <Fab
+              color="primary"
+              aria-label="add"
               style={styles.helpFab}
               onClick={() => {
                 this.setState({ step: "Help" });
@@ -242,7 +240,6 @@ export class UserForm extends Component {
       return (
         <MuiThemeProvider>
           <Box component="span">
-            <AppBar title="Stark Law review" />
             <Fab
               color="primary"
               aria-label="add"
