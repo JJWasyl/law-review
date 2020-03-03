@@ -7,11 +7,15 @@ import CheckboxStep from "./CheckboxStep.js";
 import { MuiThemeProvider } from "material-ui/styles";
 import Fab from "@material-ui/core/Fab";
 import { Box } from "@material-ui/core";
+import CreatePDFLists from "./CreatePDFLists";
+import { Button} from "@material-ui/core";
+
 
 export class UserForm extends Component {
   state = {
     step: "Start",
     prevSteps: ["Start"],
+    value:[],
     email: null,
     referralEntity: [],
     steps: {
@@ -163,7 +167,13 @@ export class UserForm extends Component {
           "Immediate family means husband or wife, birth or adoptive parent, child or sibling; stepparent, stepchild, stepbrother, or stepsister; father-in-law, mother-inlaw, son-in-law, daughter-inlaw, brother-inlaw, or sister-inlaw; grandparent or grandchild; and spouse of a grandparent or grandchild."
       },
       End: {
-        questionType: "End"
+        questionText: "Do You want to create a PDF",
+        questionType: "Create PDF",
+        answer: {
+          Yes: null,
+          No: null,
+          Maybe: null
+        },
       },
       Help: {
         questionType: "Help"
@@ -179,6 +189,8 @@ export class UserForm extends Component {
   };
 
   render() {
+    const {step} = this.state;
+    var value = [];
     console.log(this.state.step);
     if (this.state.steps[this.state.step].questionType === "Start") {
       return (
@@ -194,9 +206,12 @@ export class UserForm extends Component {
       this.state.steps[this.state.step].questionType === "YesNoMaybe"
     ) {
       return (
+        value.push(this.state.steps[this.state.step].questionText),
+        value.push(this.state.steps[this.state.step].answer),
         <MuiThemeProvider>
           <Box component="span">
             <YesNoMaybe
+              value={this.value}
               step={this.state.steps[this.state.step]}
               nextStep={answer => {
                 this.setState(prevState => {
@@ -238,6 +253,8 @@ export class UserForm extends Component {
       this.state.steps[this.state.step].questionType === "CheckboxStep"
     ) {
       return (
+        value.push(this.state.steps[this.state.step].questionText),
+        value.push(this.state.steps[this.state.step].answer),
         <MuiThemeProvider>
           <Box component="span">
             <Fab
@@ -278,8 +295,50 @@ export class UserForm extends Component {
           </Box>
         </MuiThemeProvider>
       );
-    } else if (this.state.steps[this.state.step].questionType === "End") {
-      return <Ending goBack={this.goBack} />;
+    } else if (this.state.steps[this.state.step].questionType === "CreatePDF") {
+      return (
+        <MuiThemeProvider>
+          <Box component="span">
+            <YesNoMaybe
+              step={this.state.steps[this.state.step]}
+              nextStep={answer => {
+                this.setState(prevState => {
+                  let steps = Object.assign({}, prevState.steps);
+                  steps[prevState.step].answer = answer;
+                  let step = prevState.steps[this.state.step].nextStep;
+                  let prevSteps = prevState.prevSteps.concat(prevState.step);
+                  return {
+                    ...prevState,
+                    steps: steps,
+                    step: step,
+                    prevSteps: prevSteps
+                  };
+                });
+              }}
+            />
+           
+            <Fab
+              color="primary"
+              aria-label="add"
+              style={styles.backFab}
+              onClick={this.goBack}
+            >
+              Back
+            </Fab>
+            <Fab
+              color="primary"
+              aria-label="add"
+              style={styles.helpFab}
+              onClick={() => {
+                this.setState({ step: "Help" });
+              }}
+            >
+              Help
+            </Fab>
+          </Box>
+        </MuiThemeProvider>
+        
+        );
     } else if (this.state.steps[this.state.step].questionType === "Help") {
       return <Help goBack={this.goBack} />;
     } else return null;
