@@ -1,16 +1,18 @@
 import React, { Component } from "react";
-import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
 import {List, ListItem, ListItemText} from 'material-ui/List'
-//import jsPDF from 'jspdf'
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
-import { Container, Button, Box } from "@material-ui/core";
-import { render } from "react-dom";
 import Dialog from '@material-ui/core/Dialog';
 import AppBar from '@material-ui/core/AppBar';
-import { PDFDownloadLink } from "@react-pdf/renderer";
+import { Container, Button, Box } from "@material-ui/core";
+
 
 export class CreatePDFLists extends Component 
 {
+    back = e => {
+        e.preventDefault();
+        this.props.goBack();
+      };
+    
     render() 
     {
         return(
@@ -21,7 +23,7 @@ export class CreatePDFLists extends Component
                     fullWidth="true"
                     maxWidth='sm'
                     >
-                    <AppBar title="User Responses" />
+                    <AppBar title="User Responses"/>
                     <List>
                     {
                     this.props.steps.map
@@ -59,9 +61,15 @@ export class CreatePDFLists extends Component
                     </Dialog>
                 </React.Fragment>
             </MuiThemeProvider>
-        )
+        );
     }
 }
 
+
+const styles = {
+    button: {
+      margin: 15
+    }
+  };
 
 export default CreatePDFLists;

@@ -7,15 +7,12 @@ import CheckboxStep from "./CheckboxStep.js";
 import { MuiThemeProvider } from "material-ui/styles";
 import Fab from "@material-ui/core/Fab";
 import { Box } from "@material-ui/core";
-import CreatePDFLists from "./CreatePDFLists";
-import { Button} from "@material-ui/core";
-
+import CreatePDFLists from "./CreatePDFLists"
 
 export class UserForm extends Component {
   state = {
     step: "Start",
     prevSteps: ["Start"],
-    value:[],
     email: null,
     referralEntity: [],
     steps: {
@@ -167,13 +164,7 @@ export class UserForm extends Component {
           "Immediate family means husband or wife, birth or adoptive parent, child or sibling; stepparent, stepchild, stepbrother, or stepsister; father-in-law, mother-inlaw, son-in-law, daughter-inlaw, brother-inlaw, or sister-inlaw; grandparent or grandchild; and spouse of a grandparent or grandchild."
       },
       End: {
-        questionText: "Do You want to create a PDF",
-        questionType: "Create PDF",
-        answer: {
-          Yes: null,
-          No: null,
-          Maybe: null
-        },
+        questionType: "End"
       },
       Help: {
         questionType: "Help"
@@ -189,7 +180,6 @@ export class UserForm extends Component {
   };
 
   render() {
-    const {step} = this.state;
     console.log(this.state.step);
     if (this.state.steps[this.state.step].questionType === "Start") {
       return (
@@ -289,10 +279,8 @@ export class UserForm extends Component {
           </Box>
         </MuiThemeProvider>
       );
-    } else if (this.state.steps[this.state.step].questionType === "CreatePDF") {
-      return (
-        <CreatePDFLists/>
-        );
+    } else if (this.state.steps[this.state.step].questionType === "End") {
+      return <CreatePDFLists goBack={this.goBack} />;
     } else if (this.state.steps[this.state.step].questionType === "Help") {
       return <Help goBack={this.goBack} />;
     } else return null;
