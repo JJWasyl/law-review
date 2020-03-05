@@ -3,8 +3,6 @@ import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import { Container, Button, Box } from "@material-ui/core";
 import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 
@@ -21,19 +19,22 @@ export class Start extends Component {
               <CardContent>
                 <CardMedia 
                   style={styles.media}
-                  image={require("./media/health-care-blocks.jpg")}
+                  image={require("./media/stark_doc.png")}
                   title="Keep your work clean"
                 />
                 <Typography variant="h5" component="h2" style={styles.cardmain}>
-                  Why am I at risk? 
+                  What is the Stark Law?
                 </Typography>
                 <Typography variant="body2" component="p" align="justify">
-                  Today's physicians face many offers of partnership or gratitude.
-                  However some of them are illegal and could cost you significant 
-                  fines if left unanswered.
+                  The Stark Law prohibits a physician from making a referral for designated health 
+                  services to an entity payable by Medicare if the physician or an immediate family 
+                  member has a financial relationship with that entity. Violation of the Stark law 
+                  may result in large monetary penalties. 
                   <br />
-                  With this short interview, we can help you screen for risky 
-                  enterprises and help you avoid a confrontation with Johnny Law.
+                  Physicians need to consult lawyers to recognize illegal compensation 
+                  for services or referrals that may not be immediately apparent. However Hiring a
+                  lawyer can be expensive, which is why <strong> CLEAR STATE </strong> offers an
+                  easy way to get you started on your legal review!
                 </Typography>
                 <Box component="span">
                   <Container maxWidth="sm">
