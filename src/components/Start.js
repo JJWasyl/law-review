@@ -27,7 +27,7 @@ export class Start extends Component {
                 <Typography variant="h5" component="h2" style={styles.cardmain}>
                   Why am I at risk? 
                 </Typography>
-                <Typography variant="body2" component="p">
+                <Typography variant="body2" component="p" align="justify">
                   Today's physicians face many offers of partnership or gratitude.
                   However some of them are illegal and could cost you significant 
                   fines if left unanswered.

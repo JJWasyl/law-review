@@ -3,6 +3,7 @@ import Ending from "./Ending";
 import Start from "./Start";
 import Help from "./Help";
 import YesNoMaybe from "./YesNoMaybe.js";
+import IDForm from "./IDForm.js";
 import CheckboxStep from "./CheckboxStep.js";
 import { MuiThemeProvider } from "material-ui/styles";
 import Fab from "@material-ui/core/Fab";
@@ -18,11 +19,23 @@ export class UserForm extends Component {
       Start: {
         questionType: "Start",
         get nextStep() {
-          return "Step1";
+          return "Q1";
         }
       },
-      Step1: {
-        questionText: "Are you a physician?",
+      Q1: {
+        questionType: "InputForm",
+        answer: {
+          name: null,
+          last_name: null,
+          specialization: null,
+          location: null,
+        },
+        get nextStep() {
+          return (this.answer.name && this.answer.last_name) ? "Q4" : "Q4"; //yeah I know this makes no sense, sue me
+        }
+      },
+      Q4: {
+        questionText: "Do you own your own practice?",
         questionType: "YesNoMaybe",
         answer: {
           Yes: null,
@@ -30,14 +43,13 @@ export class UserForm extends Component {
           Maybe: null
         },
         get nextStep() {
-          return this.answer.Yes ? "Step2" : "End";
+          return this.answer.Yes | this.answer.Maybe ? "Q5" : "Q6";
         },
-        tooltip:
-          "A physician means a doctor of medicine or osteopathy, a doctor of dental surgery or dental medicine, a doctor of podiatric medicine, a doctor of optometry, or a chiropractor. A physician and the professional corporation of which he or she is a sole owner are the same for purposes of this definition."
+        tooltip: null
       },
-      Step2: {
+      Q5: {
         questionText:
-          "Are you trying to refer one of your patients to a different entity?",
+          "Are you the sole owner of the practice?",
         questionType: "YesNoMaybe",
         answer: {
           Yes: null,
@@ -45,12 +57,12 @@ export class UserForm extends Component {
           Maybe: null
         },
         get nextStep() {
-          return this.answer.Yes | this.answer.Maybe ? "Step3" : "End";
+          return "Q6"
         },
         tooltip: null
       },
-      Step3: {
-        questionText: "Is this referral to a different healthcare provider?",
+      Q6: {
+        questionText: "Are you referring patients to another entity that provides health care services?",
         questionType: "YesNoMaybe",
         answer: {
           Yes: null,
@@ -58,10 +70,11 @@ export class UserForm extends Component {
           Maybe: null
         },
         get nextStep() {
-          return this.answer.Yes | this.answer.Maybe ? "Step4" : "End";
+          return this.answer.Yes | this.answer.Maybe ? "Q7" : "End";
         },
-        tooltip: null
+        tooltip: "An entity includes individual healthcare providers or healthcare organizations."
       },
+      /*
       Step4: {
         questionText:
           "Does that healthcare provider furnish designated health services or DHS?",
@@ -162,6 +175,7 @@ export class UserForm extends Component {
         tooltip:
           "Immediate family means husband or wife, birth or adoptive parent, child or sibling; stepparent, stepchild, stepbrother, or stepsister; father-in-law, mother-inlaw, son-in-law, daughter-inlaw, brother-inlaw, or sister-inlaw; grandparent or grandchild; and spouse of a grandparent or grandchild."
       },
+      */
       End: {
         questionType: "End"
       },
@@ -189,6 +203,50 @@ export class UserForm extends Component {
             }));
           }}
         />
+      );
+    } else if (
+      this.state.steps[this.state.step].questionType === "InputForm"
+    ) {
+      return (
+        <MuiThemeProvider>
+          <Box component="span">
+            <IDForm
+              step={this.state.steps[this.state.step]}
+              nextStep={answer => {
+                this.setState(prevState => {
+                  let steps = Object.assign({}, prevState.steps);
+                  steps[prevState.step].answer = answer;
+                  let step = prevState.steps[this.state.step].nextStep;
+                  let prevSteps = prevState.prevSteps.concat(prevState.step);
+                  return {
+                    ...prevState,
+                    steps: steps,
+                    step: step,
+                    prevSteps: prevSteps
+                  };
+                });
+              }}
+            />
+            <Fab
+              color="primary"
+              aria-label="add"
+              style={styles.backFab}
+              onClick={this.goBack}
+            >
+              Back
+            </Fab>
+            <Fab
+              color="primary"
+              aria-label="add"
+              style={styles.helpFab}
+              onClick={() => {
+                this.setState({ step: "Help" });
+              }}
+            >
+              Help
+            </Fab>
+          </Box>
+        </MuiThemeProvider>
       );
     } else if (
       this.state.steps[this.state.step].questionType === "YesNoMaybe"

@@ -28,6 +28,8 @@ export class YesNoMaybe extends Component {
               <CardContent style={styles.cardmain}>
                 <Typography variant="h3" component="h2" style={styles.titleSpace}>    
                   {this.props.step.questionText}
+                </Typography>
+                <Typography variant="h3" component="h2" style={styles.titleSpace} align="justify">
                   {this.props.step.tooltip != null && 
                     <IconButton
                       edge="end"
@@ -109,7 +111,8 @@ const styles = {
     transform: 'rotate(0deg)',
   },
   titleSpace: {
-    marginBottom: 15
+    marginBottom: 15,
+    display: "inline-block"
   },
 };
 
