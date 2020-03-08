@@ -5,6 +5,7 @@ import Help from "./Help";
 import YesNoMaybe from "./YesNoMaybe.js";
 import IDForm from "./IDForm.js";
 import CheckboxStep from "./CheckboxStep.js";
+import Referral from "./Referral.js";
 import { MuiThemeProvider } from "material-ui/styles";
 import Fab from "@material-ui/core/Fab";
 import { Box } from "@material-ui/core";
@@ -14,7 +15,7 @@ export class UserForm extends Component {
     step: "Start",
     prevSteps: ["Start"],
     email: null,
-    referralEntity: [],
+    referralIndex: 0,
     steps: {
       Start: {
         questionType: "Start",
@@ -28,10 +29,10 @@ export class UserForm extends Component {
           name: null,
           last_name: null,
           specialization: null,
-          location: null,
+          location: null
         },
         get nextStep() {
-          return (this.answer.name && this.answer.last_name) ? "Q4" : "Q4"; //yeah I know this makes no sense, sue me
+          return this.answer.name && this.answer.last_name ? "Q4" : "Q4"; //yeah I know this makes no sense, sue me
         }
       },
       Q4: {
@@ -48,8 +49,7 @@ export class UserForm extends Component {
         tooltip: null
       },
       Q5: {
-        questionText:
-          "Are you the sole owner of the practice?",
+        questionText: "Are you the sole owner of the practice?",
         questionType: "YesNoMaybe",
         answer: {
           Yes: null,
@@ -57,12 +57,13 @@ export class UserForm extends Component {
           Maybe: null
         },
         get nextStep() {
-          return "Q6"
+          return "Q6";
         },
         tooltip: null
       },
       Q6: {
-        questionText: "Are you referring patients to another entity that provides health care services?",
+        questionText:
+          "Are you referring patients to another entity that provides health care services?",
         questionType: "YesNoMaybe",
         answer: {
           Yes: null,
@@ -72,7 +73,8 @@ export class UserForm extends Component {
         get nextStep() {
           return this.answer.Yes | this.answer.Maybe ? "End" : "End";
         },
-        tooltip: "An entity includes individual healthcare providers or healthcare organizations."
+        tooltip:
+          "An entity includes individual healthcare providers or healthcare organizations."
       },
       /*
       Step4: {
@@ -176,6 +178,84 @@ export class UserForm extends Component {
           "Immediate family means husband or wife, birth or adoptive parent, child or sibling; stepparent, stepchild, stepbrother, or stepsister; father-in-law, mother-inlaw, son-in-law, daughter-inlaw, brother-inlaw, or sister-inlaw; grandparent or grandchild; and spouse of a grandparent or grandchild."
       },
       */
+      Q7: {
+        questionType: "Referral",
+        questionText: "To which entities are you making the referral?",
+        answer: [],
+        get nextStep() {
+          return this.answer.length !== 0 ? "Q8" : "End";
+        }
+      },
+      Q8: {
+        questionText:
+          "Does that healthcare provider furnish designated health services or DHS?",
+        questionType: "CheckboxStep",
+        answer: [
+          {
+            key: "clinic",
+            label: "Clinical Laboratory Services",
+            value: []
+          },
+          {
+            key: "physicalTherapy",
+            label: "Physical Therapy Services",
+            value: []
+          },
+          {
+            key: "radiology",
+            label: "Radiology and Imaging Services",
+            value: []
+          },
+          {
+            key: "radiation",
+            label: "Radiation Therapy Services and Supplies",
+            value: []
+          },
+          {
+            key: "equipment",
+            label: "Durable medical equipment and supplies",
+            value: []
+          },
+          {
+            key: "nutrients",
+            label: "Parenteral and enteral nutrients, equipment and supplies",
+            value: []
+          },
+          {
+            key: "prosthetics",
+            label:
+              "Prosthetics, orthotics, and prosthetic devices and supplies",
+            value: []
+          },
+          {
+            key: "homeHealth",
+            label: "Home health services",
+            value: []
+          },
+          {
+            key: "outpatientDrugs",
+            label: "Outpatient prescription drugs",
+            value: []
+          },
+          {
+            key: "hospitalServices",
+            label: "Inpatient and outpatient hospital services",
+            value: []
+          },
+          {
+            key: "other",
+            label: "Other",
+            value: [],
+            text: ""
+          }
+        ],
+        get nextStep() {
+          return this.answer.filter(el => el.value).length > 0
+            ? "Step7"
+            : "End";
+        },
+        tooltip: null
+      },
       End: {
         questionType: "End"
       },
@@ -193,7 +273,48 @@ export class UserForm extends Component {
   };
 
   render() {
-    console.log(this.state.step);
+    return (
+      <MuiThemeProvider>
+        <Box component="span">
+          <Referral
+            step={this.state.steps["Q7"]}
+            nextStep={answer => {
+              this.setState(prevState => {
+                let steps = Object.assign({}, prevState.steps);
+                steps[prevState.step].answer = answer;
+                let step = prevState.steps[this.state.step].nextStep;
+                let prevSteps = prevState.prevSteps.concat(prevState.step);
+                return {
+                  ...prevState,
+                  steps: steps,
+                  step: step,
+                  prevSteps: prevSteps
+                };
+              });
+            }}
+          />
+          <Fab
+            color="primary"
+            aria-label="add"
+            style={styles.backFab}
+            onClick={this.goBack}
+          >
+            Back
+          </Fab>
+          <Fab
+            color="primary"
+            aria-label="add"
+            style={styles.helpFab}
+            onClick={() => {
+              this.setState({ step: "Help" });
+            }}
+          >
+            Help
+          </Fab>
+        </Box>
+      </MuiThemeProvider>
+    );
+
     if (this.state.steps[this.state.step].questionType === "Start") {
       return (
         <Start
@@ -204,9 +325,7 @@ export class UserForm extends Component {
           }}
         />
       );
-    } else if (
-      this.state.steps[this.state.step].questionType === "InputForm"
-    ) {
+    } else if (this.state.steps[this.state.step].questionType === "InputForm") {
       return (
         <MuiThemeProvider>
           <Box component="span">
