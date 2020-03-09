@@ -76,11 +76,14 @@ const healthServices = [
   }
 ];
 export class ReferralListCell extends Component {
+  state = {
+    init: false,
+  }
   render() {
     const noStark = (
       <Container>
         <Typography>
-          <Box fontWeight="fontWeightRegular" textAlign="left" m={3}>
+          <Box fontWeight="fontWeightRegular" textAlign="center" m={3}>
             The Stark Law likely does not apply for this referral.
           </Box>
         </Typography>
@@ -128,6 +131,12 @@ export class ReferralListCell extends Component {
               <Container>
                 <Container>
                   <FormGroup>
+                  <Divider style={styles.divider}/>
+                    <Typography variant="subtitle1" align="justify">
+                      <Box fontWeight="fontWeightRegular" textAlign="justify" m={3}>
+                      The Stark Law prohibits billing Medicare for certain kinds of referrals.
+                      </Box>
+                    </Typography>
                     <FormControlLabel
                       control={
                         <Checkbox
@@ -141,7 +150,7 @@ export class ReferralListCell extends Component {
                         />
                       }
                       label={
-                        "The Stark Law prohibits billing Medicare for certain kinds of referrals. Will you be submitting a claim for the service to Medicare?"
+                        "Will you be submitting a claim for the service to Medicare?"
                       }
                       fullWidth={true}
                     />
@@ -152,7 +161,7 @@ export class ReferralListCell extends Component {
                           checked={this.props.referral.medicareE}
                           onChange={() => {
                             this.props.update({
-                              medicareU: !this.props.referral.medicareU
+                              medicareE: !this.props.referral.medicareE
                             });
                           }}
                           value={this.props.referral.medicareE}
@@ -166,10 +175,10 @@ export class ReferralListCell extends Component {
                     />
                   </FormGroup>
                 </Container>
-                <Container>
-                  <Divider />
-                  <Typography>
-                    <Box fontWeight="fontWeightRegular" textAlign="left" m={3}>
+                <Container>  
+                  <Divider style={styles.divider}/>
+                  <Typography variant="subtitle1" align="justify">
+                    <Box fontWeight="fontWeightRegular" textAlign="justify" m={3}>
                       The Stark Law prohibits a referring physician or an
                       immediate family member from having certain ownership
                       interests in the referred entity. Do you or an immediate
@@ -184,7 +193,7 @@ export class ReferralListCell extends Component {
                           control={
                             <Checkbox
                               checked={interest.value}
-                              onChange={() =>
+                              onChange={() => {
                                 this.props.update({
                                   ownershipInterests: this.props.referral.ownershipInterests.map(
                                     el =>
@@ -193,7 +202,7 @@ export class ReferralListCell extends Component {
                                         : el
                                   )
                                 })
-                              }
+                              }}
                               value={interest.value}
                             />
                           }
@@ -232,4 +241,11 @@ export class ReferralListCell extends Component {
     );
   }
 }
+
+const styles = {
+  divider: {
+    marginTop: 25,
+  }
+}
+
 export default ReferralListCell;

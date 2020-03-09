@@ -61,7 +61,7 @@ export class Referral extends Component {
                     <Typography paragraph>{this.props.step.tooltip}</Typography>
                   </CardContent>
                 </Collapse>
-                <ButtonGroup size={"large"} color="primary" variant="contained">
+                <ButtonGroup size={"large"} color="primary" variant="contained" style={styles.button}>
                   <Button
                     onClick={() => {
                       this.props.addReferral();

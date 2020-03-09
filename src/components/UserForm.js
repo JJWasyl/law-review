@@ -20,7 +20,7 @@ export class UserForm extends Component {
       Start: {
         questionType: "Start",
         get nextStep() {
-          return "Q7";
+          return "Q1";
         }
       },
       Q1: {
@@ -32,7 +32,7 @@ export class UserForm extends Component {
           location: null
         },
         get nextStep() {
-          return this.answer.name && this.answer.last_name ? "Q4" : "Q4"; //yeah I know this makes no sense, sue me
+          return "Q4";
         }
       },
       Q4: {
@@ -76,108 +76,6 @@ export class UserForm extends Component {
         tooltip:
           "An entity includes individual healthcare providers or healthcare organizations."
       },
-      /*
-      Step4: {
-        questionText:
-          "Does that healthcare provider furnish designated health services or DHS?",
-        questionType: "CheckboxStep",
-        answer: [
-          {
-            key: "clinic",
-            label: "Clinical Laboratory Services",
-            value: false
-          },
-          {
-            key: "physicalTherapy",
-            label: "Physical Therapy Services",
-            value: false
-          },
-          {
-            key: "radiology",
-            label: "Radiology and Imaging Services",
-            value: false
-          },
-          {
-            key: "radiation",
-            label: "Radiation Therapy Services and Supplies",
-            value: false
-          },
-          {
-            key: "equipment",
-            label: "Durable medical equipment and supplies",
-            value: false
-          },
-          {
-            key: "nutrients",
-            label: "Parenteral and enteral nutrients, equipment and supplies",
-            value: false
-          },
-          {
-            key: "prosthetics",
-            label:
-              "Prosthetics, orthotics, and prosthetic devices and supplies",
-            value: false
-          },
-          {
-            key: "homeHealth",
-            label: "Home health services",
-            value: false
-          },
-          {
-            key: "outpatientDrugs",
-            label: "Outpatient prescription drugs",
-            value: false
-          },
-          {
-            key: "hospitalServices",
-            label: "Inpatient and outpatient hospital services",
-            value: false
-          },
-          {
-            key: "other",
-            label: "Other",
-            value: false,
-            text: ""
-          }
-        ],
-        get nextStep() {
-          return this.answer.filter(el => el.value).length > 0
-            ? "Step5"
-            : "End";
-        },
-        tooltip: null
-      },
-      Step5: {
-        questionText:
-          "Do you or one of your immediate family members have a financial relationship with the health care provider you are referring to?",
-        questionType: "YesNoMaybe",
-        answer: {
-          Yes: null,
-          No: null,
-          Maybe: null
-        },
-        get nextStep() {
-          return this.answer.Yes | this.answer.Maybe ? "Step6" : "End";
-        },
-        tooltip:
-          "Immediate family means husband or wife, birth or adoptive parent, child or sibling; stepparent, stepchild, stepbrother, or stepsister; father-in-law, mother-inlaw, son-in-law, daughter-inlaw, brother-inlaw, or sister-inlaw; grandparent or grandchild; and spouse of a grandparent or grandchild."
-      },
-      Step6: {
-        questionText:
-          "Do you or your immediate family membership have an ownership realtionship with the health care provider?",
-        questionType: "YesNoMaybe",
-        answer: {
-          Yes: null,
-          No: null,
-          Maybe: null
-        },
-        get nextStep() {
-          return this.answer.Yes | this.answer.Maybe ? "Step7" : "End";
-        },
-        tooltip:
-          "Immediate family means husband or wife, birth or adoptive parent, child or sibling; stepparent, stepchild, stepbrother, or stepsister; father-in-law, mother-inlaw, son-in-law, daughter-inlaw, brother-inlaw, or sister-inlaw; grandparent or grandchild; and spouse of a grandparent or grandchild."
-      },
-      */
       Q7: {
         questionType: "Referral",
         questionText: "To which entities are you making the referral?",
@@ -234,9 +132,11 @@ export class UserForm extends Component {
           }
         ],
         get nextStep() {
-          return this.answer.length !== 0 ? "Q8" : "End";
+          //return this.answer.length !== 0 ? "End" : "End";
+          return "End";
         }
       },
+      /*
       Q8: {
         questionText:
           "Does that healthcare provider furnish designated health services or DHS?",
@@ -307,6 +207,7 @@ export class UserForm extends Component {
         },
         tooltip: null
       },
+      */
       End: {
         questionType: "End"
       },
