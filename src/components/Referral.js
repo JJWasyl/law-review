@@ -10,6 +10,7 @@ import {
   FormLabel,
   TextField,
   Button,
+  ButtonGroup,
   List,
   ListItem,
   ListItemIcon,
@@ -30,14 +31,10 @@ import Fab from "@material-ui/core/Fab";
 export class Referral extends Component {
   constructor(props) {
     super(props);
-    console.log(props);
     this.state = {
-      referrals: props.step.answer,
-      expanded: false,
-      numReferrals: [false]
+      expanded: false
     };
   }
-
   handleExpandClick = () => {
     this.setState(prevState => ({
       expanded: !prevState.expanded
@@ -76,26 +73,33 @@ export class Referral extends Component {
                     <Typography paragraph>{this.props.step.tooltip}</Typography>
                   </CardContent>
                 </Collapse>
-                <Button
-                  size={"large"}
-                  color="primary"
-                  variant="contained"
-                  onClick={() => {
-                    this.setState(prevState => ({
-                      numReferrals: (prevState.numReferrals[
-                        prevState.numReferrals.length + 1
-                      ] = {})
-                    }));
-                  }}
-                >
-                  Add Another Referral
-                </Button>
+                <ButtonGroup size={"large"} color="primary" variant="contained">
+                  <Button
+                    onClick={() => {
+                      this.props.addReferral();
+                    }}
+                  >
+                    Add Another Referral
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      this.props.nextStep();
+                    }}
+                  >
+                    Done
+                  </Button>
+                </ButtonGroup>
                 <Box component="span">
                   <Container maxWidth="med">
                     <List>
-                      {this.state.numReferrals.map(value => (
+                      {this.props.step.answer.map((referral, index) => (
                         <Paper elevation={3}>
-                          <ReferralListCell />
+                          <ReferralListCell
+                            update={newState => {
+                              this.props.update(newState, index);
+                            }}
+                            referral={referral}
+                          />
                         </Paper>
                       ))}
                     </List>

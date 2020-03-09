@@ -20,7 +20,7 @@ export class UserForm extends Component {
       Start: {
         questionType: "Start",
         get nextStep() {
-          return "Q1";
+          return "Q7";
         }
       },
       Q1: {
@@ -181,7 +181,57 @@ export class UserForm extends Component {
       Q7: {
         questionType: "Referral",
         questionText: "To which entities are you making the referral?",
-        answer: [],
+        answer: [
+          {
+            medicareU: null,
+            medicareE: null,
+            entityName: null,
+            healthService: null,
+            ownershipInterests: [
+              {
+                key: "stock",
+                label: "Stock",
+                value: false
+              },
+              {
+                key: "stockOptions",
+                label: "Stock Options",
+                value: false
+              },
+              {
+                key: "LLC",
+                label:
+                  "Membership interest in a limited liability corporation (“LLC”)",
+                value: false
+              },
+              {
+                key: "partnershipShares",
+                label: "Partnership Shares",
+                value: false
+              },
+              {
+                key: "loans",
+                label: "Loans",
+                value: false
+              },
+              {
+                key: "bonds",
+                label: "Bonds",
+                value: false
+              },
+              {
+                key: "other",
+                label: "Other",
+                value: false
+              },
+              {
+                key: "none",
+                label: "None of the above",
+                value: false
+              }
+            ]
+          }
+        ],
         get nextStep() {
           return this.answer.length !== 0 ? "Q8" : "End";
         }
@@ -272,49 +322,125 @@ export class UserForm extends Component {
     }));
   };
 
-  render() {
-    return (
-      <MuiThemeProvider>
-        <Box component="span">
-          <Referral
-            step={this.state.steps["Q7"]}
-            nextStep={answer => {
-              this.setState(prevState => {
-                let steps = Object.assign({}, prevState.steps);
-                steps[prevState.step].answer = answer;
-                let step = prevState.steps[this.state.step].nextStep;
-                let prevSteps = prevState.prevSteps.concat(prevState.step);
-                return {
-                  ...prevState,
-                  steps: steps,
-                  step: step,
-                  prevSteps: prevSteps
-                };
-              });
-            }}
-          />
-          <Fab
-            color="primary"
-            aria-label="add"
-            style={styles.backFab}
-            onClick={this.goBack}
-          >
-            Back
-          </Fab>
-          <Fab
-            color="primary"
-            aria-label="add"
-            style={styles.helpFab}
-            onClick={() => {
-              this.setState({ step: "Help" });
-            }}
-          >
-            Help
-          </Fab>
-        </Box>
-      </MuiThemeProvider>
-    );
+  updateReferrals = (newState, index) => {
+    this.setState(prevState => {
+      let steps = Object.assign({}, prevState.steps);
+      steps["Q7"].answer[index] = { ...steps["Q7"].answer[index], ...newState };
+      return {
+        ...prevState,
+        steps: steps
+      };
+    });
+  };
 
+  addReferral = () => {
+    this.setState(prevState => {
+      let steps = Object.assign({}, prevState.steps);
+      steps["Q7"].answer = steps["Q7"].answer.concat({
+        medicareU: null,
+        medicareE: null,
+        entityName: null,
+        healthService: null,
+        ownershipInterests: [
+          {
+            key: "stock",
+            label: "Stock",
+            value: false
+          },
+          {
+            key: "stockOptions",
+            label: "Stock Options",
+            value: false
+          },
+          {
+            key: "LLC",
+            label:
+              "Membership interest in a limited liability corporation (“LLC”)",
+            value: false
+          },
+          {
+            key: "partnershipShares",
+            label: "Partnership Shares",
+            value: false
+          },
+          {
+            key: "loans",
+            label: "Loans",
+            value: false
+          },
+          {
+            key: "bonds",
+            label: "Bonds",
+            value: false
+          },
+          {
+            key: "other",
+            label: "Other",
+            value: false
+          },
+          {
+            key: "none",
+            label: "None of the above",
+            value: false
+          }
+        ]
+      });
+      return {
+        ...prevState,
+        steps: steps
+      };
+    });
+  };
+  render() {
+    if (this.state.steps[this.state.step].questionType === "Referral") {
+      console.log(this.state.steps["Q7"].answer);
+      return (
+        <MuiThemeProvider>
+          <Box component="span">
+            <Referral
+              step={this.state.steps["Q7"]}
+              update={(answer, index) => {
+                this.updateReferrals(answer, index);
+              }}
+              addReferral={() => {
+                this.addReferral();
+              }}
+              nextStep={() => {
+                this.setState(prevState => {
+                  let steps = Object.assign({}, prevState.steps);
+                  let step = prevState.steps[this.state.step].nextStep;
+                  let prevSteps = prevState.prevSteps.concat(prevState.step);
+                  return {
+                    ...prevState,
+                    steps: steps,
+                    step: step,
+                    prevSteps: prevSteps
+                  };
+                });
+              }}
+            />
+            <Fab
+              color="primary"
+              aria-label="add"
+              style={styles.backFab}
+              onClick={this.goBack}
+            >
+              Back
+            </Fab>
+            <Fab
+              color="primary"
+              aria-label="add"
+              style={styles.helpFab}
+              onClick={() => {
+                this.setState({ step: "Help" });
+              }}
+            >
+              Help
+            </Fab>
+          </Box>
+        </MuiThemeProvider>
+      );
+    }
     if (this.state.steps[this.state.step].questionType === "Start") {
       return (
         <Start

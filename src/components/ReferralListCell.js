@@ -12,6 +12,7 @@ import {
   FormControlLabel,
   FormLabel,
   Button,
+  Backdrop,
   Typography
 } from "@material-ui/core";
 import Fab from "@material-ui/core/Fab";
@@ -94,7 +95,6 @@ const healthServices = [
 export class ReferralListCell extends Component {
   constructor(props) {
     super(props);
-    console.log(props);
     this.state = {
       medicareU: null,
       medicareE: null,
@@ -147,25 +147,54 @@ export class ReferralListCell extends Component {
   }
 
   handleEntityNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ entityName: event.target.value });
-    console.log(this.state.entityName);
+    this.setState(
+      { entityName: event.target.value },
+      this.props.update({ entityName: event.target.value })
+    );
   };
 
   handleHealthServiceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ healthService: event.target.value });
-    console.log(event.target.value);
+    this.setState(
+      { healthService: event.target.value },
+      this.props.update({ healthService: event.target.value })
+    );
   };
   handleMedicareUChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState(prevState => ({ medicareU: !prevState.medicareU }));
+    this.setState(
+      prevState => ({ medicareU: !prevState.medicareU }),
+      this.props.update({ medicareU: !this.props.referral.medicareU })
+    );
   };
   handleMedicareEChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState(prevState => ({ medicareE: !prevState.medicareE }));
+    this.setState(
+      prevState => ({ medicareE: !prevState.medicareE }),
+      this.props.update({ medicareU: !this.props.referral.medicareU })
+    );
   };
 
+  handleInterestChange = interest => {
+    this.setState(
+      prevState => ({ medicareE: !prevState.medicareE }),
+      this.props.update({
+        ownershipInterests: this.props.referral.ownershipInterests.map(el =>
+          el.key === interest.key ? { ...el, value: !el.value } : el
+        )
+      })
+    );
+  };
   render() {
+    const noStark = (
+      <Container>
+        <Typography>
+          <Box fontWeight="fontWeightRegular" textAlign="left" m={3}>
+            The Stark Law likely does not apply for this referral.
+          </Box>
+        </Typography>
+      </Container>
+    );
     return (
       <MuiThemeProvider>
-        <form noValidate autoComplete="off">
+        <form noValidate autoComplete="off" disabled={true}>
           <div>
             <Container>
               <TextField
@@ -175,6 +204,7 @@ export class ReferralListCell extends Component {
                 id="entity name"
                 label="To whom are you making the referral?"
                 onChange={this.handleEntityNameChange}
+                value={this.props.referral.entityName}
                 helperText="entity name"
               />
             </Container>
@@ -183,7 +213,7 @@ export class ReferralListCell extends Component {
                 id="health-service"
                 select
                 label="Select"
-                value={this.state.healthServicse}
+                value={this.props.referral.healthService}
                 onChange={this.handleHealthServiceChange}
                 helperText="Which health service does the entity provide?"
                 variant="filled"
@@ -195,96 +225,92 @@ export class ReferralListCell extends Component {
                 ))}
               </TextField>
             </Container>
-            <Container>
-              {this.state.healthService !== null &&
-              this.state.healthService !== "None of the above" ? (
-                <FormGroup>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={this.state.medicareU}
-                        onChange={this.handleMedicareUChange}
-                        value={this.state.medicareU}
-                      />
-                    }
-                    label={
-                      "The Stark Law prohibits billing Medicare for certain kinds of referrals. Will you be submitting a claim for the service to Medicare?"
-                    }
-                    fullWidth={true}
-                  />
-                  <FormControlLabel
-                    fullWidth={true}
-                    control={
-                      <Checkbox
-                        checked={this.state.medicareE}
-                        onChange={this.handleMedicareEChange}
-                        value={this.state.medicareE}
-                      />
-                    }
-                    label={
-                      "Is " +
-                      this.state.entityName +
-                      " performing the health service AND submitting a claim to Medicare for those services?"
-                    }
-                  />
-                </FormGroup>
-              ) : null}
-            </Container>
-            {this.state.healthService !== null &&
-            this.state.healthService !== "None of the above" ? (
+            {this.props.referral.healthService !== null &&
+            this.props.referral.healthService !== "None of the above" ? (
               <Container>
-                <Divider />
-                <Typography>
-                  <Box fontWeight="fontWeightRegular" textAlign="left" m={3}>
-                    The Stark Law prohibits a referring physician or an
-                    immediate family member from having certain ownership
-                    interests in the referred entity. Do you or an immediate
-                    family member have any of the following ownership interests
-                    in the entity?
-                  </Box>
-                </Typography>
-                <FormGroup>
-                  {this.state.ownershipInterests.map((interest, index) => (
+                <Container>
+                  <FormGroup>
                     <FormControlLabel
                       control={
                         <Checkbox
-                          checked={interest.value}
-                          onChange={() => {
-                            this.setState(prevState => ({
-                              ownershipInterests: prevState.ownershipInterests.map(
-                                el =>
-                                  el.key === interest.key
-                                    ? { ...el, value: !el.value }
-                                    : el
-                              )
-                            }));
-                          }}
-                          value={interest.value}
+                          checked={this.props.referral.medicareU}
+                          onChange={this.handleMedicareUChange}
+                          value={this.props.referral.medicareU}
                         />
                       }
                       label={
-                        interest.key === "other" && interest.value ? (
-                          <TextField
-                            onChange={txt => {
-                              this.setState(prevState => ({
-                                ownershipInterests: prevState.ownershipInterests.map(
-                                  el =>
-                                    el.key === interest.key
-                                      ? { ...el, text: txt }
-                                      : el
-                                )
-                              }));
-                            }}
-                          />
-                        ) : (
-                          interest.label
-                        )
+                        "The Stark Law prohibits billing Medicare for certain kinds of referrals. Will you be submitting a claim for the service to Medicare?"
+                      }
+                      fullWidth={true}
+                    />
+                    <FormControlLabel
+                      fullWidth={true}
+                      control={
+                        <Checkbox
+                          checked={this.props.referral.medicareE}
+                          onChange={this.handleMedicareEChange}
+                          value={this.props.referral.medicareE}
+                        />
+                      }
+                      label={
+                        "Is " +
+                        this.props.referral.entityName +
+                        " performing the health service AND submitting a claim to Medicare for those services?"
                       }
                     />
-                  ))}
-                </FormGroup>
+                  </FormGroup>
+                </Container>
+                <Container>
+                  <Divider />
+                  <Typography>
+                    <Box fontWeight="fontWeightRegular" textAlign="left" m={3}>
+                      The Stark Law prohibits a referring physician or an
+                      immediate family member from having certain ownership
+                      interests in the referred entity. Do you or an immediate
+                      family member have any of the following ownership
+                      interests in the entity?
+                    </Box>
+                  </Typography>
+                  <FormGroup>
+                    {this.props.referral.ownershipInterests.map(
+                      (interest, index) => (
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={interest.value}
+                              onChange={() =>
+                                this.handleInterestChange(interest)
+                              }
+                              value={interest.value}
+                            />
+                          }
+                          label={
+                            interest.key === "other" && interest.value ? (
+                              <TextField
+                                onChange={txt => {
+                                  this.setState(prevState => ({
+                                    ownershipInterests: prevState.ownershipInterests.map(
+                                      el =>
+                                        el.key === interest.key
+                                          ? { ...el, text: txt }
+                                          : el
+                                    )
+                                  }));
+                                }}
+                              />
+                            ) : (
+                              interest.label
+                            )
+                          }
+                        />
+                      )
+                    )}
+                  </FormGroup>
+                </Container>
               </Container>
-            ) : null}
+            ) : (
+              noStark
+            )}
           </div>
           <Divider />
         </form>
