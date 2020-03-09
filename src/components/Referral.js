@@ -3,22 +3,11 @@ import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import {
   Container,
   Box,
-  FormGroup,
-  FormControl,
-  Checkbox,
-  FormControlLabel,
-  FormLabel,
-  TextField,
   Button,
   ButtonGroup,
   List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  ListItemSecondaryAction,
   Paper
 } from "@material-ui/core";
-import CommentIcon from "@material-ui/icons/Comment";
 import Typography from "@material-ui/core/Typography";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
@@ -26,7 +15,6 @@ import Collapse from "@material-ui/core/Collapse";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import IconButton from "@material-ui/core/IconButton";
 import ReferralListCell from "./ReferralListCell.js";
-import Fab from "@material-ui/core/Fab";
 
 export class Referral extends Component {
   constructor(props) {

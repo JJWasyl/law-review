@@ -1,32 +1,15 @@
 import React, { Component } from "react";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
 import Divider from "@material-ui/core/Divider";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
-import { Container, Box, Tooltip } from "@material-ui/core";
+import { Container, Box } from "@material-ui/core";
 import {
-  FormControl,
   FormGroup,
   Checkbox,
   FormControlLabel,
-  FormLabel,
-  Button,
-  Backdrop,
   Typography
 } from "@material-ui/core";
-import Fab from "@material-ui/core/Fab";
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      "& .MuiTextField-root": {
-        margin: theme.spacing(1),
-        width: "90%"
-      }
-    }
-  })
-);
 
 const healthServices = [
   {
@@ -93,95 +76,6 @@ const healthServices = [
   }
 ];
 export class ReferralListCell extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      medicareU: null,
-      medicareE: null,
-      entityName: null,
-      healthService: null,
-      ownershipInterests: [
-        {
-          key: "stock",
-          label: "Stock",
-          value: false
-        },
-        {
-          key: "stockOptions",
-          label: "Stock Options",
-          value: false
-        },
-        {
-          key: "LLC",
-          label:
-            "Membership interest in a limited liability corporation (“LLC”)",
-          value: false
-        },
-        {
-          key: "partnershipShares",
-          label: "Partnership Shares",
-          value: false
-        },
-        {
-          key: "loans",
-          label: "Loans",
-          value: false
-        },
-        {
-          key: "bonds",
-          label: "Bonds",
-          value: false
-        },
-        {
-          key: "other",
-          label: "Other",
-          value: false
-        },
-        {
-          key: "none",
-          label: "None of the above",
-          value: false
-        }
-      ]
-    };
-  }
-
-  handleEntityNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState(
-      { entityName: event.target.value },
-      this.props.update({ entityName: event.target.value })
-    );
-  };
-
-  handleHealthServiceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState(
-      { healthService: event.target.value },
-      this.props.update({ healthService: event.target.value })
-    );
-  };
-  handleMedicareUChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState(
-      prevState => ({ medicareU: !prevState.medicareU }),
-      this.props.update({ medicareU: !this.props.referral.medicareU })
-    );
-  };
-  handleMedicareEChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState(
-      prevState => ({ medicareE: !prevState.medicareE }),
-      this.props.update({ medicareU: !this.props.referral.medicareU })
-    );
-  };
-
-  handleInterestChange = interest => {
-    this.setState(
-      prevState => ({ medicareE: !prevState.medicareE }),
-      this.props.update({
-        ownershipInterests: this.props.referral.ownershipInterests.map(el =>
-          el.key === interest.key ? { ...el, value: !el.value } : el
-        )
-      })
-    );
-  };
   render() {
     const noStark = (
       <Container>
@@ -203,7 +97,9 @@ export class ReferralListCell extends Component {
                 margin="normal"
                 id="entity name"
                 label="To whom are you making the referral?"
-                onChange={this.handleEntityNameChange}
+                onChange={event =>
+                  this.props.update({ entityName: event.target.value })
+                }
                 value={this.props.referral.entityName}
                 helperText="entity name"
               />
@@ -214,7 +110,9 @@ export class ReferralListCell extends Component {
                 select
                 label="Select"
                 value={this.props.referral.healthService}
-                onChange={this.handleHealthServiceChange}
+                onChange={event => {
+                  this.props.update({ healthService: event.target.value });
+                }}
                 helperText="Which health service does the entity provide?"
                 variant="filled"
               >
@@ -234,7 +132,11 @@ export class ReferralListCell extends Component {
                       control={
                         <Checkbox
                           checked={this.props.referral.medicareU}
-                          onChange={this.handleMedicareUChange}
+                          onChange={() => {
+                            this.props.update({
+                              medicareU: !this.props.referral.medicareU
+                            });
+                          }}
                           value={this.props.referral.medicareU}
                         />
                       }
@@ -248,7 +150,11 @@ export class ReferralListCell extends Component {
                       control={
                         <Checkbox
                           checked={this.props.referral.medicareE}
-                          onChange={this.handleMedicareEChange}
+                          onChange={() => {
+                            this.props.update({
+                              medicareU: !this.props.referral.medicareU
+                            });
+                          }}
                           value={this.props.referral.medicareE}
                         />
                       }
@@ -279,7 +185,14 @@ export class ReferralListCell extends Component {
                             <Checkbox
                               checked={interest.value}
                               onChange={() =>
-                                this.handleInterestChange(interest)
+                                this.props.update({
+                                  ownershipInterests: this.props.referral.ownershipInterests.map(
+                                    el =>
+                                      el.key === interest.key
+                                        ? { ...el, value: !el.value }
+                                        : el
+                                  )
+                                })
                               }
                               value={interest.value}
                             />
@@ -287,15 +200,16 @@ export class ReferralListCell extends Component {
                           label={
                             interest.key === "other" && interest.value ? (
                               <TextField
-                                onChange={txt => {
-                                  this.setState(prevState => ({
-                                    ownershipInterests: prevState.ownershipInterests.map(
+                                value={interest.text}
+                                onChange={event => {
+                                  this.props.update({
+                                    ownershipInterests: this.props.referral.ownershipInterests.map(
                                       el =>
                                         el.key === interest.key
-                                          ? { ...el, text: txt }
+                                          ? { ...el, text: event.target.value }
                                           : el
                                     )
-                                  }));
+                                  });
                                 }}
                               />
                             ) : (

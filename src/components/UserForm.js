@@ -71,7 +71,7 @@ export class UserForm extends Component {
           Maybe: null
         },
         get nextStep() {
-          return this.answer.Yes | this.answer.Maybe ? "End" : "End";
+          return this.answer.Yes | this.answer.Maybe ? "Q7" : "End";
         },
         tooltip:
           "An entity includes individual healthcare providers or healthcare organizations."
@@ -222,7 +222,8 @@ export class UserForm extends Component {
               {
                 key: "other",
                 label: "Other",
-                value: false
+                value: false,
+                text: ""
               },
               {
                 key: "none",
