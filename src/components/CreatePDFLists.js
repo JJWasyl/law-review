@@ -45,7 +45,7 @@ export class CreatePDFLists extends Component
                 this.props.steps["Q6"].answer.No?"You maybe at risk of Stark Law!":this.props.steps["Q6"].answer.Maybe?"You maybe at risk of Stark Law!":
                 "Stark Law may not apply."
                 }<br/>
-                For further consultation contact:<br/> xxx xxxx xxxx <br/> <br/>                </Typography>
+                For further consultation contact:<br/> xxx-xxx-xxxx <br/> <br/>                </Typography>
                 <Typography variant="body2" component="p" align="justify">
                 Q1: {this.props.steps["Q4"].questionText}<br/>
                 Ans: {this.props.steps["Q4"].answer.Yes?"Yes": this.props.steps["Q4"].answer.No?"No":this.props.steps["Q4"].answer.Maybe?"Maybe":"Null"} <br/><br/>
@@ -97,17 +97,6 @@ const styles = {
     },
   };
   
-// Create styles
-const pdfstyles = StyleSheet.create({
-    page: {
-      flexDirection: 'row',
-      backgroundColor: '#E4E4E4'
-    },
-    section: {
-      margin: 10,
-      padding: 10,
-      flexGrow: 1
-    }
-  });
+
 
 export default CreatePDFLists;
