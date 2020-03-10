@@ -9,6 +9,8 @@ import Referral from "./Referral.js";
 import { MuiThemeProvider } from "material-ui/styles";
 import Fab from "@material-ui/core/Fab";
 import { Box } from "@material-ui/core";
+import CreatePDFLists from "./CreatePDFLists"
+
 
 export class UserForm extends Component {
   state = {
@@ -484,7 +486,7 @@ export class UserForm extends Component {
         </MuiThemeProvider>
       );
     } else if (this.state.steps[this.state.step].questionType === "End") {
-      return <Ending goBack={this.goBack} />;
+      return <CreatePDFLists goBack={this.goBack} />;
     } else if (this.state.steps[this.state.step].questionType === "Help") {
       return <Help goBack={this.goBack} />;
     } else return null;
