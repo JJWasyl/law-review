@@ -8,6 +8,10 @@ import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
+import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
+import ReactPDF from '@react-pdf/renderer';
+import ReactDOM from 'react-dom';
+import { PDFViewer } from '@react-pdf/renderer';
 
 export class CreatePDFLists extends Component 
 {
@@ -21,6 +25,8 @@ export class CreatePDFLists extends Component
         e.preventDefault();
         this.props.goBack();
       };
+    
+    
     
     render() 
     {
@@ -91,6 +97,17 @@ const styles = {
     },
   };
   
-
+// Create styles
+const pdfstyles = StyleSheet.create({
+    page: {
+      flexDirection: 'row',
+      backgroundColor: '#E4E4E4'
+    },
+    section: {
+      margin: 10,
+      padding: 10,
+      flexGrow: 1
+    }
+  });
 
 export default CreatePDFLists;
