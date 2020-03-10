@@ -72,4 +72,27 @@ const styles = {
     }
   };
 
+  for (step in this.props.steps){
+            
+    if(this.props.steps["Start"].questionType === "Start"){
+        return(
+        document.write("Start")
+        )
+    }
+    else if(this.props.steps[step].questionType === "YesNoMaybe"){
+        return(
+        document.write("YesNo")
+        )
+
+    }
+
 export default temp;
+
+
+
+document.write(this.props.steps["Q4"].questionText),
+            document.write(this.props.steps["Q4"].answer.Yes?"Yes": this.props.steps["Q4"].answer.No?"No":"Maybe"),
+            document.write(this.props.steps["Q5"].questionText),
+            document.write(this.props.steps["Q5"].answer.Yes?"Yes": this.props.steps["Q5"].answer.No?"No":"Maybe"),
+            document.write(this.props.steps["Q6"].questionText),
+            document.write(this.props.steps["Q6"].answer.Yes?"Yes": this.props.steps["Q5"].answer.No?"No":"Maybe")
