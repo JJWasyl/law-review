@@ -19,7 +19,7 @@ export class CreatePDFLists extends Component
         for (step in this.props.steps){
         return(
             
-            document.write("Hello")
+            document.write(step.questionType)
         );
         }
     }
