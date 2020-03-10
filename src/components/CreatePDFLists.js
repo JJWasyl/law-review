@@ -26,7 +26,7 @@ export class CreatePDFLists extends Component
                     <AppBar title="User Responses"/>
                     <List>
                     {
-                    this.steps.map
+                    this.props.steps.map
                     (
                         (step) => 
                     {  
