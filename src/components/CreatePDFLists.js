@@ -34,8 +34,12 @@ export class CreatePDFLists extends Component
             <Card style={styles.cardmain}>
               <CardContent>
                 <Typography variant="h5" component="h2" style={styles.cardmain}>
-                User Response
-                </Typography>
+                {this.props.steps["Q4"].answer.No?"You maybe at risk of Stark Law!":this.props.steps["Q4"].answer.Maybe?"You maybe at risk of Stark Law!":
+                this.props.steps["Q5"].answer.No?"You maybe at risk of Stark Law!":this.props.steps["Q5"].answer.Maybe?"You maybe at risk of Stark Law!":
+                this.props.steps["Q6"].answer.No?"You maybe at risk of Stark Law!":this.props.steps["Q6"].answer.Maybe?"You maybe at risk of Stark Law!":
+                "Stark Law may not apply."
+                }<br/>
+                For further consultation contact:<br/> xxx xxxx xxxx <br/> <br/>                </Typography>
                 <Typography variant="body2" component="p" align="justify">
                 Q1: {this.props.steps["Q4"].questionText}<br/>
                 Ans: {this.props.steps["Q4"].answer.Yes?"Yes": this.props.steps["Q4"].answer.No?"No":this.props.steps["Q4"].answer.Maybe?"Maybe":"Null"} <br/><br/>

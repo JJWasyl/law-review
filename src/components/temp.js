@@ -91,8 +91,8 @@ export default temp;
 
 
 document.write(this.props.steps["Q4"].questionText),
-            document.write(this.props.steps["Q4"].answer.Yes?"Yes": this.props.steps["Q4"].answer.No?"No":"Maybe"),
-            document.write(this.props.steps["Q5"].questionText),
-            document.write(this.props.steps["Q5"].answer.Yes?"Yes": this.props.steps["Q5"].answer.No?"No":"Maybe"),
-            document.write(this.props.steps["Q6"].questionText),
-            document.write(this.props.steps["Q6"].answer.Yes?"Yes": this.props.steps["Q5"].answer.No?"No":"Maybe")
+document.write(this.props.steps["Q4"].answer.Yes?"Yes": this.props.steps["Q4"].answer.No?"No":"Maybe"),
+document.write(this.props.steps["Q5"].questionText),
+document.write(this.props.steps["Q5"].answer.Yes?"Yes": this.props.steps["Q5"].answer.No?"No":"Maybe"),
+document.write(this.props.steps["Q6"].questionText),
+document.write(this.props.steps["Q6"].answer.Yes?"Yes": this.props.steps["Q5"].answer.No?"No":"Maybe")
