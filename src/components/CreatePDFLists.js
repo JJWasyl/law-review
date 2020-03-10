@@ -17,10 +17,19 @@ export class CreatePDFLists extends Component
     {
         var step = []
         for (step in this.props.steps){
-        return(
-            
-            document.write(step.questionType)
-        );
+     
+            if(this.props.steps[step].questionType === "Start"){
+                return(
+                document.write("Start")
+                )
+            }
+            else if(this.props.steps[step].questionType === "YesNoMaybe"){
+                return(
+                document.write("YesNo")
+                )
+
+            }
+
         }
     }
 }
