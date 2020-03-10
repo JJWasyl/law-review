@@ -28,7 +28,7 @@ export class CreatePDFLists extends Component
             <MuiThemeProvider>
         <React.Fragment>
           <Container maxwidth="sm">
-            <h1>Welcome to the assisted Stark Law review</h1>
+            <h1>Assisted Stark Law review</h1>
           </Container>
           <Container maxWidth="sm">
             <Card style={styles.cardmain}>
@@ -38,11 +38,11 @@ export class CreatePDFLists extends Component
                 </Typography>
                 <Typography variant="body2" component="p" align="justify">
                 Q1: {this.props.steps["Q4"].questionText}<br/>
-                Ans: {this.props.steps["Q4"].answer.Yes?"Yes": this.props.steps["Q4"].answer.No?"No":"Maybe"} <br/><br/>
+                Ans: {this.props.steps["Q4"].answer.Yes?"Yes": this.props.steps["Q4"].answer.No?"No":this.props.steps["Q4"].answer.Maybe?"Maybe":"Null"} <br/><br/>
                 Q2: {this.props.steps["Q5"].questionText}<br/>
-                Ans: {this.props.steps["Q5"].answer.Yes?"Yes": this.props.steps["Q5"].answer.No?"No":"Maybe"} <br/><br/>
+                Ans: {this.props.steps["Q5"].answer.Yes?"Yes": this.props.steps["Q5"].answer.No?"No":this.props.steps["Q5"].answer.Maybe?"Maybe":"Null"} <br/><br/>
                 Q3: {this.props.steps["Q6"].questionText}<br/>
-                Ans: {this.props.steps["Q6"].answer.Yes?"Yes": this.props.steps["Q5"].answer.No?"No":"Maybe"} <br/><br/>
+                Ans: {this.props.steps["Q6"].answer.Yes?"Yes": this.props.steps["Q5"].answer.No?"No":this.props.steps["Q6"].answer.Maybe?"Maybe":"Null"} <br/><br/>
 
                 </Typography>
                 <Box component="span">
