@@ -4,13 +4,13 @@ import ReactPDF from '@react-pdf/renderer';
 export class CreatePDFLists extends Component 
 {
     
-      const MyDocument = () => (
+    MyDocument = () => (
         <Document>
           <Page size="A4" style={styles.page}>
             <View style={styles.section}>
-              <Text>{this.props.steps["Q4"].answer.No?"You maybe at risk of Stark Law!":this.props.steps["Q4"].answer.Maybe?"You maybe at risk of Stark Law!":
-                    this.props.steps["Q5"].answer.No?"You maybe at risk of Stark Law!":this.props.steps["Q5"].answer.Maybe?"You maybe at risk of Stark Law!":
-                    this.props.steps["Q6"].answer.No?"You maybe at risk of Stark Law!":this.props.steps["Q6"].answer.Maybe?"You maybe at risk of Stark Law!":
+              <Text>{this.props.steps["Q4"].answer.No?"You may be at risk of Stark Law!":this.props.steps["Q4"].answer.Maybe?"You may be at risk of Stark Law!":
+                    this.props.steps["Q5"].answer.No?"You may be at risk of Stark Law!":this.props.steps["Q5"].answer.Maybe?"You may be at risk of Stark Law!":
+                    this.props.steps["Q6"].answer.No?"You may be at risk of Stark Law!":this.props.steps["Q6"].answer.Maybe?"You may be at risk of Stark Law!":
                     "Stark Law may not apply."
                     }<br/>
                     For further consultation contact:<br/> xxx xxxx xxxx <br/> <br/>               
@@ -26,13 +26,13 @@ export class CreatePDFLists extends Component
         </Document>
       );
     
-    const MyDocument = () => (
+    MyDocument = () => (
         <Document>
           <Page size="A4" style={pdfstyles.page}>
             <View style={pdfstyles.section}>
-              <Text>{this.props.steps["Q4"].answer.No?"You maybe at risk of Stark Law!":this.props.steps["Q4"].answer.Maybe?"You maybe at risk of Stark Law!":
-                    this.props.steps["Q5"].answer.No?"You maybe at risk of Stark Law!":this.props.steps["Q5"].answer.Maybe?"You maybe at risk of Stark Law!":
-                    this.props.steps["Q6"].answer.No?"You maybe at risk of Stark Law!":this.props.steps["Q6"].answer.Maybe?"You maybe at risk of Stark Law!":
+              <Text>{this.props.steps["Q4"].answer.No?"You may be at risk of Stark Law!":this.props.steps["Q4"].answer.Maybe?"You may be at risk of Stark Law!":
+                    this.props.steps["Q5"].answer.No?"You may be at risk of Stark Law!":this.props.steps["Q5"].answer.Maybe?"You may be at risk of Stark Law!":
+                    this.props.steps["Q6"].answer.No?"You may be at risk of Stark Law!":this.props.steps["Q6"].answer.Maybe?"You may be at risk of Stark Law!":
                     "Stark Law may not apply."
                     }<br/>
                     For further consultation contact:<br/> xxx xxxx xxxx <br/> <br/>               
