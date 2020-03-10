@@ -486,7 +486,7 @@ export class UserForm extends Component {
         </MuiThemeProvider>
       );
     } else if (this.state.steps[this.state.step].questionType === "End") {
-      return <CreatePDFLists goBack={this.goBack} />;
+      return <CreatePDFLists goBack={this.goBack} steps={this.state.steps} step={this.state.step}/>;
     } else if (this.state.steps[this.state.step].questionType === "Help") {
       return <Help goBack={this.goBack} />;
     } else return null;

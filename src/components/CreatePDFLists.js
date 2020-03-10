@@ -15,61 +15,15 @@ export class CreatePDFLists extends Component
     
     render() 
     {
+        var step = []
+        for (step in this.props.steps){
         return(
-            <MuiThemeProvider>
-                <React.Fragment>
-                    <Dialog
-                    open="true"
-                    fullWidth="true"
-                    maxWidth='sm'
-                    >
-                    <AppBar title="User Responses"/>
-                    <List>
-                    {
-                    this.props.steps
-                    (
-                      step=> 
-                    {  
-                        if (step.questionType === "YesNoMaybe"
-                        ){
-                            return(
-                                <ListItem>
-                                    <ListItemText 
-                                    primary={step.questionText} 
-                                    secondary={step.answer.Yes?"Yes": step.answer.No?"No":"Maybe"}
-                                    />
-                                </ListItem>
-                            );
-                            }
-                        else if (
-                            step.questionType === "CheckboxStep"
-                        ){
-                            return(
-                                <ListItem>
-                                    <ListItemText 
-                                    primary={step.questionText}
-                                    seconday={step.answer.filter(el => el.value === true).map(el => el.label)} // DISPLAY ALL LABELS WITH VALUE true
-                                    />
-                                </ListItem>
-                            );
-                        }
-                    }
-                    )
-                    }
-                    </List>
-                    <br />
-                    </Dialog>
-                </React.Fragment>
-            </MuiThemeProvider>
+            
+            document.write("Hello")
         );
+        }
     }
 }
 
-
-const styles = {
-    button: {
-      margin: 15
-    }
-  };
 
 export default CreatePDFLists;
