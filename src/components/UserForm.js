@@ -9,8 +9,7 @@ import Referral from "./Referral.js";
 import { MuiThemeProvider } from "material-ui/styles";
 import Fab from "@material-ui/core/Fab";
 import { Box } from "@material-ui/core";
-import CreatePDFLists from "./CreatePDFLists"
-
+import CreatePDFLists from "./CreatePDFLists";
 
 export class UserForm extends Component {
   state = {
@@ -22,7 +21,7 @@ export class UserForm extends Component {
       Start: {
         questionType: "Start",
         get nextStep() {
-          return "Q1";
+          return "Q7";
         }
       },
       Q1: {
@@ -230,6 +229,26 @@ export class UserForm extends Component {
     this.setState(prevState => {
       let steps = Object.assign({}, prevState.steps);
       steps["Q7"].answer[index] = { ...steps["Q7"].answer[index], ...newState };
+      console.log(steps["Q7"].answer[index]);
+      // if the user selects none we want to clear out the other checkboxes
+      var isNone = steps["Q7"].answer[index].ownershipInterests.filter(
+        el => el.key === "none" && el.value
+      );
+      if (isNone.length > 0) {
+        steps["Q7"].answer[index].ownershipInterests = steps["Q7"].answer[
+          index
+        ].ownershipInterests.map(el =>
+          el.key === "none"
+            ? {
+                ...el,
+                value: true
+              }
+            : {
+                ...el,
+                value: false
+              }
+        );
+      }
       return {
         ...prevState,
         steps: steps
@@ -486,7 +505,7 @@ export class UserForm extends Component {
         </MuiThemeProvider>
       );
     } else if (this.state.steps[this.state.step].questionType === "End") {
-      return <CreatePDFLists goBack={this.goBack} />;
+      return <CreatePDFLists goBack={this.goBack} steps={this.state.steps} />;
     } else if (this.state.steps[this.state.step].questionType === "Help") {
       return <Help goBack={this.goBack} />;
     } else return null;

@@ -77,8 +77,8 @@ const healthServices = [
 ];
 export class ReferralListCell extends Component {
   state = {
-    init: false,
-  }
+    init: false
+  };
   render() {
     const noStark = (
       <Container>
@@ -131,10 +131,15 @@ export class ReferralListCell extends Component {
               <Container>
                 <Container>
                   <FormGroup>
-                  <Divider style={styles.divider}/>
+                    <Divider style={styles.divider} />
                     <Typography variant="subtitle1" align="justify">
-                      <Box fontWeight="fontWeightRegular" textAlign="justify" m={3}>
-                      The Stark Law prohibits billing Medicare for certain kinds of referrals.
+                      <Box
+                        fontWeight="fontWeightRegular"
+                        textAlign="justify"
+                        m={3}
+                      >
+                        The Stark Law prohibits billing Medicare for certain
+                        kinds of referrals.
                       </Box>
                     </Typography>
                     <FormControlLabel
@@ -175,10 +180,14 @@ export class ReferralListCell extends Component {
                     />
                   </FormGroup>
                 </Container>
-                <Container>  
-                  <Divider style={styles.divider}/>
+                <Container>
+                  <Divider style={styles.divider} />
                   <Typography variant="subtitle1" align="justify">
-                    <Box fontWeight="fontWeightRegular" textAlign="justify" m={3}>
+                    <Box
+                      fontWeight="fontWeightRegular"
+                      textAlign="justify"
+                      m={3}
+                    >
                       The Stark Law prohibits a referring physician or an
                       immediate family member from having certain ownership
                       interests in the referred entity. Do you or an immediate
@@ -201,7 +210,7 @@ export class ReferralListCell extends Component {
                                         ? { ...el, value: !el.value }
                                         : el
                                   )
-                                })
+                                });
                               }}
                               value={interest.value}
                             />
@@ -231,9 +240,10 @@ export class ReferralListCell extends Component {
                   </FormGroup>
                 </Container>
               </Container>
-            ) : (
-              noStark
-            )}
+            ) : null}
+            {this.props.referral.healthService === "None of the above"
+              ? noStark
+              : null}
           </div>
           <Divider />
         </form>
@@ -244,8 +254,8 @@ export class ReferralListCell extends Component {
 
 const styles = {
   divider: {
-    marginTop: 25,
+    marginTop: 25
   }
-}
+};
 
 export default ReferralListCell;
