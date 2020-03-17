@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component,ProtoTypes } from "react";
 import {List, ListItem, ListItemText} from 'material-ui/List'
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import Dialog from '@material-ui/core/Dialog';
@@ -12,9 +12,13 @@ import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
 import ReactPDF from '@react-pdf/renderer';
 import ReactDOM from 'react-dom';
 import { PDFViewer } from '@react-pdf/renderer';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 
 export class CreatePDFLists extends Component 
 {
+
+
     continue = e => {
         e.preventDefault();
         // PROCESS FORM //
@@ -26,13 +30,43 @@ export class CreatePDFLists extends Component
         this.props.goBack();
       };
     
-    
-    
+      printDocument() {
+        const input = document.getElementById('root');
+        html2canvas(input)
+          .then((canvas,width="1000", height="1000") => {
+            const imgData = canvas.toDataURL('image/png');
+            const pdf = new jsPDF();
+            const imgProps= pdf.getImageProperties(imgData);
+            const pdfwidth = pdf.internal.pageSize.getWidth();
+            //const pdfheight = pdf.internal.pageSize.getHeight();
+            const pdfheight = (imgProps.height * pdfwidth) / imgProps.width;
+            pdf.addImage(imgData, 'JPEG', 0, 0, pdfwidth, pdfheight);
+            // pdf.output('dataurlnewwindow');
+            pdf.save("download.pdf");
+          })
+        ;
+      };
+      printDocuments(){
+        const input = document.getElementByClassName('MultiCad');
+        const MyDocument = () => (
+          <Document>
+            <Page size="A4" style={styles.page}>
+              <View style={styles.section}>
+                ${input}
+              </View>
+            </Page>
+          </Document>
+        );
+        ReactPDF.render(<MyDocument />, `${__dirname}/example.pdf`);
+      };
+
+       
     render() 
     {
-        return(
+        return(<div id="divToPrint">
             <MuiThemeProvider>
         <React.Fragment>
+        
           <Container maxwidth="sm">
             <h1>Assisted Stark Law review</h1>
           </Container>
@@ -53,7 +87,7 @@ export class CreatePDFLists extends Component
                 Ans: {this.props.steps["Q5"].answer.Yes?"Yes": this.props.steps["Q5"].answer.No?"No":this.props.steps["Q5"].answer.Maybe?"Maybe":"Null"} <br/><br/>
                 Q3: {this.props.steps["Q6"].questionText}<br/>
                 Ans: {this.props.steps["Q6"].answer.Yes?"Yes": this.props.steps["Q5"].answer.No?"No":this.props.steps["Q6"].answer.Maybe?"Maybe":"Null"} <br/><br/>
-
+                
                 </Typography>
                 <Box component="span">
                   <Container maxWidth="sm">
@@ -62,7 +96,7 @@ export class CreatePDFLists extends Component
                       color="primary"
                       primary={"true"}
                       style={styles.button}
-                      onClick={this.props.nextStep}
+                      onClick={this.printDocument}
                     >
                       Submit
                     </Button>
@@ -71,10 +105,11 @@ export class CreatePDFLists extends Component
               </CardContent>
             </Card>
           </Container>
+         
         </React.Fragment>
       </MuiThemeProvider>
             
-                    
+      </div>           
         );
     }
     
