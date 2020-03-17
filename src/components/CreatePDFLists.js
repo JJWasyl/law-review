@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import {List, ListItem, ListItemText} from 'material-ui/List'
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import Dialog from '@material-ui/core/Dialog';
-import AppBar from '@material-ui/core/AppBar';
 import { Container, Button, Box } from "@material-ui/core";
 import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
@@ -10,8 +9,6 @@ import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
 import ReactPDF from '@react-pdf/renderer';
-import ReactDOM from 'react-dom';
-import { PDFViewer } from '@react-pdf/renderer';
 
 export class CreatePDFLists extends Component 
 {
