@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
 import Divider from "@material-ui/core/Divider";
+import Tooltip from "@material-ui/core/Tooltip";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import {
   Container,
@@ -159,7 +160,7 @@ export class ReferralListCell extends Component {
                   this.props.update({ entityName: event.target.value })
                 }
                 value={this.props.referral.entityName}
-                helperText="entity name"
+                helperText="This should be an individual healthcare provider or healthcare organization."
               />
             </Container>
             <Container>
@@ -239,19 +240,21 @@ export class ReferralListCell extends Component {
                 </Container>
                 <Container>
                   <Divider style={styles.divider} />
-                  <Typography variant="subtitle1" align="justify">
-                    <Box
-                      fontWeight="fontWeightRegular"
-                      textAlign="justify"
-                      m={3}
-                    >
-                      The Stark Law prohibits a referring physician or an
-                      immediate family member from having certain ownership
-                      interests in the referred entity. Do you or an immediate
-                      family member have any of the following ownership
-                      interests in the entity?
-                    </Box>
-                  </Typography>
+                  <Tooltip title="An “immediate family member” includes husband or wife, birth or adoptive parent, child or sibling; stepparent, stepchild, stepbrother, or stepsister; father-in-law, mother-inlaw, son-in-law, daughter-inlaw, brother-inlaw, or sister-inlaw; grandparent or grandchild; and spouse of a grandparent or grandchild.">
+                    <Typography variant="subtitle1" align="justify">
+                      <Box
+                        fontWeight="fontWeightRegular"
+                        textAlign="justify"
+                        m={3}
+                      >
+                        The Stark Law prohibits a referring physician or an
+                        immediate family member from having certain ownership
+                        interests in the referred entity. Do you or an immediate
+                        family member have any of the following ownership
+                        interests in the entity?
+                      </Box>
+                    </Typography>
+                  </Tooltip>
                   <FormGroup>
                     {this.props.referral.ownershipInterests.map(
                       (interest, index) => (
@@ -299,20 +302,22 @@ export class ReferralListCell extends Component {
                 <Container>
                   <FormGroup>
                     <Divider style={styles.divider} />
-                    <Typography variant="subtitle1" align="justify">
-                      <Box
-                        fontWeight="fontWeightRegular"
-                        textAlign="justify"
-                        m={3}
-                      >
-                        The Stark Law prohibits a referring physician or an
-                        immediate family member from having certain compensation
-                        relationships with the referred entity. Do you or an
-                        immediate family member receive any payment or other
-                        benefit in cash or otherwise from the entity you are
-                        referring to?
-                      </Box>
-                    </Typography>
+                    <Tooltip title="An “immediate family member” includes husband or wife, birth or adoptive parent, child or sibling; stepparent, stepchild, stepbrother, or stepsister; father-in-law, mother-inlaw, son-in-law, daughter-inlaw, brother-inlaw, or sister-inlaw; grandparent or grandchild; and spouse of a grandparent or grandchild.">
+                      <Typography variant="subtitle1" align="justify">
+                        <Box
+                          fontWeight="fontWeightRegular"
+                          textAlign="justify"
+                          m={3}
+                        >
+                          The Stark Law prohibits a referring physician or an
+                          immediate family member from having certain
+                          compensation relationships with the referred entity.
+                          Do you or an immediate family member receive any
+                          payment or other benefit in cash or otherwise from the
+                          entity you are referring to?
+                        </Box>
+                      </Typography>
+                    </Tooltip>
                     <FormControlLabel
                       fullWidth={true}
                       control={

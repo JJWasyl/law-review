@@ -6,13 +6,15 @@ import {
   Button,
   ButtonGroup,
   List,
-  Paper
+  Paper,
+  Tooltip
 } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Collapse from "@material-ui/core/Collapse";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import HelpIcon from "@material-ui/icons/Help";
 import IconButton from "@material-ui/core/IconButton";
 import ReferralListCell from "./ReferralListCell.js";
 
@@ -48,20 +50,26 @@ export class Referral extends Component {
                       onClick={this.handleExpandClick}
                       aria-expanded={this.state.expanded}
                       aria-label="show more"
-                      style={
-                        this.state.expanded ? styles.expand : styles.expandOpen
-                      }
                     >
-                      <ExpandMoreIcon />
+                      <HelpIcon />
                     </IconButton>
                   )}
                 </Typography>
                 <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
                   <CardContent>
-                    <Typography paragraph>{this.props.step.tooltip}</Typography>
+                    <Tooltip title="An entity includes individual healthcare providers or healthcare organizations.">
+                      <Typography paragraph>
+                        {this.props.step.tooltip}
+                      </Typography>
+                    </Tooltip>
                   </CardContent>
                 </Collapse>
-                <ButtonGroup size={"large"} color="primary" variant="contained" style={styles.button}>
+                <ButtonGroup
+                  size={"large"}
+                  color="primary"
+                  variant="contained"
+                  style={styles.button}
+                >
                   <Button
                     onClick={() => {
                       this.props.addReferral();
@@ -112,12 +120,6 @@ const styles = {
   cardmain: {
     minWidth: 275,
     margin: 15
-  },
-  expand: {
-    transform: "rotate(180deg)"
-  },
-  expandOpen: {
-    transform: "rotate(0deg)"
   },
   titleSpace: {
     marginBottom: 15

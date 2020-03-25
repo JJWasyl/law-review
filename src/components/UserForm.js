@@ -81,6 +81,8 @@ export class UserForm extends Component {
       Q7: {
         questionType: "Referral",
         questionText: "To which entities are you making the referral?",
+        tooltip:
+          'Please add a referral for each separate entity who you make referrals to by clicking the "Add Another Referral" button below. When you are finished, please click "Done"',
         answer: [
           {
             medicareU: null,
