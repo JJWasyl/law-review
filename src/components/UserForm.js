@@ -21,7 +21,7 @@ export class UserForm extends Component {
       Start: {
         questionType: "Start",
         get nextStep() {
-          return "Q7";
+          return "Q1";
         }
       },
       Q1: {
@@ -86,6 +86,7 @@ export class UserForm extends Component {
             medicareE: null,
             entityName: null,
             healthService: null,
+            compensation: null,
             ownershipInterests: [
               {
                 key: "stock",
@@ -264,6 +265,7 @@ export class UserForm extends Component {
         medicareE: null,
         entityName: null,
         healthService: null,
+        compensation: null,
         ownershipInterests: [
           {
             key: "stock",

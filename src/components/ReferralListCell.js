@@ -3,7 +3,14 @@ import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
 import Divider from "@material-ui/core/Divider";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
-import { Container, Box } from "@material-ui/core";
+import {
+  Container,
+  Box,
+  Grid,
+  Switch,
+  ButtonGroup,
+  Button
+} from "@material-ui/core";
 import {
   FormGroup,
   Checkbox,
@@ -239,9 +246,55 @@ export class ReferralListCell extends Component {
                     )}
                   </FormGroup>
                 </Container>
+                <Container>
+                  <FormGroup>
+                    <Divider style={styles.divider} />
+                    <Typography variant="subtitle1" align="justify">
+                      <Box
+                        fontWeight="fontWeightRegular"
+                        textAlign="justify"
+                        m={3}
+                      >
+                        The Stark Law prohibits a referring physician or an
+                        immediate family member from having certain compensation
+                        relationships with the referred entity. Do you or an
+                        immediate family member receive any payment or other
+                        benefit in cash or otherwise from the entity you are
+                        referring to?
+                      </Box>
+                    </Typography>
+                    <FormControlLabel
+                      fullWidth={true}
+                      control={
+                        <Grid
+                          component="label"
+                          container
+                          alignItems="center"
+                          spacing={1}
+                        >
+                          <Grid item>No</Grid>
+                          <Grid item>
+                            <Switch
+                              checked={this.props.referral.compensation}
+                              onChange={() => {
+                                this.props.update({
+                                  compensation: !this.props.referral
+                                    .compensation
+                                });
+                              }}
+                              value={this.props.referral.compensation}
+                            />
+                          </Grid>
+                          <Grid item>Yes</Grid>
+                        </Grid>
+                      }
+                    />
+                  </FormGroup>
+                </Container>
               </Container>
             ) : null}
-            {this.props.referral.healthService === "None of the above"
+            {this.props.referral.healthService === "None of the above" ||
+            this.props.referral.compensation === false
               ? noStark
               : null}
           </div>
