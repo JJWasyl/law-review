@@ -88,6 +88,7 @@ export class UserForm extends Component {
             entityName: null,
             healthService: null,
             compensation: null,
+            compensationType: "",
             ownershipInterests: [
               {
                 key: "stock",

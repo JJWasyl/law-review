@@ -18,6 +18,49 @@ import {
   Typography
 } from "@material-ui/core";
 
+const compensation = [
+  {
+    key: "cash",
+    label: "Salary or other cash payments",
+    value: false
+  },
+  {
+    key: "goods",
+    label: "Free or discounted goods, equipment or services",
+    value: false
+  },
+  {
+    key: "rent",
+    label: "Free or discounted rent",
+    value: false
+  },
+  {
+    key: "loanForgiveness",
+    label: "Forgiveness of amounts owed",
+    value: false
+  },
+  {
+    key: "tickets",
+    label: "Trips or tickets",
+    value: false
+  },
+  {
+    key: "bonuses",
+    label: "Bonuses",
+    value: false
+  },
+  {
+    key: "charity",
+    label: "Charitable donations",
+    value: false
+  },
+  {
+    key: "other",
+    label: "Other net economic benefit",
+    value: false
+  }
+];
+
 const healthServices = [
   {
     key: "clinic",
@@ -102,6 +145,11 @@ export class ReferralListCell extends Component {
           <div>
             <Container>
               <TextField
+                error={
+                  (this.props.referral.entityName == null ||
+                    this.props.referral.entityName === "") &&
+                  this.props.referral.healthService != null
+                }
                 fullWidth={true}
                 required={true}
                 margin="normal"
@@ -134,7 +182,9 @@ export class ReferralListCell extends Component {
               </TextField>
             </Container>
             {this.props.referral.healthService !== null &&
-            this.props.referral.healthService !== "None of the above" ? (
+            this.props.referral.healthService !== "None of the above" &&
+            this.props.referral.entityName != null &&
+            this.props.referral.entityName !== "" ? (
               <Container>
                 <Container>
                   <FormGroup>
@@ -291,6 +341,33 @@ export class ReferralListCell extends Component {
                     />
                   </FormGroup>
                 </Container>
+                {this.props.referral.compensation === true ? (
+                  <Container>
+                    <TextField
+                      id="compensationType"
+                      select
+                      label="Select"
+                      value={this.props.referral.compensationType}
+                      onChange={event => {
+                        this.props.update({
+                          compensationType: event.target.value
+                        });
+                      }}
+                      helperText={
+                        "Do you receive any of the following from " +
+                        this.props.referral.entityName +
+                        "?"
+                      }
+                      variant="filled"
+                    >
+                      {compensation.map(option => (
+                        <MenuItem key={option.key} value={option.label}>
+                          {option.label}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  </Container>
+                ) : null}
               </Container>
             ) : null}
             {this.props.referral.healthService === "None of the above" ||
