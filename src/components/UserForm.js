@@ -10,6 +10,7 @@ import { MuiThemeProvider } from "material-ui/styles";
 import Fab from "@material-ui/core/Fab";
 import { Box } from "@material-ui/core";
 import CreatePDFLists from "./CreatePDFLists";
+import CreatePDF from "./CreatePDF";
 
 export class UserForm extends Component {
   state = {
@@ -212,6 +213,12 @@ export class UserForm extends Component {
       */
       End: {
         questionType: "End"
+      },
+      get nextStep() {
+        return "PDF";
+      },
+      PDF: {
+        questionType: "PDF"
       },
       Help: {
         questionType: "Help"
@@ -507,7 +514,32 @@ export class UserForm extends Component {
         </MuiThemeProvider>
       );
     } else if (this.state.steps[this.state.step].questionType === "End") {
-      return <CreatePDFLists goBack={this.goBack} steps={this.state.steps} />;
+      return (
+        <CreatePDFLists
+          goBack={this.goBack}
+          steps={this.state.steps}
+          step={this.state.step}
+          nextStep={this.setState(prevState => {
+            let steps = Object.assign({}, prevState.steps);
+            let step = prevState.steps[this.state.step].nextStep;
+            let prevSteps = prevState.prevSteps.concat(prevState.step);
+            return {
+              ...prevState,
+              steps: steps,
+              step: step,
+              prevSteps: prevSteps
+            };
+          })}
+        />
+      );
+    } else if (this.state.steps[this.state.step].questionType === "PDF") {
+      return (
+        <CreatePDF
+          goBack={this.goBack}
+          steps={this.state.steps}
+          step={this.state.step}
+        />
+      );
     } else if (this.state.steps[this.state.step].questionType === "Help") {
       return <Help goBack={this.goBack} />;
     } else return null;
