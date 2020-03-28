@@ -9,8 +9,7 @@ import Referral from "./Referral.js";
 import { MuiThemeProvider } from "material-ui/styles";
 import Fab from "@material-ui/core/Fab";
 import { Box } from "@material-ui/core";
-import CreatePDFLists from "./CreatePDFLists"
-
+import CreatePDFLists from "./CreatePDFLists";
 
 export class UserForm extends Component {
   state = {
@@ -81,12 +80,16 @@ export class UserForm extends Component {
       Q7: {
         questionType: "Referral",
         questionText: "To which entities are you making the referral?",
+        tooltip:
+          'Please add a referral for each separate entity who you make referrals to by clicking the "Add Another Referral" button below. When you are finished, please click "Done"',
         answer: [
           {
             medicareU: null,
             medicareE: null,
             entityName: null,
             healthService: null,
+            compensation: null,
+            compensationType: "",
             ownershipInterests: [
               {
                 key: "stock",
@@ -213,6 +216,12 @@ export class UserForm extends Component {
       End: {
         questionType: "End"
       },
+      get nextStep() {
+        return "PDF";
+      },
+      PDF: {
+        questionType: "PDF"
+      },
       Help: {
         questionType: "Help"
       }
@@ -230,6 +239,26 @@ export class UserForm extends Component {
     this.setState(prevState => {
       let steps = Object.assign({}, prevState.steps);
       steps["Q7"].answer[index] = { ...steps["Q7"].answer[index], ...newState };
+      console.log(steps["Q7"].answer[index]);
+      // if the user selects none we want to clear out the other checkboxes
+      var isNone = steps["Q7"].answer[index].ownershipInterests.filter(
+        el => el.key === "none" && el.value
+      );
+      if (isNone.length > 0) {
+        steps["Q7"].answer[index].ownershipInterests = steps["Q7"].answer[
+          index
+        ].ownershipInterests.map(el =>
+          el.key === "none"
+            ? {
+                ...el,
+                value: true
+              }
+            : {
+                ...el,
+                value: false
+              }
+        );
+      }
       return {
         ...prevState,
         steps: steps
@@ -245,6 +274,7 @@ export class UserForm extends Component {
         medicareE: null,
         entityName: null,
         healthService: null,
+        compensation: null,
         ownershipInterests: [
           {
             key: "stock",
@@ -295,6 +325,7 @@ export class UserForm extends Component {
       };
     });
   };
+
   render() {
     if (this.state.steps[this.state.step].questionType === "Referral") {
       console.log(this.state.steps["Q7"].answer);
@@ -486,8 +517,14 @@ export class UserForm extends Component {
         </MuiThemeProvider>
       );
     } else if (this.state.steps[this.state.step].questionType === "End") {
-      return <CreatePDFLists goBack={this.goBack} steps={this.state.steps} step={this.state.step} fname={this.state.steps["Q1"].answer.name}
-      />;
+      return (
+        <CreatePDFLists
+          goBack={this.goBack}
+          steps={this.state.steps}
+          step={this.state.step}
+          fname={this.state.steps["Q1"].answer.name}
+        />
+      );
     } else if (this.state.steps[this.state.step].questionType === "Help") {
       return <Help goBack={this.goBack} />;
     } else return null;

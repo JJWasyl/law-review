@@ -2,14 +2,65 @@ import React, { Component } from "react";
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
 import Divider from "@material-ui/core/Divider";
+import Tooltip from "@material-ui/core/Tooltip";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
-import { Container, Box } from "@material-ui/core";
+import {
+  Container,
+  Box,
+  Grid,
+  Switch,
+  ButtonGroup,
+  Button
+} from "@material-ui/core";
 import {
   FormGroup,
   Checkbox,
   FormControlLabel,
   Typography
 } from "@material-ui/core";
+
+const compensation = [
+  {
+    key: "cash",
+    label: "Salary or other cash payments",
+    value: false
+  },
+  {
+    key: "goods",
+    label: "Free or discounted goods, equipment or services",
+    value: false
+  },
+  {
+    key: "rent",
+    label: "Free or discounted rent",
+    value: false
+  },
+  {
+    key: "loanForgiveness",
+    label: "Forgiveness of amounts owed",
+    value: false
+  },
+  {
+    key: "tickets",
+    label: "Trips or tickets",
+    value: false
+  },
+  {
+    key: "bonuses",
+    label: "Bonuses",
+    value: false
+  },
+  {
+    key: "charity",
+    label: "Charitable donations",
+    value: false
+  },
+  {
+    key: "other",
+    label: "Other net economic benefit",
+    value: false
+  }
+];
 
 const healthServices = [
   {
@@ -77,8 +128,8 @@ const healthServices = [
 ];
 export class ReferralListCell extends Component {
   state = {
-    init: false,
-  }
+    init: false
+  };
   render() {
     const noStark = (
       <Container>
@@ -95,6 +146,11 @@ export class ReferralListCell extends Component {
           <div>
             <Container>
               <TextField
+                error={
+                  (this.props.referral.entityName == null ||
+                    this.props.referral.entityName === "") &&
+                  this.props.referral.healthService != null
+                }
                 fullWidth={true}
                 required={true}
                 margin="normal"
@@ -104,7 +160,7 @@ export class ReferralListCell extends Component {
                   this.props.update({ entityName: event.target.value })
                 }
                 value={this.props.referral.entityName}
-                helperText="entity name"
+                helperText="This should be an individual healthcare provider or healthcare organization."
               />
             </Container>
             <Container>
@@ -127,14 +183,21 @@ export class ReferralListCell extends Component {
               </TextField>
             </Container>
             {this.props.referral.healthService !== null &&
-            this.props.referral.healthService !== "None of the above" ? (
+            this.props.referral.healthService !== "None of the above" &&
+            this.props.referral.entityName != null &&
+            this.props.referral.entityName !== "" ? (
               <Container>
                 <Container>
                   <FormGroup>
-                  <Divider style={styles.divider}/>
+                    <Divider style={styles.divider} />
                     <Typography variant="subtitle1" align="justify">
-                      <Box fontWeight="fontWeightRegular" textAlign="justify" m={3}>
-                      The Stark Law prohibits billing Medicare for certain kinds of referrals.
+                      <Box
+                        fontWeight="fontWeightRegular"
+                        textAlign="justify"
+                        m={3}
+                      >
+                        The Stark Law prohibits billing Medicare for certain
+                        kinds of referrals.
                       </Box>
                     </Typography>
                     <FormControlLabel
@@ -175,17 +238,23 @@ export class ReferralListCell extends Component {
                     />
                   </FormGroup>
                 </Container>
-                <Container>  
-                  <Divider style={styles.divider}/>
-                  <Typography variant="subtitle1" align="justify">
-                    <Box fontWeight="fontWeightRegular" textAlign="justify" m={3}>
-                      The Stark Law prohibits a referring physician or an
-                      immediate family member from having certain ownership
-                      interests in the referred entity. Do you or an immediate
-                      family member have any of the following ownership
-                      interests in the entity?
-                    </Box>
-                  </Typography>
+                <Container>
+                  <Divider style={styles.divider} />
+                  <Tooltip title="An “immediate family member” includes husband or wife, birth or adoptive parent, child or sibling; stepparent, stepchild, stepbrother, or stepsister; father-in-law, mother-inlaw, son-in-law, daughter-inlaw, brother-inlaw, or sister-inlaw; grandparent or grandchild; and spouse of a grandparent or grandchild.">
+                    <Typography variant="subtitle1" align="justify">
+                      <Box
+                        fontWeight="fontWeightRegular"
+                        textAlign="justify"
+                        m={3}
+                      >
+                        The Stark Law prohibits a referring physician or an
+                        immediate family member from having certain ownership
+                        interests in the referred entity. Do you or an immediate
+                        family member have any of the following ownership
+                        interests in the entity?
+                      </Box>
+                    </Typography>
+                  </Tooltip>
                   <FormGroup>
                     {this.props.referral.ownershipInterests.map(
                       (interest, index) => (
@@ -201,7 +270,7 @@ export class ReferralListCell extends Component {
                                         ? { ...el, value: !el.value }
                                         : el
                                   )
-                                })
+                                });
                               }}
                               value={interest.value}
                             />
@@ -230,10 +299,86 @@ export class ReferralListCell extends Component {
                     )}
                   </FormGroup>
                 </Container>
+                <Container>
+                  <FormGroup>
+                    <Divider style={styles.divider} />
+                    <Tooltip title="An “immediate family member” includes husband or wife, birth or adoptive parent, child or sibling; stepparent, stepchild, stepbrother, or stepsister; father-in-law, mother-inlaw, son-in-law, daughter-inlaw, brother-inlaw, or sister-inlaw; grandparent or grandchild; and spouse of a grandparent or grandchild.">
+                      <Typography variant="subtitle1" align="justify">
+                        <Box
+                          fontWeight="fontWeightRegular"
+                          textAlign="justify"
+                          m={3}
+                        >
+                          The Stark Law prohibits a referring physician or an
+                          immediate family member from having certain
+                          compensation relationships with the referred entity.
+                          Do you or an immediate family member receive any
+                          payment or other benefit in cash or otherwise from the
+                          entity you are referring to?
+                        </Box>
+                      </Typography>
+                    </Tooltip>
+                    <FormControlLabel
+                      fullWidth={true}
+                      control={
+                        <Grid
+                          component="label"
+                          container
+                          alignItems="center"
+                          spacing={1}
+                        >
+                          <Grid item>No</Grid>
+                          <Grid item>
+                            <Switch
+                              checked={this.props.referral.compensation}
+                              onChange={() => {
+                                this.props.update({
+                                  compensation: !this.props.referral
+                                    .compensation
+                                });
+                              }}
+                              value={this.props.referral.compensation}
+                            />
+                          </Grid>
+                          <Grid item>Yes</Grid>
+                        </Grid>
+                      }
+                    />
+                  </FormGroup>
+                </Container>
+                {this.props.referral.compensation === true ? (
+                  <Container>
+                    <TextField
+                      id="compensationType"
+                      select
+                      label="Select"
+                      value={this.props.referral.compensationType}
+                      onChange={event => {
+                        this.props.update({
+                          compensationType: event.target.value
+                        });
+                      }}
+                      helperText={
+                        "Do you receive any of the following from " +
+                        this.props.referral.entityName +
+                        "?"
+                      }
+                      variant="filled"
+                    >
+                      {compensation.map(option => (
+                        <MenuItem key={option.key} value={option.label}>
+                          {option.label}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  </Container>
+                ) : null}
               </Container>
-            ) : (
-              noStark
-            )}
+            ) : null}
+            {this.props.referral.healthService === "None of the above" ||
+            this.props.referral.compensation === false
+              ? noStark
+              : null}
           </div>
           <Divider />
         </form>
@@ -244,8 +389,8 @@ export class ReferralListCell extends Component {
 
 const styles = {
   divider: {
-    marginTop: 25,
+    marginTop: 25
   }
-}
+};
 
 export default ReferralListCell;
