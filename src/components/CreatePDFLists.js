@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component,ProtoTypes } from "react";
 import {List, ListItem, ListItemText} from 'material-ui/List'
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import Dialog from '@material-ui/core/Dialog';
@@ -12,21 +12,53 @@ import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
 import ReactPDF from '@react-pdf/renderer';
 import ReactDOM from 'react-dom';
 import { PDFViewer } from '@react-pdf/renderer';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 
 export class CreatePDFLists extends Component 
 {
-    continue = e => {
-        e.preventDefault();
-        // PROCESS FORM //
-        this.props.nextStep();
-      };
+  continue = e => {
+    e.preventDefault();
+    // PROCESS FORM //
+    this.props.nextStep();
+  };
 
-    back = e => {
-        e.preventDefault();
-        this.props.goBack();
-      };
-    
-    
+  back = e => {
+      e.preventDefault();
+      this.props.goBack();
+    };
+
+    printDocument() {
+      const input = document.getElementById('root');
+      html2canvas(input)
+        .then((canvas,width="1000", height="1000") => {
+          const imgData = canvas.toDataURL('image/png');
+          const pdf = new jsPDF();
+          const imgProps= pdf.getImageProperties(imgData);
+          const pdfwidth = pdf.internal.pageSize.getWidth();
+          const pdfheight = pdf.internal.pageSize.getHeight();
+          //const pdfheight = (imgProps.height * pdfwidth) / imgProps.width;
+          pdf.addImage(imgData, 'JPEG', 0, 0, pdfwidth, pdfheight);
+          //pdf.addImage(imgData, 'JPEG', 0,0);
+          // pdf.output('dataurlnewwindow');
+          pdf.save("download.pdf");
+        })
+      ;
+    };
+    printDocuments(){
+      const input = document.getElementByClassName('Id') ;
+      const MyDocument = () => (
+        <Document>
+          <Page size="A4" style={styles.page}>
+            <View style={styles.section}>
+              ${input}
+            </View>
+          </Page>
+        </Document>
+      );
+      ReactPDF.render(<MyDocument />, `${__dirname}/example.pdf`);
+    };
+
     
     render() 
     {
@@ -52,8 +84,121 @@ export class CreatePDFLists extends Component
                 Q2: {this.props.steps["Q5"].questionText}<br/>
                 Ans: {this.props.steps["Q5"].answer.Yes?"Yes": this.props.steps["Q5"].answer.No?"No":this.props.steps["Q5"].answer.Maybe?"Maybe":"Null"} <br/><br/>
                 Q3: {this.props.steps["Q6"].questionText}<br/>
-                Ans: {this.props.steps["Q6"].answer.Yes?"Yes": this.props.steps["Q5"].answer.No?"No":this.props.steps["Q6"].answer.Maybe?"Maybe":"Null"} <br/><br/>
-
+                Ans: {this.props.steps["Q6"].answer.Yes?"Yes": this.props.steps["Q6"].answer.No?"No":this.props.steps["Q6"].answer.Maybe?"Maybe":"Null"} <br/><br/>
+                Q4: {this.props.steps["Q7"].questionText}<br/>
+                Ans: <br/>
+                {this.props.steps["Q7"].answer[0]? 
+                "[1]  Entity Name: ".concat(this.props.steps["Q7"].answer[0].entityName,",    ",
+                "Health Services: ",this.props.steps["Q7"].answer[0].healthService,",    ",
+                "Compensation: ", this.props.steps["Q7"].answer[0].compensation, ",    ",
+                "Compensation Type: ", this.props.steps["Q7"].answer[0].compensationType,",    ",
+                "Ownership: ",
+                this.props.steps["Q7"].answer[0].ownershipInterests[0].value?this.props.steps["Q7"].answer[0].ownershipInterests[0].label+", ":"",
+                this.props.steps["Q7"].answer[0].ownershipInterests[1].value?this.props.steps["Q7"].answer[0].ownershipInterests[1].label+", ":"",
+                this.props.steps["Q7"].answer[0].ownershipInterests[2].value?this.props.steps["Q7"].answer[0].ownershipInterests[2].label+", ":"",
+                this.props.steps["Q7"].answer[0].ownershipInterests[3].value?this.props.steps["Q7"].answer[0].ownershipInterests[3].label+", ":"",
+                this.props.steps["Q7"].answer[0].ownershipInterests[4].value?this.props.steps["Q7"].answer[0].ownershipInterests[4].label+", ":"",
+                this.props.steps["Q7"].answer[0].ownershipInterests[5].value?this.props.steps["Q7"].answer[0].ownershipInterests[5].label+", ":"",
+                this.props.steps["Q7"].answer[0].ownershipInterests[6].value?this.props.steps["Q7"].answer[0].ownershipInterests[6].label+", ":"",
+                ):""}<br/>
+                {this.props.steps["Q7"].answer[1]? 
+                "[2]   Entity Name: ".concat(this.props.steps["Q7"].answer[1].entityName,",    ",
+                "Health Services: ",this.props.steps["Q7"].answer[1].healthService,",    ",
+                "Compensation: ", this.props.steps["Q7"].answer[1].compensation, ",    ",
+                "Compensation Type: ", this.props.steps["Q7"].answer[1].compensationType,",    ",
+                "Ownership: ",
+                this.props.steps["Q7"].answer[1].ownershipInterests[0].value?this.props.steps["Q7"].answer[1].ownershipInterests[0].label+", ":"",
+                this.props.steps["Q7"].answer[1].ownershipInterests[1].value?this.props.steps["Q7"].answer[1].ownershipInterests[1].label+", ":"",
+                this.props.steps["Q7"].answer[1].ownershipInterests[2].value?this.props.steps["Q7"].answer[1].ownershipInterests[2].label+", ":"",
+                this.props.steps["Q7"].answer[1].ownershipInterests[3].value?this.props.steps["Q7"].answer[1].ownershipInterests[3].label+", ":"",
+                this.props.steps["Q7"].answer[1].ownershipInterests[4].value?this.props.steps["Q7"].answer[1].ownershipInterests[4].label+", ":"",
+                this.props.steps["Q7"].answer[1].ownershipInterests[5].value?this.props.steps["Q7"].answer[1].ownershipInterests[5].label+", ":"",
+                this.props.steps["Q7"].answer[1].ownershipInterests[6].value?this.props.steps["Q7"].answer[1].ownershipInterests[6].label+", ":"",
+                ):""}<br/>
+                {this.props.steps["Q7"].answer[2]? 
+                "[3]  Entity Name: ".concat(this.props.steps["Q7"].answer[2].entityName,",    ",
+                "Health Services: ",this.props.steps["Q7"].answer[2].healthService,",    ",
+                "Compensation: ", this.props.steps["Q7"].answer[2].compensation, ",    ",
+                "Compensation Type: ", this.props.steps["Q7"].answer[2].compensationType,",    ",
+                "Ownership: ",
+                this.props.steps["Q7"].answer[2].ownershipInterests[0].value?this.props.steps["Q7"].answer[2].ownershipInterests[0].label+", ":"",
+                this.props.steps["Q7"].answer[2].ownershipInterests[1].value?this.props.steps["Q7"].answer[2].ownershipInterests[1].label+", ":"",
+                this.props.steps["Q7"].answer[2].ownershipInterests[2].value?this.props.steps["Q7"].answer[2].ownershipInterests[2].label+", ":"",
+                this.props.steps["Q7"].answer[2].ownershipInterests[3].value?this.props.steps["Q7"].answer[2].ownershipInterests[3].label+", ":"",
+                this.props.steps["Q7"].answer[2].ownershipInterests[4].value?this.props.steps["Q7"].answer[2].ownershipInterests[4].label+", ":"",
+                this.props.steps["Q7"].answer[2].ownershipInterests[5].value?this.props.steps["Q7"].answer[2].ownershipInterests[5].label+", ":"",
+                this.props.steps["Q7"].answer[2].ownershipInterests[6].value?this.props.steps["Q7"].answer[2].ownershipInterests[6].label+", ":"",
+                ):""}<br/>
+                {this.props.steps["Q7"].answer[2]? 
+                "[3]  Entity Name: ".concat(this.props.steps["Q7"].answer[2].entityName,",    ",
+                "Health Services: ",this.props.steps["Q7"].answer[2].healthService,",    ",
+                "Compensation: ", this.props.steps["Q7"].answer[2].compensation, ",    ",
+                "Compensation Type: ", this.props.steps["Q7"].answer[2].compensationType,",    ",
+                "Ownership: ",
+                this.props.steps["Q7"].answer[2].ownershipInterests[0].value?this.props.steps["Q7"].answer[2].ownershipInterests[0].label+", ":"",
+                this.props.steps["Q7"].answer[2].ownershipInterests[1].value?this.props.steps["Q7"].answer[2].ownershipInterests[1].label+", ":"",
+                this.props.steps["Q7"].answer[2].ownershipInterests[2].value?this.props.steps["Q7"].answer[2].ownershipInterests[2].label+", ":"",
+                this.props.steps["Q7"].answer[2].ownershipInterests[3].value?this.props.steps["Q7"].answer[2].ownershipInterests[3].label+", ":"",
+                this.props.steps["Q7"].answer[2].ownershipInterests[4].value?this.props.steps["Q7"].answer[2].ownershipInterests[4].label+", ":"",
+                this.props.steps["Q7"].answer[2].ownershipInterests[5].value?this.props.steps["Q7"].answer[2].ownershipInterests[5].label+", ":"",
+                this.props.steps["Q7"].answer[2].ownershipInterests[6].value?this.props.steps["Q7"].answer[2].ownershipInterests[6].label+", ":"",
+                ):""}<br/>
+                {this.props.steps["Q7"].answer[3]? 
+                "[3]  Entity Name: ".concat(this.props.steps["Q7"].answer[3].entityName,",    ",
+                "Health Services: ",this.props.steps["Q7"].answer[3].healthService,",    ",
+                "Compensation: ", this.props.steps["Q7"].answer[3].compensation, ",    ",
+                "Compensation Type: ", this.props.steps["Q7"].answer[3].compensationType,",    ",
+                "Ownership: ",
+                this.props.steps["Q7"].answer[3].ownershipInterests[0].value?this.props.steps["Q7"].answer[3].ownershipInterests[0].label+", ":"",
+                this.props.steps["Q7"].answer[3].ownershipInterests[1].value?this.props.steps["Q7"].answer[3].ownershipInterests[1].label+", ":"",
+                this.props.steps["Q7"].answer[3].ownershipInterests[2].value?this.props.steps["Q7"].answer[3].ownershipInterests[2].label+", ":"",
+                this.props.steps["Q7"].answer[3].ownershipInterests[3].value?this.props.steps["Q7"].answer[3].ownershipInterests[3].label+", ":"",
+                this.props.steps["Q7"].answer[3].ownershipInterests[4].value?this.props.steps["Q7"].answer[3].ownershipInterests[4].label+", ":"",
+                this.props.steps["Q7"].answer[3].ownershipInterests[5].value?this.props.steps["Q7"].answer[3].ownershipInterests[5].label+", ":"",
+                this.props.steps["Q7"].answer[3].ownershipInterests[6].value?this.props.steps["Q7"].answer[3].ownershipInterests[6].label+", ":"",
+                ):""}<br/>
+                {this.props.steps["Q7"].answer[4]? 
+                "[3]  Entity Name: ".concat(this.props.steps["Q7"].answer[4].entityName,",    ",
+                "Health Services: ",this.props.steps["Q7"].answer[4].healthService,",    ",
+                "Compensation: ", this.props.steps["Q7"].answer[4].compensation, ",    ",
+                "Compensation Type: ", this.props.steps["Q7"].answer[4].compensationType,",    ",
+                "Ownership: ",
+                this.props.steps["Q7"].answer[4].ownershipInterests[0].value?this.props.steps["Q7"].answer[4].ownershipInterests[0].label+", ":"",
+                this.props.steps["Q7"].answer[4].ownershipInterests[1].value?this.props.steps["Q7"].answer[4].ownershipInterests[1].label+", ":"",
+                this.props.steps["Q7"].answer[4].ownershipInterests[2].value?this.props.steps["Q7"].answer[4].ownershipInterests[2].label+", ":"",
+                this.props.steps["Q7"].answer[4].ownershipInterests[3].value?this.props.steps["Q7"].answer[4].ownershipInterests[3].label+", ":"",
+                this.props.steps["Q7"].answer[4].ownershipInterests[4].value?this.props.steps["Q7"].answer[4].ownershipInterests[4].label+", ":"",
+                this.props.steps["Q7"].answer[4].ownershipInterests[5].value?this.props.steps["Q7"].answer[4].ownershipInterests[5].label+", ":"",
+                this.props.steps["Q7"].answer[4].ownershipInterests[6].value?this.props.steps["Q7"].answer[4].ownershipInterests[6].label+", ":"",
+                ):""}<br/>
+                {this.props.steps["Q7"].answer[5]? 
+                "[3]  Entity Name: ".concat(this.props.steps["Q7"].answer[5].entityName,",    ",
+                "Health Services: ",this.props.steps["Q7"].answer[5].healthService,",    ",
+                "Compensation: ", this.props.steps["Q7"].answer[5].compensation, ",    ",
+                "Compensation Type: ", this.props.steps["Q7"].answer[5].compensationType,",    ",
+                "Ownership: ",
+                this.props.steps["Q7"].answer[5].ownershipInterests[0].value?this.props.steps["Q7"].answer[5].ownershipInterests[0].label+", ":"",
+                this.props.steps["Q7"].answer[5].ownershipInterests[1].value?this.props.steps["Q7"].answer[5].ownershipInterests[1].label+", ":"",
+                this.props.steps["Q7"].answer[5].ownershipInterests[2].value?this.props.steps["Q7"].answer[5].ownershipInterests[2].label+", ":"",
+                this.props.steps["Q7"].answer[5].ownershipInterests[3].value?this.props.steps["Q7"].answer[5].ownershipInterests[3].label+", ":"",
+                this.props.steps["Q7"].answer[5].ownershipInterests[4].value?this.props.steps["Q7"].answer[5].ownershipInterests[4].label+", ":"",
+                this.props.steps["Q7"].answer[5].ownershipInterests[5].value?this.props.steps["Q7"].answer[5].ownershipInterests[5].label+", ":"",
+                this.props.steps["Q7"].answer[5].ownershipInterests[6].value?this.props.steps["Q7"].answer[5].ownershipInterests[6].label+", ":"",
+                ):""}<br/>
+                {this.props.steps["Q7"].answer[6]? 
+                "[3]  Entity Name: ".concat(this.props.steps["Q7"].answer[6].entityName,",    ",
+                "Health Services: ",this.props.steps["Q7"].answer[6].healthService,",    ",
+                "Compensation: ", this.props.steps["Q7"].answer[6].compensation, ",    ",
+                "Compensation Type: ", this.props.steps["Q7"].answer[6].compensationType,",    ",
+                "Ownership: ",
+                this.props.steps["Q7"].answer[6].ownershipInterests[0].value?this.props.steps["Q7"].answer[6].ownershipInterests[0].label+", ":"",
+                this.props.steps["Q7"].answer[6].ownershipInterests[1].value?this.props.steps["Q7"].answer[6].ownershipInterests[1].label+", ":"",
+                this.props.steps["Q7"].answer[6].ownershipInterests[2].value?this.props.steps["Q7"].answer[6].ownershipInterests[2].label+", ":"",
+                this.props.steps["Q7"].answer[6].ownershipInterests[3].value?this.props.steps["Q7"].answer[6].ownershipInterests[3].label+", ":"",
+                this.props.steps["Q7"].answer[6].ownershipInterests[4].value?this.props.steps["Q7"].answer[6].ownershipInterests[4].label+", ":"",
+                this.props.steps["Q7"].answer[6].ownershipInterests[5].value?this.props.steps["Q7"].answer[6].ownershipInterests[5].label+", ":"",
+                this.props.steps["Q7"].answer[6].ownershipInterests[6].value?this.props.steps["Q7"].answer[6].ownershipInterests[6].label+", ":"",
+                ):""}<br/>
                 </Typography>
                 <Box component="span">
                   <Container maxWidth="sm">
@@ -62,7 +207,7 @@ export class CreatePDFLists extends Component
                       color="primary"
                       primary={"true"}
                       style={styles.button}
-                      onClick={this.props.nextStep}
+                      onClick={this.printDocument}
                     >
                       Submit
                     </Button>
