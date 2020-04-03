@@ -72,22 +72,22 @@ export class CreatePDFLists extends Component
             <Card style={styles.cardmain}>
               <CardContent>
                 <Typography variant="h5" component="h2" style={styles.cardmain}>
-                {this.props.steps["Q4"].answer.No?"You may be at risk of Stark Law!":this.props.steps["Q4"].answer.Maybe?"You may be at risk of Stark Law!":
-                this.props.steps["Q5"].answer.No?"You may be at risk of Stark Law!":this.props.steps["Q5"].answer.Maybe?"You may be at risk of Stark Law!":
-                this.props.steps["Q6"].answer.No?"You may be at risk of Stark Law!":this.props.steps["Q6"].answer.Maybe?"You may be at risk of Stark Law!":
+                {this.props.steps["Q4"].answer.Yes?"You may be At risk of Stark Law!":this.props.steps["Q4"].answer.Maybe?"You may be at risk of Stark Law!":
+                this.props.steps["Q5"].answer.Yes?"You may be at risk of Stark Law!":this.props.steps["Q5"].answer.Maybe?"You may be at risk of Stark Law!":
+                this.props.steps["Q6"].answer.Yes?"You may be at risk of Stark Law!":this.props.steps["Q6"].answer.Maybe?"You may be at risk of Stark Law!":
                 "Stark Law may not apply."
                 }<br/>
                 For further consultation contact:<br/> xxx-xxx-xxxx <br/> <br/>                </Typography>
                 <Typography variant="body2" component="p" align="justify">
                 Q1: {this.props.steps["Q4"].questionText}<br/>
-                Ans: {this.props.steps["Q4"].answer.Yes?"Yes": this.props.steps["Q4"].answer.No?"No":this.props.steps["Q4"].answer.Maybe?"Maybe":"Null"} <br/><br/>
+                Ans: {this.props.steps["Q4"].answer.Yes?"Yes. At risk": this.props.steps["Q4"].answer.No?"No. No risk":this.props.steps["Q4"].answer.Maybe?"Maybe. Might be at risk":"Null"} <br/><br/>
                 Q2: {this.props.steps["Q5"].questionText}<br/>
-                Ans: {this.props.steps["Q5"].answer.Yes?"Yes": this.props.steps["Q5"].answer.No?"No":this.props.steps["Q5"].answer.Maybe?"Maybe":"Null"} <br/><br/>
+                Ans: {this.props.steps["Q5"].answer.Yes?"Yes. At risk": this.props.steps["Q5"].answer.No?"No. No risk":this.props.steps["Q5"].answer.Maybe?"Maybe. Might be at risk":"Null"} <br/><br/>
                 Q3: {this.props.steps["Q6"].questionText}<br/>
-                Ans: {this.props.steps["Q6"].answer.Yes?"Yes": this.props.steps["Q6"].answer.No?"No":this.props.steps["Q6"].answer.Maybe?"Maybe":"Null"} <br/><br/>
+                Ans: {this.props.steps["Q6"].answer.Yes?"Yes. At risk": this.props.steps["Q6"].answer.No?"No. No risk":this.props.steps["Q6"].answer.Maybe?"Maybe. Might be at risk":"Null"} <br/><br/>
                 Q4: {this.props.steps["Q7"].questionText}<br/>
                 Ans: <br/>
-                {this.props.steps["Q7"].answer[0]? 
+                {this.props.steps["Q7"].answer[0].entityName? 
                 "[1]  Entity Name: ".concat(this.props.steps["Q7"].answer[0].entityName,",    ",
                 "Health Services: ",this.props.steps["Q7"].answer[0].healthService,",    ",
                 "Compensation: ", this.props.steps["Q7"].answer[0].compensation, ",    ",
