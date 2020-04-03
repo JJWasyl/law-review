@@ -209,7 +209,7 @@ export class CreatePDFLists extends Component
                       style={styles.button}
                       onClick={this.printDocument}
                     >
-                      Submit
+                      Download
                     </Button>
                   </Container>
                 </Box>
