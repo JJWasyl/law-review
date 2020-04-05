@@ -1,20 +1,19 @@
 import React, { Component,ProtoTypes } from "react";
-import {List, ListItem, ListItemText} from 'material-ui/List'
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
-import Dialog from '@material-ui/core/Dialog';
-import AppBar from '@material-ui/core/AppBar';
 import { Container, Button, Box } from "@material-ui/core";
 import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
-import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
-import ReactPDF from '@react-pdf/renderer';
-import ReactDOM from 'react-dom';
-import { PDFViewer } from '@react-pdf/renderer';
-import html2canvas from 'html2canvas';
-import jsPDF from 'jspdf';
 import ReactToPrint from 'react-to-print';
+
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
 
 function date() {
   var tempDate = new Date();
@@ -25,6 +24,9 @@ function date() {
 }
 
 const reportRef = React.createRef();
+
+const explanations = {};
+
 
 export class CreatePDFLists extends Component 
 {
@@ -47,8 +49,12 @@ export class CreatePDFLists extends Component
       if (this.props.steps["Q5"].answer.Yes) score+=1;
       if (this.props.steps["Q6"].answer.Yes) score+=1;
       if (this.props.steps["Q7"].answer[0].entityName) score+=1;
-      
+
       return score;
+    }
+
+    createTabularData = (question, answer, explanation) => {
+      return {question, answer, explanation};
     }
 
     render() 
@@ -67,7 +73,7 @@ export class CreatePDFLists extends Component
                       style={styles.logo}
                       image={require("./media/logo-og.png")}
                     />
-                    <Typography variant="h6" component="p" align="left">
+                    <Typography variant="h6" component="p" align="left" style={styles.body}>
                       To: {this.props.steps["Q1"].answer.name} {this.props.steps["Q1"].answer.last_name}<br/>
                       Date: {date()}<br/>
                       RE: Risk assessment for Stark Law Compliance<br/>
@@ -77,72 +83,145 @@ export class CreatePDFLists extends Component
                       style={styles.media}
                       image={require("./media/"+ (this.getMeter() <= 1 ? "low.png" : this.getMeter() >= 3 ? "high.png" : "med.png"))}
                     />
-                    <Typography variant="body1" component="p" align="justify">
+                    <Typography variant="body1" component="p" align="justify" style={styles.body}>
                       <br/>
                       Given the information that you provided, there is a {this.getMeter() <= 1 ? <strong>Low </strong> : this.getMeter() >= 3 ? <strong>High </strong> : <strong>Moderate </strong>} 
                       chance that you are in violation with the Stark Law because:
                       <br/><br/>
                       TODO REFERALS SECTION
                       <br/><br/>
-                      Please review the exceptions and contact our legal department at Honigman LLP for more
-                      clarification, determination if an exception applies and if there are anti-kickback violations.
+                      Please review the exceptions and contact our legal department at Honigman LLP for more clarification, determination if an exception 
+                      applies and if there are Anti-Kickback violations or violations of state fraud and abuse statutes, 
+                      which to not only Medicare patients, but also patients covered by Medicaid, worker’s compensation, and private insurance . 
                       <br/>
                       ______________________________________________________________________________________________
                       <br/><br/>
                       I. <u>Introduction</u>
                       <br/><br/>
-                      The Stark Law, or physician self-referral laws, strictly prohibits physicians from making referrals
-                      for designated health services (DHS) payable by Medicare to an entity with which the physician
-                      or an immediate family member has a financial relationship. The Stark Law is a strict liability
-                      law meaning that a physician can violate the law without any intention to do so. To stay
-                      compliant, the referral must meet an exception and some common elements include:
+                      The Stark Law, or physician self-referral laws, strictly prohibits physicians from making referrals or receiving referrals 
+                      for designated health services (DHS) payable by Medicare to or from an entity or physician with which the physician or an 
+                      immediate family member has a financial relationship. The Stark Law is a strict liability law meaning If a financial relationship 
+                      exists, regardless of the parties' intent, the physician is precluded from referring patients to the entity for designated health 
+                      services or receiving referrals for designated health services, unless the arrangement meets a statutory or regulatory exception. 
+                      To stay compliant, the referral must meet an exception and some common elements include:
                       <br/><br/>
-                      TODO BULLETPOINTS
+                        • Signed and written agreement specifies the services or property of the exception<br/>
+                        • Reasonable arrangement at fair market value<br/>
+                        • Set in advance compensation with volume and value of DHS referrals<br/>
                       <br/><br/>
-                      There are over 30 exceptions to this law that the physician’s referral can fall into. However, if
-                      the physician referral does not meet any of the common expectations, civil penalties of up to
-                      $15,000 dollars and 3x government overpayment per referral.
+                      There are over 30 exceptions to this law that the physician’s referral can fall into. However, if the physician referral does not 
+                      meet any of the common expectations, penalties are severe. The violation may result in civil monetary penalties, exclusion from 
+                      Medicare and Medicaid and denial or refund of payments received for the services. The civil monetary penalties could result in 
+                      fines of up to three times the payer's costs plus $15,000 per claim (claim italicized). For example, if you make or receive 100 
+                      inappropriate referrals, your penalties would be $1,500,000, plus additional cost. 
                       <br/><br/>
+                      </Typography>
+                      <Typography variant="body1" component="p" align="justify" style={styles.body}>
                       II. <u>Risk Assesment</u>
                       <br/><br/>
                       The following answers you provided have been used to determine your risk of non-compliance
                       with the Stark Law.
-                      <br/>
+                      <br/><br/>
                       TODO MAKE A LIST/TABLE OF QUESTIONS AND ANSWERS?
                       <br/><br/>
+                      </Typography>
+                      <Typography variant="body1" component="p" align="justify" style={styles.body}>
                       III. <u>Exceptions</u>
                       <br/><br/>
-                      Many of exceptions rely upon specific analysis and application of certain defined terms that can
-                      become very complicated. We recommended that you speak with our team at Honigman LLP for
-                      a detailed legal opinion about compliance and if a certain exception applies. In general, these
-                      exceptions are set forth below:
-                      <br/>
-                      <strong>Direct compensation exceptions</strong> usually include a (1) signed written agreement by both parties,
-                      (2) a 1-year term, (3) compensation that is set in advance and does not vary with volume or value
-                      of referrals to other businesses and (4) is commercially reasonable. Some of the specific
-                      exceptions include:
-                      <br/>
-                      TODO LIST
+                      There are steps that you can take to minimize your risk of violating the Stark Law. There are multiple exceptions to the Stark Law 
+                      that permit physicians, in certain limited circumstances, to make referrals for designated health services.If your arrangement falls 
+                      within one of these exceptions, it will not violate the Stark Law. On the other hand, if an arrangement fails to meet even one requirement 
+                      of an exception, the referrals made pursuant to the arrangement will be prohibited referrals under the Stark Law. 
                       <br/><br/>
-                      <strong>Indirect compensation expectations</strong> usually include:
+                      Many of the exceptions rely upon specific analysis and application of certain defined terms and we have not analyzed your arrangement 
+                      to determine if an exception applies. We recommended that you speak with our team at Honigman LLP to discuss your arrangement. In general, 
+                      there are exceptions for (1) rental of office space (2) rental of equipment….. etc. and each exception has different and very specific 
+                      requirements that must be met. An arrangement must fall squarely in an exception to provide protection for your arrangement. 
                       <br/><br/>
-                      TODO LIST
+                      Irrespective of the availability of an exception, a physician must, at all times, remember that their arrangement could violate other 
+                      laws, such as the Anti-Kickback statute or state fraud and abuse statutes. The penalties for violation of these laws are even more 
+                      severe than the Stark Law. For example, violations of the Anti-Kickback statute will lead to additional civil monetary penalties and 
+                      up to five years' imprisonment. Violations of the Anti-Kickback statutes also frequently result in exclusion from participation in Medicare, 
+                      Medicaid and all other federal and state plans that provide health benefits.
                       <br/><br/>
-                      <strong>Service-level exceptions</strong> usually include:
+                      <strong>We have not evaluated your arrangement for compliance with these laws. We can provide you additional analysis of these laws at your request.</strong>
                       <br/><br/>
-                      TODO List
-                      <br/><br/>
+                      </Typography>
+                      <Typography variant="body1" component="p" align="justify" style={styles.body}>
                       IV. <u>Conclusion</u>
                       <br/><br/>
-                      This letter and the advice communicated herein do not constitute a formal legal opinion. The
-                      advice and conclusions set forth herein are only preliminary and are based upon limited factual
-                      information, as outlined at the outset of this letter. Furthermore, this letter has been provided
-                      solely for your use and It may not be relied upon by any third party. Further, please note that our
-                      conclusions are expressed on the basis of facts and assumptions stated herein and on the current
-                      state of the law. If a law is later changed, an assumption found to be unwarranted, or should the
-                      principles of law be altered by the courts, our conclusions will require reassessment. Please
-                      contact us with any questions that you may
+                      This letter and the advice communicated herein do not constitute a formal legal opinion. The advice and conclusions set forth herein 
+                      are only preliminary and are based upon limited factual information, as outlined at the outset of this letter. Furthermore, this letter 
+                      has been provided solely for your use and it may not be relied upon by any third party. Further, please note that our conclusions are 
+                      expressed on the basis of facts and assumptions stated herein and on the current state of the law. If a law is later changed, an assumption 
+                      found to be unwarranted, or should the principles of law be altered by the courts, our conclusions will require reassessment. 
+                      <br/><br/>
+                      Please contact us if you have any questions or if you would like to discuss other compliance alternatives, including steps you can take 
+                      to protect your arrangements, please do not hesitate to call a Honigman attorney.
                     </Typography>
+                  </Box>
+                  <Box component="span">
+                    <Container maxWidth="sm">
+                      <ReactToPrint
+                      trigger={() => 
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          primary={"true"}
+                          style={styles.button}
+                        >
+                          Print
+                        </Button>
+                      }
+                      content={() => reportRef.current}
+                      />
+                    </Container>
+                  </Box>
+                </CardContent>
+              </Card>
+            </Container>
+          </React.Fragment>
+        </MuiThemeProvider>         
+      );
+    }  
+}
+
+const styles = {
+    button: {
+      marginTop: 15
+    },
+    cardmain: {
+      minWidth: 275,
+      margin: 15,
+    },
+    pos: {
+      marginBottom: 12,
+    },
+    media: {
+      display: "block",
+      margin: "auto",
+      height: 140,
+      paddingTop: '5',
+      width: '30%',
+    },
+    logo: {
+      height: 140,
+      paddingTop: '5',
+      display: "block",
+      margin: "auto",
+      width: "70%"
+    },
+    body: {
+      margin: 35
+    }
+  };
+  
+
+
+export default CreatePDFLists;
+
+
+/*
                     <Typography variant="body2" component="p" align="justify">
                     <br/>
                     Q1: {this.props.steps["Q4"].questionText}<br/>
@@ -266,60 +345,4 @@ export class CreatePDFLists extends Component
                     this.props.steps["Q7"].answer[6].ownershipInterests[6].value?this.props.steps["Q7"].answer[6].ownershipInterests[6].label+", ":"",
                     ):""}<br/>
                     </Typography>
-                  </Box>
-                  <Box component="span">
-                    <Container maxWidth="sm">
-                      <ReactToPrint
-                      trigger={() => 
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          primary={"true"}
-                          style={styles.button}
-                        >
-                          Print
-                        </Button>
-                      }
-                      content={() => reportRef.current}
-                      />
-                    </Container>
-                  </Box>
-                </CardContent>
-              </Card>
-            </Container>
-          </React.Fragment>
-        </MuiThemeProvider>         
-      );
-    }  
-}
-
-const styles = {
-    button: {
-      marginTop: 15
-    },
-    cardmain: {
-      minWidth: 275,
-      margin: 15,
-    },
-    pos: {
-      marginBottom: 12,
-    },
-    media: {
-      display: "block",
-      margin: "auto",
-      height: 140,
-      paddingTop: '5',
-      width: '30%',
-    },
-    logo: {
-      height: 140,
-      paddingTop: '5',
-      display: "block",
-      margin: "auto",
-      width: "70%"
-    }
-  };
-  
-
-
-export default CreatePDFLists;
+*/

@@ -107,10 +107,10 @@ export class IDForm extends Component {
                           && this.state.ID_details.last_name !== ""
                         ){
                           this.props.nextStep({
-                            name: this.state.name,
-                            last_name: this.state.last_name,
-                            specialization: this.state.specialization,
-                            practice: this.state.practice
+                            name: this.state.ID_details.name,
+                            last_name: this.state.ID_details.last_name,
+                            specialization: this.state.ID_details.specialization,
+                            practice: this.state.ID_details.practice
                           });
                         } else {
                           let state_copy = Object.assign({}, this.state);
