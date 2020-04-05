@@ -1,3 +1,104 @@
+export const compensation = [
+  {
+    key: "cash",
+    label: "Salary or other cash payments",
+    value: false
+  },
+  {
+    key: "goods",
+    label: "Free or discounted goods, equipment or services",
+    value: false
+  },
+  {
+    key: "rent",
+    label: "Free or discounted rent",
+    value: false
+  },
+  {
+    key: "loanForgiveness",
+    label: "Forgiveness of amounts owed",
+    value: false
+  },
+  {
+    key: "tickets",
+    label: "Trips or tickets",
+    value: false
+  },
+  {
+    key: "bonuses",
+    label: "Bonuses",
+    value: false
+  },
+  {
+    key: "charity",
+    label: "Charitable donations",
+    value: false
+  },
+  {
+    key: "other",
+    label: "Other net economic benefit",
+    value: false
+  }
+];
+
+export const healthServices = [
+  {
+    key: "clinic",
+    label: "Clinical Laboratory Services",
+    value: false
+  },
+  {
+    key: "physicalTherapy",
+    label: "Physical Therapy Services",
+    value: false
+  },
+  {
+    key: "radiology",
+    label: "Radiology and Imaging Services",
+    value: false
+  },
+  {
+    key: "radiation",
+    label: "Radiation Therapy Services and Supplies",
+    value: false
+  },
+  {
+    key: "equipment",
+    label: "Durable medical equipment and supplies",
+    value: false
+  },
+  {
+    key: "nutrients",
+    label: "Parenteral and enteral nutrients, equipment and supplies",
+    value: false
+  },
+  {
+    key: "prosthetics",
+    label: "Prosthetics, orthotics, and prosthetic devices and supplies",
+    value: false
+  },
+  {
+    key: "homeHealth",
+    label: "Home health services",
+    value: false
+  },
+  {
+    key: "outpatientDrugs",
+    label: "Outpatient prescription drugs",
+    value: false
+  },
+  {
+    key: "hospitalServices",
+    label: "Inpatient and outpatient hospital services",
+    value: false
+  },
+  {
+    key: "other",
+    label: "Other",
+    value: false,
+    text: ""
+  }
+];
 export const ownershipInterests = [
   {
     key: "stock",
@@ -40,9 +141,9 @@ export const emptyReferralAnswer = {
   medicareU: null,
   medicareE: null,
   entityName: null,
-  healthService: null,
+  healthService: healthServices,
   compensation: null,
-  compensationType: "",
+  compensationType: compensation,
   ownershipInterests: ownershipInterests
 };
 

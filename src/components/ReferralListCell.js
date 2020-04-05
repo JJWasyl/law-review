@@ -4,6 +4,8 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Divider from "@material-ui/core/Divider";
 import Tooltip from "@material-ui/core/Tooltip";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
+import { ownershipInterests, compensation, healthServices } from "./constants";
+import ReferralCheckboxQuestion from "./ReferralCheckboxQuestion.js";
 import {
   Container,
   Box,
@@ -19,113 +21,6 @@ import {
   Typography
 } from "@material-ui/core";
 
-const compensation = [
-  {
-    key: "cash",
-    label: "Salary or other cash payments",
-    value: false
-  },
-  {
-    key: "goods",
-    label: "Free or discounted goods, equipment or services",
-    value: false
-  },
-  {
-    key: "rent",
-    label: "Free or discounted rent",
-    value: false
-  },
-  {
-    key: "loanForgiveness",
-    label: "Forgiveness of amounts owed",
-    value: false
-  },
-  {
-    key: "tickets",
-    label: "Trips or tickets",
-    value: false
-  },
-  {
-    key: "bonuses",
-    label: "Bonuses",
-    value: false
-  },
-  {
-    key: "charity",
-    label: "Charitable donations",
-    value: false
-  },
-  {
-    key: "other",
-    label: "Other net economic benefit",
-    value: false
-  }
-];
-
-const healthServices = [
-  {
-    key: "clinic",
-    label: "Clinical Laboratory Services",
-    value: false
-  },
-  {
-    key: "physicalTherapy",
-    label: "Physical Therapy Services",
-    value: false
-  },
-  {
-    key: "radiology",
-    label: "Radiology and Imaging Services",
-    value: false
-  },
-  {
-    key: "radiation",
-    label: "Radiation Therapy Services and Supplies",
-    value: false
-  },
-  {
-    key: "equipment",
-    label: "Durable medical equipment and supplies",
-    value: false
-  },
-  {
-    key: "nutrients",
-    label: "Parenteral and enteral nutrients, equipment and supplies",
-    value: false
-  },
-  {
-    key: "prosthetics",
-    label: "Prosthetics, orthotics, and prosthetic devices and supplies",
-    value: false
-  },
-  {
-    key: "homeHealth",
-    label: "Home health services",
-    value: false
-  },
-  {
-    key: "outpatientDrugs",
-    label: "Outpatient prescription drugs",
-    value: false
-  },
-  {
-    key: "hospitalServices",
-    label: "Inpatient and outpatient hospital services",
-    value: false
-  },
-  {
-    key: "other",
-    label: "Other",
-    value: false,
-    text: ""
-  },
-  {
-    key: "none",
-    label: "None of the above",
-    value: true,
-    text: ""
-  }
-];
 export class ReferralListCell extends Component {
   state = {
     init: false
@@ -149,7 +44,9 @@ export class ReferralListCell extends Component {
                 error={
                   (this.props.referral.entityName == null ||
                     this.props.referral.entityName === "") &&
-                  this.props.referral.healthService != null
+                  this.props.referral.healthService.filter(s => {
+                    return s.value === true;
+                  }).length !== 0
                 }
                 fullWidth={true}
                 required={true}
@@ -163,29 +60,17 @@ export class ReferralListCell extends Component {
                 helperText="This should be an individual healthcare provider or healthcare organization."
               />
             </Container>
-            <Container>
-              <TextField
-                id="health-service"
-                select
-                label="Select"
-                value={this.props.referral.healthService}
-                onChange={event => {
-                  this.props.update({ healthService: event.target.value });
-                }}
-                helperText="Which health service does the entity provide?"
-                variant="filled"
-              >
-                {healthServices.map(option => (
-                  <MenuItem key={option.key} value={option.label}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </Container>
-            {this.props.referral.healthService !== null &&
-            this.props.referral.healthService !== "None of the above" &&
-            this.props.referral.entityName != null &&
-            this.props.referral.entityName !== "" ? (
+            <ReferralCheckboxQuestion
+              checkboxItems={this.props.referral.healthService}
+              update={newState =>
+                this.props.update({ healthService: newState })
+              }
+              questionText="Which health service does the entity provide?"
+              tooltip={null}
+            />
+            {this.props.referral.healthService.filter(s => {
+              return s.value === true;
+            }).length !== 0 && this.props.referral.entityName !== null ? (
               <Container>
                 <Container>
                   <FormGroup>
@@ -238,67 +123,20 @@ export class ReferralListCell extends Component {
                     />
                   </FormGroup>
                 </Container>
-                <Container>
-                  <Divider style={styles.divider} />
-                  <Tooltip title="An “immediate family member” includes husband or wife, birth or adoptive parent, child or sibling; stepparent, stepchild, stepbrother, or stepsister; father-in-law, mother-inlaw, son-in-law, daughter-inlaw, brother-inlaw, or sister-inlaw; grandparent or grandchild; and spouse of a grandparent or grandchild.">
-                    <Typography variant="subtitle1" align="justify">
-                      <Box
-                        fontWeight="fontWeightRegular"
-                        textAlign="justify"
-                        m={3}
-                      >
-                        The Stark Law prohibits a referring physician or an
+                <ReferralCheckboxQuestion
+                  checkboxItems={this.props.referral.ownershipInterests}
+                  update={newState =>
+                    this.props.update({ ownershipInterests: newState })
+                  }
+                  questionText="The Stark Law prohibits a referring physician or an
                         immediate family member from having certain ownership
                         interests in the referred entity. Do you or an immediate
                         family member have any of the following ownership
-                        interests in the entity?
-                      </Box>
-                    </Typography>
-                  </Tooltip>
-                  <FormGroup>
-                    {this.props.referral.ownershipInterests.map(
-                      (interest, index) => (
-                        <FormControlLabel
-                          control={
-                            <Checkbox
-                              checked={interest.value}
-                              onChange={() => {
-                                this.props.update({
-                                  ownershipInterests: this.props.referral.ownershipInterests.map(
-                                    el =>
-                                      el.key === interest.key
-                                        ? { ...el, value: !el.value }
-                                        : el
-                                  )
-                                });
-                              }}
-                              value={interest.value}
-                            />
-                          }
-                          label={
-                            interest.key === "other" && interest.value ? (
-                              <TextField
-                                value={interest.text}
-                                onChange={event => {
-                                  this.props.update({
-                                    ownershipInterests: this.props.referral.ownershipInterests.map(
-                                      el =>
-                                        el.key === interest.key
-                                          ? { ...el, text: event.target.value }
-                                          : el
-                                    )
-                                  });
-                                }}
-                              />
-                            ) : (
-                              interest.label
-                            )
-                          }
-                        />
-                      )
-                    )}
-                  </FormGroup>
-                </Container>
+                        interests in the entity?"
+                  tooltip={
+                    "An immediate family member includes husband or wife, birth or adoptive parent, child or sibling; stepparent, stepchild, stepbrother, or stepsister; father-in-law, mother-inlaw, son-in-law, daughter-inlaw, brother-inlaw, or sister-inlaw; grandparent or grandchild; and spouse of a grandparent or grandchild."
+                  }
+                />
                 <Container>
                   <FormGroup>
                     <Divider style={styles.divider} />
@@ -347,31 +185,20 @@ export class ReferralListCell extends Component {
                   </FormGroup>
                 </Container>
                 {this.props.referral.compensation === true ? (
-                  <Container>
-                    <TextField
-                      id="compensationType"
-                      select
-                      label="Select"
-                      value={this.props.referral.compensationType}
-                      onChange={event => {
-                        this.props.update({
-                          compensationType: event.target.value
-                        });
-                      }}
-                      helperText={
-                        "Do you receive any of the following from " +
-                        this.props.referral.entityName +
-                        "?"
-                      }
-                      variant="filled"
-                    >
-                      {compensation.map(option => (
-                        <MenuItem key={option.key} value={option.label}>
-                          {option.label}
-                        </MenuItem>
-                      ))}
-                    </TextField>
-                  </Container>
+                  <ReferralCheckboxQuestion
+                    checkboxItems={this.props.referral.compensationType}
+                    update={newState =>
+                      this.props.update({ compensationType: newState })
+                    }
+                    questionText={
+                      "Do you receive any of the following from " +
+                      this.props.referral.entityName +
+                      "?"
+                    }
+                    tooltip={
+                      "An immediate family member includes husband or wife, birth or adoptive parent, child or sibling; stepparent, stepchild, stepbrother, or stepsister; father-in-law, mother-inlaw, son-in-law, daughter-inlaw, brother-inlaw, or sister-inlaw; grandparent or grandchild; and spouse of a grandparent or grandchild."
+                    }
+                  />
                 ) : null}
               </Container>
             ) : null}

@@ -17,10 +17,10 @@ export class ReferralCheckboxQuestion extends Component {
     return (
       <Container>
         <Divider style={styles.divider} />
-        <Tooltip title="An “immediate family member” includes husband or wife, birth or adoptive parent, child or sibling; stepparent, stepchild, stepbrother, or stepsister; father-in-law, mother-inlaw, son-in-law, daughter-inlaw, brother-inlaw, or sister-inlaw; grandparent or grandchild; and spouse of a grandparent or grandchild.">
+        <Tooltip title={this.props.tooltip}>
           <Typography variant="subtitle1" align="justify">
             <Box fontWeight="fontWeightRegular" textAlign="justify" m={3}>
-              {this.props.tooltip}
+              {this.props.questionText}
             </Box>
           </Typography>
         </Tooltip>
@@ -31,14 +31,13 @@ export class ReferralCheckboxQuestion extends Component {
                 <Checkbox
                   checked={interest.value}
                   onChange={() => {
-                    this.props.update({
-                      ownershipInterests: this.props.referral.ownershipInterests.map(
-                        el =>
-                          el.key === interest.key
-                            ? { ...el, value: !el.value }
-                            : el
+                    this.props.update(
+                      this.props.checkboxItems.map(el =>
+                        el.key === interest.key
+                          ? { ...el, value: !el.value }
+                          : el
                       )
-                    });
+                    );
                   }}
                   value={interest.value}
                 />
@@ -48,14 +47,13 @@ export class ReferralCheckboxQuestion extends Component {
                   <TextField
                     value={interest.text}
                     onChange={event => {
-                      this.props.update({
-                        ownershipInterests: this.props.referral.ownershipInterests.map(
-                          el =>
-                            el.key === interest.key
-                              ? { ...el, text: event.target.value }
-                              : el
+                      this.props.update(
+                        this.props.checkboxItems.map(el =>
+                          el.key === interest.key
+                            ? { ...el, text: event.target.value }
+                            : el
                         )
-                      });
+                      );
                     }}
                   />
                 ) : (

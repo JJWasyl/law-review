@@ -6,11 +6,7 @@ import YesNoMaybe from "./YesNoMaybe.js";
 import IDForm from "./IDForm.js";
 import CheckboxStep from "./CheckboxStep.js";
 import Referral from "./Referral.js";
-import {
-  emptySteps,
-  ownershipInterests,
-  emptyReferralAnswer
-} from "./constants";
+import { emptySteps, emptyReferralAnswer } from "./constants";
 import { MuiThemeProvider } from "material-ui/styles";
 import Fab from "@material-ui/core/Fab";
 import { Box } from "@material-ui/core";
