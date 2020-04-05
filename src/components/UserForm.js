@@ -70,6 +70,7 @@ export class UserForm extends Component {
 
   render() {
     let questionComponent;
+    console.log(this.state);
     if (this.state.steps[this.state.step].questionType === "Start") {
       return (
         <Start
@@ -101,7 +102,17 @@ export class UserForm extends Component {
           addReferral={() => {
             this.addReferral();
           }}
-          nextStep={answer => this.nextStep(answer)}
+          nextStep={() => {
+            this.setState(prevState => {
+              let step = prevState.steps[this.state.step].nextStep;
+              let prevSteps = prevState.prevSteps.concat(prevState.step);
+              return {
+                ...prevState,
+                step: step,
+                prevSteps: prevSteps
+              };
+            });
+          }}
         />
       );
     } else if (this.state.steps[this.state.step].questionType === "InputForm") {
