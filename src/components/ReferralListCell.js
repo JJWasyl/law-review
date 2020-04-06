@@ -65,7 +65,11 @@ export class ReferralListCell extends Component {
                   <Typography>
                     Curious to learn more about designated health services?
                   </Typography>
-                  <Link href="https://www.law.cornell.edu/cfr/text/42/411.351#div8">
+                  <Link
+                    href="https://www.law.cornell.edu/cfr/text/42/411.351#div8"
+                    target="_blank"
+                    rel="noopener"
+                  >
                     {"Click here"}
                   </Link>
                 </Container>
