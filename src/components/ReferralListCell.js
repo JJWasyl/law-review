@@ -1,26 +1,12 @@
 import React, { Component } from "react";
 import TextField from "@material-ui/core/TextField";
-import MenuItem from "@material-ui/core/MenuItem";
 import Divider from "@material-ui/core/Divider";
 import Tooltip from "@material-ui/core/Tooltip";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
-import { ownershipInterests, compensation, healthServices } from "./constants";
+import ReferralYesNo from "./ReferralYesNo.js";
 import ReferralCheckboxQuestion from "./ReferralCheckboxQuestion.js";
-import {
-  Container,
-  Box,
-  Grid,
-  Switch,
-  ButtonGroup,
-  Button,
-  Link
-} from "@material-ui/core";
-import {
-  FormGroup,
-  Checkbox,
-  FormControlLabel,
-  Typography
-} from "@material-ui/core";
+import { Container, Box, Link } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 
 export class ReferralListCell extends Component {
   state = {
@@ -114,53 +100,32 @@ export class ReferralListCell extends Component {
                     "An immediate family member includes husband or wife, birth or adoptive parent, child or sibling; stepparent, stepchild, stepbrother, or stepsister; father-in-law, mother-inlaw, son-in-law, daughter-inlaw, brother-inlaw, or sister-inlaw; grandparent or grandchild; and spouse of a grandparent or grandchild."
                   }
                 />
-                <Container>
-                  <FormGroup>
-                    <Divider style={styles.divider} />
-                    <Tooltip title="An “immediate family member” includes husband or wife, birth or adoptive parent, child or sibling; stepparent, stepchild, stepbrother, or stepsister; father-in-law, mother-inlaw, son-in-law, daughter-inlaw, brother-inlaw, or sister-inlaw; grandparent or grandchild; and spouse of a grandparent or grandchild.">
-                      <Typography variant="subtitle1" align="justify">
-                        <Box
-                          fontWeight="fontWeightRegular"
-                          textAlign="justify"
-                          m={3}
-                        >
-                          The Stark Law prohibits a referring physician or an
-                          immediate family member from having certain
-                          compensation relationships with the referred entity.
-                          Do you or an immediate family member receive any
-                          payment or other benefit in cash or otherwise from the
-                          entity you are referring to?
-                        </Box>
-                      </Typography>
-                    </Tooltip>
-                    <FormControlLabel
-                      fullWidth={true}
-                      control={
-                        <Grid
-                          component="label"
-                          container
-                          alignItems="center"
-                          spacing={1}
-                        >
-                          <Grid item>No</Grid>
-                          <Grid item>
-                            <Switch
-                              checked={this.props.referral.compensation}
-                              onChange={() => {
-                                this.props.update({
-                                  compensation: !this.props.referral
-                                    .compensation
-                                });
-                              }}
-                              value={this.props.referral.compensation}
-                            />
-                          </Grid>
-                          <Grid item>Yes</Grid>
-                        </Grid>
-                      }
-                    />
-                  </FormGroup>
-                </Container>
+                <ReferralYesNo
+                  yesno={this.props.referral.subsidiary}
+                  update={newState =>
+                    this.props.update({ subsidiary: newState })
+                  }
+                  questionText={
+                    "Do you or an immediate family member have any ownership interest in a subsidiary of " +
+                    this.props.referral.entityName +
+                    "?"
+                  }
+                  tooltip={
+                    "A subsidiary is a company or other organization that is at least partially owned by another company or organization."
+                  }
+                />
+                <ReferralYesNo
+                  yesno={this.props.referral.compensation}
+                  update={newState =>
+                    this.props.update({ compensation: newState })
+                  }
+                  questionText={
+                    "The Stark Law prohibits a physician or an immediate family member from having certain compensation relationships with the entity or physician that the physician is referring to or receiving referrals from, whether in cash or kind. Do you or an immediate family member receive any payment or other benefit in cash or otherwise from " +
+                    this.props.referral.entityName +
+                    "?"
+                  }
+                  tooltip={null}
+                />
                 {this.props.referral.compensation === true ? (
                   <ReferralCheckboxQuestion
                     checkboxItems={this.props.referral.compensationType}

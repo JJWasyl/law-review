@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import Ending from "./Ending";
 import Start from "./Start";
 import Help from "./Help";
 import YesNoMaybe from "./YesNoMaybe.js";
@@ -14,7 +13,7 @@ import CreatePDFLists from "./CreatePDFLists";
 
 export class UserForm extends Component {
   state = {
-    step: "Q7",
+    step: "Start",
     prevSteps: ["Start"],
     email: null,
     referralIndex: 0,

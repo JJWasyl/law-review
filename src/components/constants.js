@@ -1,7 +1,15 @@
-export const compensation = [
+export const compensationType = [
+  {
+    key: "salary",
+    label: "Salary",
+    tooltip: "Fixed compensation paid regularly for service.",
+    value: false
+  },
   {
     key: "cash",
-    label: "Salary or other cash payments",
+    label: "Cash Payments",
+    tooltip:
+      "A wire transfer of immediately available funds to such account as the company may specify from time to time.",
     value: false
   },
   {
@@ -27,6 +35,8 @@ export const compensation = [
   {
     key: "bonuses",
     label: "Bonuses",
+    tooltip:
+      "A bonus is a financial compensation that is above and beyond the normal payment (the initial salary paid to an employee) expectations of its recipient.",
     value: false
   },
   {
@@ -177,8 +187,9 @@ export const emptyReferralAnswer = {
   entityName: null,
   healthService: healthServices,
   compensation: null,
-  compensationType: compensation,
-  ownershipInterests: ownershipInterests
+  compensationType: compensationType,
+  ownershipInterests: ownershipInterests,
+  subsidiary: null
 };
 
 export const emptySteps = {

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
-import { Container, Button, Box, Tooltip } from "@material-ui/core";
+import { Container, Button, Box } from "@material-ui/core";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import TextField from "@material-ui/core/TextField";
@@ -21,7 +21,6 @@ export class IDForm extends Component {
 
   errOnChange = (e, field) => {
     if (e.target.value !== "") {
-      let val = e.target.value;
       let state_copy = Object.assign({}, this.state);
       state_copy.errortext = "";
       state_copy.error[field] = false;
@@ -37,7 +36,6 @@ export class IDForm extends Component {
   };
 
   onChange = (e, field) => {
-    let val = e.target.value;
     let state_copy = Object.assign({}, this.state);
     state_copy.ID_details[field] = e.target.value;
     this.setState(state_copy);

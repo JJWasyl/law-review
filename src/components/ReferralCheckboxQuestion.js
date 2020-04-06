@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import {
   Container,
   Box,
@@ -30,18 +29,20 @@ export class ReferralCheckboxQuestion extends Component {
         <Typography variant="subtitle1" align="justify">
           <Box fontWeight="fontWeightRegular" textAlign="justify" m={3}>
             {this.props.questionText}
-            <IconButton
-              edge="end"
-              onClick={() => {
-                this.setState(prevState => ({
-                  expanded: !prevState.expanded
-                }));
-              }}
-              aria-expanded={this.state.expanded}
-              aria-label="show more"
-            >
-              <HelpIcon />
-            </IconButton>
+            {this.props.tooltip && (
+              <IconButton
+                edge="end"
+                onClick={() => {
+                  this.setState(prevState => ({
+                    expanded: !prevState.expanded
+                  }));
+                }}
+                aria-expanded={this.state.expanded}
+                aria-label="show more"
+              >
+                <HelpIcon />
+              </IconButton>
+            )}
           </Box>
         </Typography>
         <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
