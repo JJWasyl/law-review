@@ -13,7 +13,6 @@ import Typography from "@material-ui/core/Typography";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Collapse from "@material-ui/core/Collapse";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import HelpIcon from "@material-ui/icons/Help";
 import IconButton from "@material-ui/core/IconButton";
 import ReferralListCell from "./ReferralListCell.js";
@@ -32,6 +31,29 @@ export class Referral extends Component {
   };
 
   render() {
+    const referralToolButtons = (
+      <ButtonGroup
+        size={"large"}
+        color="primary"
+        variant="contained"
+        style={styles.button}
+      >
+        <Button
+          onClick={() => {
+            this.props.addReferral();
+          }}
+        >
+          Add Another Referral
+        </Button>
+        <Button
+          onClick={() => {
+            this.props.nextStep();
+          }}
+        >
+          Done
+        </Button>
+      </ButtonGroup>
+    );
     return (
       <MuiThemeProvider>
         <React.Fragment>
@@ -64,27 +86,7 @@ export class Referral extends Component {
                     </Tooltip>
                   </CardContent>
                 </Collapse>
-                <ButtonGroup
-                  size={"large"}
-                  color="primary"
-                  variant="contained"
-                  style={styles.button}
-                >
-                  <Button
-                    onClick={() => {
-                      this.props.addReferral();
-                    }}
-                  >
-                    Add Another Referral
-                  </Button>
-                  <Button
-                    onClick={() => {
-                      this.props.nextStep();
-                    }}
-                  >
-                    Done
-                  </Button>
-                </ButtonGroup>
+                {referralToolButtons}
                 <Box component="span">
                   <Container maxWidth="med">
                     <List>
@@ -101,6 +103,7 @@ export class Referral extends Component {
                     </List>
                   </Container>
                 </Box>
+                {referralToolButtons}
               </CardContent>
             </Card>
           </Container>

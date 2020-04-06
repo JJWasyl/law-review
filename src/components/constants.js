@@ -103,31 +103,43 @@ export const ownershipInterests = [
   {
     key: "stock",
     label: "Stock",
+    tooltip:
+      " Stock (also known as “share” or “equity”) is a type of security that signifies proportionate ownership in the issuing corporation. This entitles the stockholder to that proportion of the corporation's assets and earnings.",
     value: false
   },
   {
     key: "stockOptions",
     label: "Stock Options",
+    tooltip:
+      "A stock option gives an investor the right, but not the obligation, to buy or sell a stock at an agreed upon price and date.",
     value: false
   },
   {
     key: "LLC",
     label: "Membership interest in a limited liability corporation (“LLC”)",
+    tooltip:
+      "A person who holds a membership interest has a profit and voting interest in the LLC.",
     value: false
   },
   {
     key: "partnershipShares",
     label: "Partnership Shares",
+    tooltip:
+      "Shares which the trustees allocate to participants in respect of their contributions.",
     value: false
   },
   {
     key: "loans",
     label: "Loans",
+    tooltip:
+      "A loan is money, property, or other material goods given to another party in exchange for future repayment of the loan value or principal amount, along with interest or finance charges. ",
     value: false
   },
   {
     key: "bonds",
     label: "Bonds",
+    tooltip:
+      "A bond is a fixed income instrument that represents a loan made by an investor to a borrower (typically corporate or governmental).",
     value: false
   },
   {
@@ -137,9 +149,31 @@ export const ownershipInterests = [
   }
 ];
 
+export const insurance = [
+  {
+    key: "medicare",
+    label: "Medicare",
+    value: false
+  },
+  {
+    key: "medicaid",
+    label: "Medicaid",
+    value: false
+  },
+  {
+    key: "workersComp",
+    label: "Workers Compensation",
+    value: false
+  },
+  {
+    key: "privateInsurance",
+    label: "Private Insurance",
+    value: false
+  }
+];
+
 export const emptyReferralAnswer = {
-  medicareU: null,
-  medicareE: null,
+  insurance: insurance,
   entityName: null,
   healthService: healthServices,
   compensation: null,
