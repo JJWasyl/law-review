@@ -208,34 +208,8 @@ export const emptySteps = {
       location: null
     },
     get nextStep() {
-      return "Q4";
-    }
-  },
-  Q4: {
-    questionText: "Do you own your own practice?",
-    questionType: "YesNoMaybe",
-    answer: {
-      Yes: null,
-      No: null,
-      Maybe: null
-    },
-    get nextStep() {
-      return this.answer.Yes | this.answer.Maybe ? "Q5" : "Q6";
-    },
-    tooltip: null
-  },
-  Q5: {
-    questionText: "Are you the sole owner of the practice?",
-    questionType: "YesNoMaybe",
-    answer: {
-      Yes: null,
-      No: null,
-      Maybe: null
-    },
-    get nextStep() {
       return "Q6";
-    },
-    tooltip: null
+    }
   },
   Q6: {
     questionText:
