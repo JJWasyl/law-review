@@ -87,8 +87,8 @@ export class CreatePDFLists extends Component
         || this.props.steps["Q7"].answer[i].subsidiary)
          return this.props.steps["Q7"].answer[i].entityName;
       else {
-        for(var j=0; j < this.props.steps["Q7"].answer[i].ownershipIterests.length; ++j) {
-          if(this.props.steps["Q7"].answer[i].ownershipIterests[j].value) return this.props.steps["Q7"].answer[i].entityName;
+        for(var j=0; j < this.props.steps["Q7"].answer[i].ownershipInterests.length; ++j) {
+          if(this.props.steps["Q7"].answer[i].ownershipInterests[j].value) return this.props.steps["Q7"].answer[i].entityName;
         }
       }
     }
