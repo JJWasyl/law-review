@@ -28,8 +28,6 @@ function date() {
 
 const reportRef = React.createRef();
 
-const explanations = {};
-
 export class CreatePDFLists extends Component {
   continue = e => {
     e.preventDefault();
@@ -46,6 +44,8 @@ export class CreatePDFLists extends Component {
     var score = 0;
     //if (this.props.steps["Q2"].answer.Yes) score+=1;
     //if (this.props.steps["Q3"].answer.Yes) score+=1;
+    if (this.props.steps["Q4"].answer.Yes) score += 1;
+    if (this.props.steps["Q5"].answer.Yes) score += 1;
     if (this.props.steps["Q6"].answer.Yes) score += 1;
     if (this.props.steps["Q7"].answer[0].entityName) score += 1;
     console.log(this.props.steps["Q7"]);
@@ -93,10 +93,10 @@ export class CreatePDFLists extends Component {
       else {
         for (
           var j = 0;
-          j < this.props.steps["Q7"].answer[i].ownershipIterests.length;
+          j < this.props.steps["Q7"].answer[i].ownershipInterests.length;
           ++j
         ) {
-          if (this.props.steps["Q7"].answer[i].ownershipIterests[j].value)
+          if (this.props.steps["Q7"].answer[i].ownershipInterests[j].value)
             return this.props.steps["Q7"].answer[i].entityName;
         }
       }
@@ -409,129 +409,3 @@ const styles = {
 };
 
 export default CreatePDFLists;
-
-/*
-                    <Typography variant="body2" component="p" align="justify">
-                    <br/>
-                    Q1: {this.props.steps["Q4"].questionText}<br/>
-                    Ans: {this.props.steps["Q4"].answer.Yes?"Yes. At risk": this.props.steps["Q4"].answer.No?"No. No risk":this.props.steps["Q4"].answer.Maybe?"Maybe. Might be at risk":"Null"} <br/><br/>
-                    Q2: {this.props.steps["Q5"].questionText}<br/>
-                    Ans: {this.props.steps["Q5"].answer.Yes?"Yes. At risk": this.props.steps["Q5"].answer.No?"No. No risk":this.props.steps["Q5"].answer.Maybe?"Maybe. Might be at risk":"Null"} <br/><br/>
-                    Q3: {this.props.steps["Q6"].questionText}<br/>
-                    Ans: {this.props.steps["Q6"].answer.Yes?"Yes. At risk": this.props.steps["Q6"].answer.No?"No. No risk":this.props.steps["Q6"].answer.Maybe?"Maybe. Might be at risk":"Null"} <br/><br/>
-                    Q4: {this.props.steps["Q7"].questionText}<br/>
-                    Ans: <br/>
-                    {this.props.steps["Q7"].answer[0].entityName?
-                    "[1]  Entity Name: ".concat(this.props.steps["Q7"].answer[0].entityName,",    ",
-                    "Health Services: ",this.props.steps["Q7"].answer[0].healthService,",    ",
-                    "Compensation: ", this.props.steps["Q7"].answer[0].compensation, ",    ",
-                    "Compensation Type: ", this.props.steps["Q7"].answer[0].compensationType,",    ",
-                    "Ownership: ",
-                    this.props.steps["Q7"].answer[0].ownershipInterests[0].value?this.props.steps["Q7"].answer[0].ownershipInterests[0].label+", ":"",
-                    this.props.steps["Q7"].answer[0].ownershipInterests[1].value?this.props.steps["Q7"].answer[0].ownershipInterests[1].label+", ":"",
-                    this.props.steps["Q7"].answer[0].ownershipInterests[2].value?this.props.steps["Q7"].answer[0].ownershipInterests[2].label+", ":"",
-                    this.props.steps["Q7"].answer[0].ownershipInterests[3].value?this.props.steps["Q7"].answer[0].ownershipInterests[3].label+", ":"",
-                    this.props.steps["Q7"].answer[0].ownershipInterests[4].value?this.props.steps["Q7"].answer[0].ownershipInterests[4].label+", ":"",
-                    this.props.steps["Q7"].answer[0].ownershipInterests[5].value?this.props.steps["Q7"].answer[0].ownershipInterests[5].label+", ":"",
-                    this.props.steps["Q7"].answer[0].ownershipInterests[6].value?this.props.steps["Q7"].answer[0].ownershipInterests[6].label+", ":"",
-                    ):""}<br/>
-                    {this.props.steps["Q7"].answer[1]?
-                    "[2]   Entity Name: ".concat(this.props.steps["Q7"].answer[1].entityName,",    ",
-                    "Health Services: ",this.props.steps["Q7"].answer[1].healthService,",    ",
-                    "Compensation: ", this.props.steps["Q7"].answer[1].compensation, ",    ",
-                    "Compensation Type: ", this.props.steps["Q7"].answer[1].compensationType,",    ",
-                    "Ownership: ",
-                    this.props.steps["Q7"].answer[1].ownershipInterests[0].value?this.props.steps["Q7"].answer[1].ownershipInterests[0].label+", ":"",
-                    this.props.steps["Q7"].answer[1].ownershipInterests[1].value?this.props.steps["Q7"].answer[1].ownershipInterests[1].label+", ":"",
-                    this.props.steps["Q7"].answer[1].ownershipInterests[2].value?this.props.steps["Q7"].answer[1].ownershipInterests[2].label+", ":"",
-                    this.props.steps["Q7"].answer[1].ownershipInterests[3].value?this.props.steps["Q7"].answer[1].ownershipInterests[3].label+", ":"",
-                    this.props.steps["Q7"].answer[1].ownershipInterests[4].value?this.props.steps["Q7"].answer[1].ownershipInterests[4].label+", ":"",
-                    this.props.steps["Q7"].answer[1].ownershipInterests[5].value?this.props.steps["Q7"].answer[1].ownershipInterests[5].label+", ":"",
-                    this.props.steps["Q7"].answer[1].ownershipInterests[6].value?this.props.steps["Q7"].answer[1].ownershipInterests[6].label+", ":"",
-                    ):""}<br/>
-                    {this.props.steps["Q7"].answer[2]?
-                    "[3]  Entity Name: ".concat(this.props.steps["Q7"].answer[2].entityName,",    ",
-                    "Health Services: ",this.props.steps["Q7"].answer[2].healthService,",    ",
-                    "Compensation: ", this.props.steps["Q7"].answer[2].compensation, ",    ",
-                    "Compensation Type: ", this.props.steps["Q7"].answer[2].compensationType,",    ",
-                    "Ownership: ",
-                    this.props.steps["Q7"].answer[2].ownershipInterests[0].value?this.props.steps["Q7"].answer[2].ownershipInterests[0].label+", ":"",
-                    this.props.steps["Q7"].answer[2].ownershipInterests[1].value?this.props.steps["Q7"].answer[2].ownershipInterests[1].label+", ":"",
-                    this.props.steps["Q7"].answer[2].ownershipInterests[2].value?this.props.steps["Q7"].answer[2].ownershipInterests[2].label+", ":"",
-                    this.props.steps["Q7"].answer[2].ownershipInterests[3].value?this.props.steps["Q7"].answer[2].ownershipInterests[3].label+", ":"",
-                    this.props.steps["Q7"].answer[2].ownershipInterests[4].value?this.props.steps["Q7"].answer[2].ownershipInterests[4].label+", ":"",
-                    this.props.steps["Q7"].answer[2].ownershipInterests[5].value?this.props.steps["Q7"].answer[2].ownershipInterests[5].label+", ":"",
-                    this.props.steps["Q7"].answer[2].ownershipInterests[6].value?this.props.steps["Q7"].answer[2].ownershipInterests[6].label+", ":"",
-                    ):""}<br/>
-                    {this.props.steps["Q7"].answer[2]?
-                    "[3]  Entity Name: ".concat(this.props.steps["Q7"].answer[2].entityName,",    ",
-                    "Health Services: ",this.props.steps["Q7"].answer[2].healthService,",    ",
-                    "Compensation: ", this.props.steps["Q7"].answer[2].compensation, ",    ",
-                    "Compensation Type: ", this.props.steps["Q7"].answer[2].compensationType,",    ",
-                    "Ownership: ",
-                    this.props.steps["Q7"].answer[2].ownershipInterests[0].value?this.props.steps["Q7"].answer[2].ownershipInterests[0].label+", ":"",
-                    this.props.steps["Q7"].answer[2].ownershipInterests[1].value?this.props.steps["Q7"].answer[2].ownershipInterests[1].label+", ":"",
-                    this.props.steps["Q7"].answer[2].ownershipInterests[2].value?this.props.steps["Q7"].answer[2].ownershipInterests[2].label+", ":"",
-                    this.props.steps["Q7"].answer[2].ownershipInterests[3].value?this.props.steps["Q7"].answer[2].ownershipInterests[3].label+", ":"",
-                    this.props.steps["Q7"].answer[2].ownershipInterests[4].value?this.props.steps["Q7"].answer[2].ownershipInterests[4].label+", ":"",
-                    this.props.steps["Q7"].answer[2].ownershipInterests[5].value?this.props.steps["Q7"].answer[2].ownershipInterests[5].label+", ":"",
-                    this.props.steps["Q7"].answer[2].ownershipInterests[6].value?this.props.steps["Q7"].answer[2].ownershipInterests[6].label+", ":"",
-                    ):""}<br/>
-                    {this.props.steps["Q7"].answer[3]?
-                    "[3]  Entity Name: ".concat(this.props.steps["Q7"].answer[3].entityName,",    ",
-                    "Health Services: ",this.props.steps["Q7"].answer[3].healthService,",    ",
-                    "Compensation: ", this.props.steps["Q7"].answer[3].compensation, ",    ",
-                    "Compensation Type: ", this.props.steps["Q7"].answer[3].compensationType,",    ",
-                    "Ownership: ",
-                    this.props.steps["Q7"].answer[3].ownershipInterests[0].value?this.props.steps["Q7"].answer[3].ownershipInterests[0].label+", ":"",
-                    this.props.steps["Q7"].answer[3].ownershipInterests[1].value?this.props.steps["Q7"].answer[3].ownershipInterests[1].label+", ":"",
-                    this.props.steps["Q7"].answer[3].ownershipInterests[2].value?this.props.steps["Q7"].answer[3].ownershipInterests[2].label+", ":"",
-                    this.props.steps["Q7"].answer[3].ownershipInterests[3].value?this.props.steps["Q7"].answer[3].ownershipInterests[3].label+", ":"",
-                    this.props.steps["Q7"].answer[3].ownershipInterests[4].value?this.props.steps["Q7"].answer[3].ownershipInterests[4].label+", ":"",
-                    this.props.steps["Q7"].answer[3].ownershipInterests[5].value?this.props.steps["Q7"].answer[3].ownershipInterests[5].label+", ":"",
-                    this.props.steps["Q7"].answer[3].ownershipInterests[6].value?this.props.steps["Q7"].answer[3].ownershipInterests[6].label+", ":"",
-                    ):""}<br/>
-                    {this.props.steps["Q7"].answer[4]?
-                    "[3]  Entity Name: ".concat(this.props.steps["Q7"].answer[4].entityName,",    ",
-                    "Health Services: ",this.props.steps["Q7"].answer[4].healthService,",    ",
-                    "Compensation: ", this.props.steps["Q7"].answer[4].compensation, ",    ",
-                    "Compensation Type: ", this.props.steps["Q7"].answer[4].compensationType,",    ",
-                    "Ownership: ",
-                    this.props.steps["Q7"].answer[4].ownershipInterests[0].value?this.props.steps["Q7"].answer[4].ownershipInterests[0].label+", ":"",
-                    this.props.steps["Q7"].answer[4].ownershipInterests[1].value?this.props.steps["Q7"].answer[4].ownershipInterests[1].label+", ":"",
-                    this.props.steps["Q7"].answer[4].ownershipInterests[2].value?this.props.steps["Q7"].answer[4].ownershipInterests[2].label+", ":"",
-                    this.props.steps["Q7"].answer[4].ownershipInterests[3].value?this.props.steps["Q7"].answer[4].ownershipInterests[3].label+", ":"",
-                    this.props.steps["Q7"].answer[4].ownershipInterests[4].value?this.props.steps["Q7"].answer[4].ownershipInterests[4].label+", ":"",
-                    this.props.steps["Q7"].answer[4].ownershipInterests[5].value?this.props.steps["Q7"].answer[4].ownershipInterests[5].label+", ":"",
-                    this.props.steps["Q7"].answer[4].ownershipInterests[6].value?this.props.steps["Q7"].answer[4].ownershipInterests[6].label+", ":"",
-                    ):""}<br/>
-                    {this.props.steps["Q7"].answer[5]?
-                    "[3]  Entity Name: ".concat(this.props.steps["Q7"].answer[5].entityName,",    ",
-                    "Health Services: ",this.props.steps["Q7"].answer[5].healthService,",    ",
-                    "Compensation: ", this.props.steps["Q7"].answer[5].compensation, ",    ",
-                    "Compensation Type: ", this.props.steps["Q7"].answer[5].compensationType,",    ",
-                    "Ownership: ",
-                    this.props.steps["Q7"].answer[5].ownershipInterests[0].value?this.props.steps["Q7"].answer[5].ownershipInterests[0].label+", ":"",
-                    this.props.steps["Q7"].answer[5].ownershipInterests[1].value?this.props.steps["Q7"].answer[5].ownershipInterests[1].label+", ":"",
-                    this.props.steps["Q7"].answer[5].ownershipInterests[2].value?this.props.steps["Q7"].answer[5].ownershipInterests[2].label+", ":"",
-                    this.props.steps["Q7"].answer[5].ownershipInterests[3].value?this.props.steps["Q7"].answer[5].ownershipInterests[3].label+", ":"",
-                    this.props.steps["Q7"].answer[5].ownershipInterests[4].value?this.props.steps["Q7"].answer[5].ownershipInterests[4].label+", ":"",
-                    this.props.steps["Q7"].answer[5].ownershipInterests[5].value?this.props.steps["Q7"].answer[5].ownershipInterests[5].label+", ":"",
-                    this.props.steps["Q7"].answer[5].ownershipInterests[6].value?this.props.steps["Q7"].answer[5].ownershipInterests[6].label+", ":"",
-                    ):""}<br/>
-                    {this.props.steps["Q7"].answer[6]?
-                    "[3]  Entity Name: ".concat(this.props.steps["Q7"].answer[6].entityName,",    ",
-                    "Health Services: ",this.props.steps["Q7"].answer[6].healthService,",    ",
-                    "Compensation: ", this.props.steps["Q7"].answer[6].compensation, ",    ",
-                    "Compensation Type: ", this.props.steps["Q7"].answer[6].compensationType,",    ",
-                    "Ownership: ",
-                    this.props.steps["Q7"].answer[6].ownershipInterests[0].value?this.props.steps["Q7"].answer[6].ownershipInterests[0].label+", ":"",
-                    this.props.steps["Q7"].answer[6].ownershipInterests[1].value?this.props.steps["Q7"].answer[6].ownershipInterests[1].label+", ":"",
-                    this.props.steps["Q7"].answer[6].ownershipInterests[2].value?this.props.steps["Q7"].answer[6].ownershipInterests[2].label+", ":"",
-                    this.props.steps["Q7"].answer[6].ownershipInterests[3].value?this.props.steps["Q7"].answer[6].ownershipInterests[3].label+", ":"",
-                    this.props.steps["Q7"].answer[6].ownershipInterests[4].value?this.props.steps["Q7"].answer[6].ownershipInterests[4].label+", ":"",
-                    this.props.steps["Q7"].answer[6].ownershipInterests[5].value?this.props.steps["Q7"].answer[6].ownershipInterests[5].label+", ":"",
-                    this.props.steps["Q7"].answer[6].ownershipInterests[6].value?this.props.steps["Q7"].answer[6].ownershipInterests[6].label+", ":"",
-                    ):""}<br/>
-                    </Typography>
-*/
