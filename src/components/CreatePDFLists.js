@@ -40,24 +40,63 @@ export class CreatePDFLists extends Component
       e.preventDefault();
       this.props.goBack();
     };
-   
-    getMeter = () => {
-      var score = 0;
-      //if (this.props.steps["Q2"].answer.Yes) score+=1;
-      //if (this.props.steps["Q3"].answer.Yes) score+=1;
-      if (this.props.steps["Q4"].answer.Yes) score+=1;
-      if (this.props.steps["Q5"].answer.Yes) score+=1;
-      if (this.props.steps["Q6"].answer.Yes) score+=1;
-      if (this.props.steps["Q7"].answer[0].entityName) score+=1;
+  
+  getMeter = () => {
+    var score = 0;
+    //if (this.props.steps["Q2"].answer.Yes) score+=1;
+    //if (this.props.steps["Q3"].answer.Yes) score+=1;
+    if (this.props.steps["Q4"].answer.Yes) score+=1;
+    if (this.props.steps["Q5"].answer.Yes) score+=1;
+    if (this.props.steps["Q6"].answer.Yes) score+=1;
+    if (this.props.steps["Q7"].answer[0].entityName) score+=1;
+    console.log(this.props.steps["Q7"]);
+    return score;
+  }
 
-      return score;
+  createTabularData = (question, answer, explanation) => {
+    return {question, answer, explanation};
+  }
+
+  isMedicare = () => {
+    for(var i=0; i < this.props.steps["Q7"].answer.length; ++i) {
+      if(this.props.steps["Q7"].answer[i].insurance[0]) return true;
     }
+    return false;
+  }
 
-    createTabularData = (question, answer, explanation) => {
-      return {question, answer, explanation};
+  whatDHS = () => {
+    for(var i=0; i < this.props.steps["Q7"].answer.length; ++i) {
+      var hs = this.props.steps["Q7"].answer[i].healthService;
+      if(hs[0].value) return "Clinical Laboratory Services";
+      if(hs[1].value) return "Physical Therapy Services";
+      if(hs[2].value) return "Radiology and Imaging Services";
+      if(hs[3].value) return "Radiation Therapy Services and Supplies";
+      if(hs[4].value) return "Durable medical equipment and supplies";
+      if(hs[5].value) return "Parenteral and enteral nutrients, equipment and supplies";
+      if(hs[6].value) return "Prosthetics, orthotics, and prosthetic devices and supplies";
+      if(hs[7].value) return "Home health services";
+      if(hs[8].value) return "Outpatient prescription drugs";
+      if(hs[9].value) return "Inpatient and outpatient hospital services";
+      if(hs[10].value) return hs[10].text;
     }
+    return false;
+  }
 
-    render() 
+  whatFinancial = () => {
+    for(var i=0; i < this.props.steps["Q7"].answer.length; ++i) {
+      if(this.props.steps["Q7"].answer[i].compensation 
+        || this.props.steps["Q7"].answer[i].subsidiary)
+         return this.props.steps["Q7"].answer[i].entityName;
+      else {
+        for(var j=0; j < this.props.steps["Q7"].answer[i].ownershipIterests.length; ++j) {
+          if(this.props.steps["Q7"].answer[i].ownershipIterests[j].value) return this.props.steps["Q7"].answer[i].entityName;
+        }
+      }
+    }
+    return false;
+  }
+
+  render() 
     {
       return(
         <MuiThemeProvider>
@@ -87,9 +126,20 @@ export class CreatePDFLists extends Component
                       <br/>
                       Given the information that you provided, there is a {this.getMeter() <= 1 ? <strong>Low </strong> : this.getMeter() >= 3 ? <strong>High </strong> : <strong>Moderate </strong>} 
                       chance that you are in violation with the Stark Law because:
-                      <br/><br/>
-                      TODO REFERALS SECTION
-                      <br/><br/>
+                      </Typography>
+                      {this.props.steps["Q7"].answer.length > 0 ?
+                      <Typography variant="body1" component="p" align="justify" style={styles.body}>
+                        1. Your referral {this.isMedicare() ? "is" : "is not"} for Medicare patients.<br/>
+                        2. The referral {this.whatDHS() ? "is" : "is not"} for {this.whatDHS()}.<br/>
+                        3. There {this.whatFinancial() ? "is" : "is no"} financial relationship between you (or your immediate family member) and {this.whatFinancial() ? this.whatFinancial() : " any mentioned business or entity "}
+                        to which you are making or receiving the referral.<br/>
+                      </Typography>
+                      :
+                      <Typography variant="body1" component="p" align="justify" style={styles.body}>
+                        You mentioned no referrals for Designated Health Services nor any financial relationship to them.
+                      </Typography>
+                      }
+                      <Typography variant="body1" component="p" align="justify" style={styles.body}>
                       Please review the exceptions and contact our legal department at Honigman LLP for more clarification, determination if an exception 
                       applies and if there are Anti-Kickback violations or violations of state fraud and abuse statutes, 
                       which to not only Medicare patients, but also patients covered by Medicaid, worker’s compensation, and private insurance . 
