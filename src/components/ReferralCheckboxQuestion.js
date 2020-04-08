@@ -50,50 +50,52 @@ export class ReferralCheckboxQuestion extends Component {
             <Typography variant="subtitle1">{this.props.tooltip}</Typography>
           </CardContent>
         </Collapse>
-        <FormGroup>
-          {this.props.checkboxItems.map((interest, index) => (
-            <Tooltip
-              title={interest.tooltip != null && interest.tooltip}
-              disableHoverListener={interest.tooltip == null}
-            >
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={interest.value}
-                    onChange={() => {
-                      this.props.update(
-                        this.props.checkboxItems.map(el =>
-                          el.key === interest.key
-                            ? { ...el, value: !el.value }
-                            : el
-                        )
-                      );
-                    }}
-                    value={interest.value}
-                  />
-                }
-                label={
-                  interest.key === "other" && interest.value ? (
-                    <TextField
-                      value={interest.text}
-                      onChange={event => {
+        <Box fontWeight="fontWeightRegular" textAlign="justify" m={3}>
+          <FormGroup>
+            {this.props.checkboxItems.map((interest, index) => (
+              <Tooltip
+                title={interest.tooltip != null && interest.tooltip}
+                disableHoverListener={interest.tooltip == null}
+              >
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={interest.value}
+                      onChange={() => {
                         this.props.update(
                           this.props.checkboxItems.map(el =>
                             el.key === interest.key
-                              ? { ...el, text: event.target.value }
+                              ? { ...el, value: !el.value }
                               : el
                           )
                         );
                       }}
+                      value={interest.value}
                     />
-                  ) : (
-                    interest.label
-                  )
-                }
-              />
-            </Tooltip>
-          ))}
-        </FormGroup>
+                  }
+                  label={
+                    interest.key === "other" && interest.value ? (
+                      <TextField
+                        value={interest.text}
+                        onChange={event => {
+                          this.props.update(
+                            this.props.checkboxItems.map(el =>
+                              el.key === interest.key
+                                ? { ...el, text: event.target.value }
+                                : el
+                            )
+                          );
+                        }}
+                      />
+                    ) : (
+                      interest.label
+                    )
+                  }
+                />
+              </Tooltip>
+            ))}
+          </FormGroup>
+        </Box>
       </Container>
     );
   }

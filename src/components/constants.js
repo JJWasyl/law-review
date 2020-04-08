@@ -189,7 +189,8 @@ export const emptyReferralAnswer = {
   compensation: null,
   compensationType: compensationType,
   ownershipInterests: ownershipInterests,
-  subsidiary: null
+  subsidiary: null,
+  referralRole: null
 };
 
 export const emptySteps = {

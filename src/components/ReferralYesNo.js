@@ -49,26 +49,34 @@ export class ReferralYesNo extends Component {
             <Typography variant="subtitle1">{this.props.tooltip}</Typography>
           </CardContent>
         </Collapse>
-        <FormGroup>
-          <FormControlLabel
-            fullWidth={true}
-            control={
-              <Grid component="label" container alignItems="center" spacing={1}>
-                <Grid item>No</Grid>
-                <Grid item>
-                  <Switch
-                    checked={this.props.yesno}
-                    onChange={() => {
-                      this.props.update(!this.props.yesno);
-                    }}
-                    value={this.props.yesno}
-                  />
+        <Box fontWeight="fontWeightRegular" textAlign="justify" m={4.5}>
+          <FormGroup>
+            <FormControlLabel
+              fullWidth={true}
+              control={
+                <Grid
+                  component="label"
+                  container={true}
+                  alignItems="center"
+                  alignContent="justify"
+                  spacing={1}
+                >
+                  <Grid item>{this.props.noText}</Grid>
+                  <Grid item>
+                    <Switch
+                      checked={this.props.yesno}
+                      onChange={() => {
+                        this.props.update(!this.props.yesno);
+                      }}
+                      value={this.props.yesno}
+                    />
+                  </Grid>
+                  <Grid item>{this.props.yesText}</Grid>
                 </Grid>
-                <Grid item>Yes</Grid>
-              </Grid>
-            }
-          />
-        </FormGroup>
+              }
+            />
+          </FormGroup>
+        </Box>
       </Container>
     );
   }
