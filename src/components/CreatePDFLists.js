@@ -42,10 +42,6 @@ export class CreatePDFLists extends Component {
 
   getMeter = () => {
     var score = 0;
-    //if (this.props.steps["Q2"].answer.Yes) score+=1;
-    //if (this.props.steps["Q3"].answer.Yes) score+=1;
-    if (this.props.steps["Q4"].answer.Yes) score += 1;
-    if (this.props.steps["Q5"].answer.Yes) score += 1;
     if (this.props.steps["Q6"].answer.Yes) score += 1;
     if (this.props.steps["Q7"].answer[0].entityName) score += 1;
     console.log(this.props.steps["Q7"]);
