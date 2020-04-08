@@ -59,7 +59,8 @@ export const healthServices = [
   },
   {
     key: "physicalTherapy",
-    label: "Physical Therapy Services",
+    label:
+      "Physical therapy, occupational therapy, and outpatient speech-language pathology services",
     value: false
   },
   {
@@ -156,6 +157,11 @@ export const ownershipInterests = [
     key: "other",
     label: "Other",
     value: false
+  },
+  {
+    key: "idk",
+    label: "I don't know",
+    value: false
   }
 ];
 
@@ -178,6 +184,11 @@ export const insurance = [
   {
     key: "privateInsurance",
     label: "Private Insurance",
+    value: false
+  },
+  {
+    key: "idk",
+    label: "I don't know",
     value: false
   }
 ];
