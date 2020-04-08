@@ -15,7 +15,8 @@ export class IDForm extends Component {
       name: "",
       last_name: "",
       specialization: "",
-      location: ""
+      location: "",
+      employer: ""
     }
   };
 
@@ -89,6 +90,16 @@ export class IDForm extends Component {
                         placeholder="Location"
                         style={{ margin: 8 }}
                         onChange={e => this.onChange(e, "location")}
+                        InputLabelProps={{
+                          shrink: true
+                        }}
+                      />
+                      <TextField
+                        id="standard-full-width"
+                        fullWidth
+                        placeholder="Employer"
+                        style={{ margin: 8 }}
+                        onChange={e => this.onChange(e, "employer")}
                         InputLabelProps={{
                           shrink: true
                         }}
