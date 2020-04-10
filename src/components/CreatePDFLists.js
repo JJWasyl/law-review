@@ -6,14 +6,7 @@ import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import ReactToPrint from "react-to-print";
-
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
+import AnalysisTable from "./AnalysisTable";
 
 function date() {
   var tempDate = new Date();
@@ -44,7 +37,8 @@ export class CreatePDFLists extends Component {
     var score = 0;
     if (this.props.steps["Q6"].answer.Yes) score += 1;
     if (this.props.steps["Q7"].answer[0].entityName) score += 1;
-    console.log(this.props.steps["Q7"]);
+    if (this.props.steps["Q7"].answer.length > 1) score += 1;
+    //console.log(this.props.steps["Q7"]);
     return score;
   };
 
@@ -261,7 +255,11 @@ export class CreatePDFLists extends Component {
                     determine your risk of non-compliance with the Stark Law.
                     <br />
                     <br />
-                    TODO MAKE A LIST/TABLE OF QUESTIONS AND ANSWERS?
+                    <AnalysisTable
+                     steps={this.props.steps}
+                     dhs={this.whatDHS}
+                     medi={this.isMedicare}
+                     />
                     <br />
                     <br />
                   </Typography>
