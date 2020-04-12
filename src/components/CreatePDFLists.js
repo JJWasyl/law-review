@@ -38,7 +38,7 @@ export class CreatePDFLists extends Component {
     if (this.props.steps["Q6"].answer.Yes) score += 1;
     if (this.props.steps["Q7"].answer[0].entityName) score += 1;
     if (this.props.steps["Q7"].answer.length > 1) score += 1;
-    //console.log(this.props.steps["Q7"]);
+    console.log(this.props.steps["Q7"]);
     return score;
   };
 
@@ -48,7 +48,7 @@ export class CreatePDFLists extends Component {
 
   isMedicare = () => {
     for (var i = 0; i < this.props.steps["Q7"].answer.length; ++i) {
-      if (this.props.steps["Q7"].answer[i].insurance[0]) return true;
+      if (this.props.steps["Q7"].answer[i].insurance[0].value) return true;
     }
     return false;
   };

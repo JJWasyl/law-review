@@ -99,29 +99,28 @@ export class ReferralListCell extends Component {
                     update={newState =>
                       this.props.update({ insurance: newState })
                     }
-                    questionText="The Stark Law prohibits billing Medicare for certain
-                        kinds of referrals. Is the patient being referred covered by any of the following services?"
+                    //questionText="The Stark Law prohibits billing Medicare for certain
+                    //    kinds of referrals. Is the patient being referred covered by any of the following services?"
+                    questionText={
+                    "Is the patient being referred covered by any of the following services?"
+                    }
                     tooltip={
                       "Please keep in mind, other state laws may apply if the patient is covered by Medicaid, Worker’s Compensation insurance, or private insurance. For example, the Illinois Insurance Claims Fraud Prevention Act prohibits offering or paying any remuneration, directly or indirectly, to induce any person to procure clients or obtain health care services. This act applies to all types of insurance coverage, including patients that are covered by private payers (e.g., Humana or Aetna)."
                     }
                   />
                   <Divider />
-                  <Box fontWeight="fontWeightRegular" textAlign="justify" m={6}>
-                    <Typography variant="subtitle1" align="justify">
-                      {"The Stark Law prohibits referrals between healthcare providers who share a financial relationship. Even the immediate family members of a physician making a referral cannot share a financial relationship with the referral recipient. Financial relationships include ownership interests or compensation arrangements. Please answer the following questions about your financial relationship(s) with " +
-                        this.props.referral.entityName +
-                        " Your responses will help a Honigman attorney determine if any exceptions to the Stark Law may apply."}
-                    </Typography>
-                  </Box>
                   <ReferralCheckboxQuestion
                     checkboxItems={this.props.referral.ownershipInterests}
                     update={newState =>
                       this.props.update({ ownershipInterests: newState })
                     }
+                    //questionText={
+                    //  "The Stark Law generally prohibits a physician making or receiving a referral for designated health services if he or she has an ownership or compensation relationship with the referred or referring entity, unless an exception applies. For example, an ownership interest may arise if you have an ownership interest arising from equity, debt or other means. Do you or an immediate family member have any of the following ownership interests in " +
+                    //  this.props.referral.entityName +
+                    //  "?"
+                    //}
                     questionText={
-                      "The Stark Law generally prohibits a physician making or receiving a referral for designated health services if he or she has an ownership or compensation relationship with the referred or referring entity, unless an exception applies. For example, an ownership interest may arise if you have an ownership interest arising from equity, debt or other means. Do you or an immediate family member have any of the following ownership interests in " +
-                      this.props.referral.entityName +
-                      "?"
+                    "Do you or an immediate family member have any of the following ownership interests in" + this.props.referral.entityName
                     }
                     tooltip={
                       "An immediate family member includes husband or wife, birth or adoptive parent, child or sibling; stepparent, stepchild, stepbrother, or stepsister; father-in-law, mother-inlaw, son-in-law, daughter-inlaw, brother-inlaw, or sister-inlaw; grandparent or grandchild; and spouse of a grandparent or grandchild."

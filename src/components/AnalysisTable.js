@@ -46,7 +46,7 @@ export class AnalysisTable extends Component {
   getInsExp = () => {
     for (var i = 0; i < this.props.steps["Q7"].answer.length; ++i) {
     var ins = this.props.steps["Q7"].answer[i].insurance;
-      if (ins[1] || ins[2] || ins[3]) return "Yes";
+      if (ins[1].answer || ins[2].answer || ins[3].answer) return "Yes";
     }
     return "Based on the information you provided,  the federal Stark Law likely does not apply. However, some states also prohibit billing Medicaid, Worker's Compensation Insurance, or private insurance companies for a prohibited referral. Please contact a Honigman attorney to confirm whether  state law applies to your arrangement.";
   };
@@ -68,7 +68,7 @@ export class AnalysisTable extends Component {
         <Table style={styles.table} aria-label="simple table">
             <TableHead>
             <TableRow style={styles.table_row}>
-                <TableCell>Question</TableCell>
+                <TableCell style={{width: '50%'}}>Question</TableCell>
                 <TableCell align="left">Explanation</TableCell>
             </TableRow>
             </TableHead>
