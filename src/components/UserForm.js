@@ -13,7 +13,7 @@ import CreatePDFLists from "./CreatePDFLists";
 
 export class UserForm extends Component {
   state = {
-    step: "End",
+    step: "Start",
     prevSteps: ["Start"],
     email: null,
     referralIndex: 0,
