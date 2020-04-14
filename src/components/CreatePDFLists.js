@@ -138,9 +138,9 @@ export class CreatePDFLists extends Component {
                   <CardMedia
                     style={styles.media}
                     image={require("./media/" +
-                      (this.getMeter() <= 3
+                      (this.getMeter() <= 2
                         ? "low.png"
-                        : this.getMeter() >= 5
+                        : this.getMeter() >= 4
                         ? "high.png"
                         : "med.png"))}
                   />
@@ -152,9 +152,9 @@ export class CreatePDFLists extends Component {
                   >
                     <br />
                     Given the information that you provided, there is a{" "}
-                    {this.getMeter() <= 1 ? (
+                    {this.getMeter() <= 2 ? (
                       <strong>Low </strong>
-                    ) : this.getMeter() >= 3 ? (
+                    ) : this.getMeter() >= 4 ? (
                       <strong>High </strong>
                     ) : (
                       <strong>Moderate </strong>
