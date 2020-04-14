@@ -38,6 +38,17 @@ export class CreatePDFLists extends Component {
     if (this.props.steps["Q6"].answer.Yes) score += 1;
     if (this.props.steps["Q7"].answer[0].entityName) score += 1;
     if (this.props.steps["Q7"].answer.length > 1) score += 1;
+    for (var i = 0; i < this.props.steps["Q7"].answer.length; ++i) {
+      for (var k = 0; k < this.props.steps["Q7"].answer[i].insurance.length; ++k){
+        if (this.props.steps["Q7"].answer[i].insurance[k].value) score += 1;
+      }
+    }
+    for (var i = 0; i < this.props.steps["Q7"].answer.length; ++i) {
+      var hs = this.props.steps["Q7"].answer[i].healthService
+      for (var k = 0; k < hs.length; ++k){
+        if (hs[k].value) score += 1;
+      }
+    }
     console.log(this.props.steps["Q7"]);
     return score;
   };
@@ -127,9 +138,9 @@ export class CreatePDFLists extends Component {
                   <CardMedia
                     style={styles.media}
                     image={require("./media/" +
-                      (this.getMeter() <= 1
+                      (this.getMeter() <= 3
                         ? "low.png"
-                        : this.getMeter() >= 3
+                        : this.getMeter() >= 5
                         ? "high.png"
                         : "med.png"))}
                   />
